@@ -1,0 +1,1 @@
+{"net":{"http_server_properties":{"servers":[{"https://config.getpostman.com":{"supports_spdy":true}},{"https://analytics.getpostman.com":{"supports_spdy":true}},{"https://skills-assets.pstmn.io":{"supports_spdy":true}},{"https://dl.pstmn.io":{"supports_spdy":true}},{"https://t.ly":{"supports_spdy":true}}],"version":5}}}
