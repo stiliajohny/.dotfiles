@@ -1,0 +1,401 @@
+"""""""""""""""""""""""""""""""""""
+" John Stilia  Vimrc configuration
+"""""""""""""""""""""""""""""""""""""
+
+set backspace=2             " Backspace deletes like most programs in insert mode
+set completeopt=menuone,noselect,noinsert
+set encoding=utf-8
+set expandtab               " replace <Tab with spaces
+set history=5000
+set incsearch               " do incremental searching
+set laststatus=2            " Always display the status line
+set lazyredraw              " speed up on large files"
+set modelines=0             " Disable modelines as a security precaution
+set nobackup
+set noerrorbells            " remove bells (i think this is default in neovim)
+set nomodeline
+set noshowmode              " keep command line clean
+set noswapfile              " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
+set nowrap                  " disable wrap for long lines
+set nowritebackup
+set number
+set relativenumber
+set ruler                   " show the cursor position all the time
+set shell=zsh               " set default shell for vim operations
+set shiftround              " round indent to multiple of 'shiftwidth' (for << and >>)"
+set shiftwidth=2            " indent size for << and >>
+set shortmess+=c
+set showcmd                 " display incomplete commands
+set softtabstop=2           " remove <Tab> symbols as it was spaces
+set t_Co=256
+set tabstop=2               " number of spaces that a <Tab> in the file counts for
+set textwidth=0             " disable auto break long lines"
+set undofile                " save undos
+set undoreload=100000       " maximum number lines to save for undo on a buffer reload
+set viminfo='20,<1000       " allow copying of more than 50 lines to other applications
+set virtualedit=onemore     " allow the cursor to move just past the end of the line"
+set visualbell
+set wildmode=longest,list,full
+" Set Proper Tabs
+set tabstop=4
+set shiftwidth=4
+set smarttab
+set expandtab
+
+" Enable Elite mode, No ARRRROWWS!!!!
+let g:elite_mode=1
+let g:HardMode_level = 'wannabe'
+let g:HardMode_hardmodeMsg = 'Don''t use this!'
+autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+
+" Enable highlighting of the current line
+set cursorline
+
+" Change PopUp highlighting colour
+highlight Pmenu ctermbg=gray guibg=gray
+
+
+"  Set new Leader Key
+let mapleader = '\'
+
+" disable timeout in order for the Which-key plugin to work
+" set notimeout
+
+syntax on
+syntax enable
+filetype plugin indent on
+
+" set vim XDG paths
+set undodir=$XDG_DATA_HOME/vim/undo
+set directory=$XDG_DATA_HOME/vim/swap
+set backupdir=$XDG_DATA_HOME/vim/backup
+set viminfo+='1000,n$XDG_DATA_HOME/vim/viminfo
+set runtimepath=$XDG_CONFIG_HOME/vim,$VIMRUNTIME,$XDG_CONFIG_HOME/vim/after
+
+set list listchars=tab:\|·,trail:·,nbsp:· " Display extra whitespace
+set nojoinspaces                          " Use one space, not two, after punctuation.
+
+" Make it obvious where 80 & 140 characters is
+set textwidth=140
+set colorcolumn=80,140
+
+"Enable folding
+set foldmethod=indent
+set foldlevel=99
+
+" Set Clipboard
+set clipboard=unnamed
+
+
+"""" START Plug Configuration
+" Specify a directory for plugins
+call plug#begin('~/.config/vim/plugged')
+
+" Utility
+Plug 'scrooloose/nerdtree'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'  "to highlight files in nerdtree
+Plug 'Xuyuanp/nerdtree-git-plugin' " addition of git status
+Plug 'majutsushi/tagbar'
+Plug 'ervandew/supertab'
+Plug 'SirVer/ultisnips'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'godlygeek/tabular'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'benmills/vimux'
+Plug 'jeetsukumaran/vim-buffergator'
+Plug 'gilsondev/searchtasks.vim'
+Plug 'Shougo/neocomplete.vim'
+Plug 'tpope/vim-dispatch'
+
+" Generic Programming Support
+Plug 'honza/vim-snippets'
+Plug 'Townk/vim-autoclose'
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'tomtom/tcomment_vim'
+Plug 'tobyS/vmustache'
+Plug 'janko-m/vim-test'
+Plug 'maksimr/vim-jsbeautify'
+Plug 'vim-syntastic/syntastic'
+Plug 'neomake/neomake'
+Plug 'mattn/emmet-vim'
+Plug 'rodjek/vim-puppet'
+Plug 'puppetlabs/puppet-syntax-vim' "Puppet Language support
+
+" Markdown / Writting
+Plug 'reedes/vim-pencil'
+Plug 'tpope/vim-markdown'
+Plug 'jtratner/vim-flavored-markdown'
+
+" Git Support
+Plug 'kablamo/vim-git-log'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'  " show git changes to files in gutter
+
+" PHP Support
+Plug 'phpvim/phpcd.vim'
+Plug 'tobyS/pdv'
+
+" Python Support
+Plug 'hdima/python-syntax' "Python syntax
+Plug 'Vimjas/vim-python-pep8-indent'  "better indenting for python
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+
+" Erlang Support
+Plug 'vim-erlang/vim-erlang-tags'
+Plug 'vim-erlang/vim-erlang-runtime'
+Plug 'vim-erlang/vim-erlang-omnicomplete'
+Plug 'vim-erlang/vim-erlang-compiler'
+
+" Elixir Support
+Plug 'elixir-lang/vim-elixir'
+Plug 'avdgaag/vim-phoenix'
+Plug 'mmorearty/elixir-ctags'
+Plug 'mattreduce/vim-mix'
+Plug 'BjRo/vim-extest'
+Plug 'frost/vim-eh-docs'
+Plug 'slashmili/alchemist.vim'
+Plug 'tpope/vim-endwise'
+Plug 'jadercorrea/elixir_generator.vim'
+
+" Elm Support
+Plug 'lambdatoast/elm.vim'
+
+" Theme / Interface
+Plug 'ryanoasis/vim-devicons'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'sjl/badwolf'
+Plug 'tomasr/molokai'
+Plug 'morhetz/gruvbox'
+Plug 'zenorocha/dracula-theme'
+Plug 'junegunn/limelight.vim'
+Plug 'mkarmona/colorsbox'
+Plug 'romainl/Apprentice'
+Plug 'Lokaltog/vim-distinguished'
+Plug 'chriskempson/base16-vim'
+Plug 'w0ng/vim-hybrid'
+Plug 'AlessandroYorba/Sierra'
+Plug 'daylerees/colour-schemes'
+Plug 'effkay/argonaut.vim'
+Plug 'ajh17/Spacegray.vim'
+Plug 'atelierbram/Base2Tone-vim'
+Plug 'colepeters/spacemacs-theme.vim'
+Plug 'vim-scripts/desert256.vim'
+Plug 'rainux/vim-desert-warm-256'
+Plug 'jnurmine/Zenburn'
+
+" Vim Native Plugins
+Plug 'vimwiki/vimwiki'  " vim WiKi, enable with <leader>ndwt
+Plug 'dpelle/vim-LanguageTool'
+Plug 'liuchengxu/vim-which-key' " displays available keybindings in popup
+
+" Terraform Plugins
+Plug 'hashivim/vim-terraform'
+Plug 'juliosueiras/vim-terraform-completion'
+Plug 'jgerry/terraform-vim-folding'
+
+" Other Plugins
+"Plug 'wakatime/vim-wakatime' " Quantify your coding inside Vim.
+Plug 'w0rp/ale' " linting and parsing plugin
+Plug 'frazrepo/vim-rainbow' " rainbow Matching brackets
+Plug 'ekalinin/dockerfile.vim' " Dockerfile syntax
+Plug 'chrisbra/csv.vim' "CSV beautifly
+Plug 'mboughaba/i3config.vim' " i3 config edit
+Plug 'roxma/nvim-yarp'
+Plug 'majutsushi/tagbar'  " show tags in a bar (functions etc) for easy browsing
+Plug 'tweekmonster/impsort.vim'  " color and sort imports
+Plug 'roxma/nvim-yarp'  " dependency of ncm2
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' } "install Prettier which auto format the text
+Plug 'hail2u/vim-css3-syntax'
+Plug 'ap/vim-css-color'
+Plug 'MicahElliott/Rocannon'
+Plug 'pearofducks/ansible-vim', { 'do': './UltiSnips/generate.sh' }
+" Initialize plugin system
+call plug#end()
+
+"""""""""""""""""""""""""""""""""""""
+" Configuration Section
+"""""""""""""""""""""""""""""""""""""
+" lazyGit
+
+" Set colorscheme
+colo desert256
+highlight UnwanttedTab ctermbg=red guibg=darkred
+highlight TrailSpace guibg=red ctermbg=darkred
+match UnwanttedTab /\t/
+match TrailSpace / \+$/
+
+"enable rainbow
+let g:rainbow_active = 1
+
+" Terraform Plugin Config
+let g:terraform_align=1
+let g:terraform_fold_sections=1
+let g:terraform_fmt_on_save=1
+
+" NerdTree Config
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeHijackNetrw = 0
+let g:NERDTreeWinSize = 31
+let g:NERDTreeChDirMode = 2
+let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeShowBookmarks = 1
+let g:NERDTreeCascadeOpenSingleChildDir = 1
+"Nerdtree Git PLug in
+let g:NERDTreeIndicatorMapCustom = { "Modified"  : "✹", "Staged"    : "✚", "Untracked" : "✭", "Renamed"   : "➜", "Unmerged"  : "═", "Deleted"   : "✖", "Dirty"     : "✗", "Clean"     : "✔︎", 'Ignored'   : '☒', "Unknown"   : "?" }
+
+" Airline Config
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline_theme='dark'
+let g:hybrid_custom_term_colors = 1
+let g:hybrid_reduced_contrast = 1
+
+
+" Syntastic Configuration
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_elixir_checkers = ["elixir"]
+let g:syntastic_enable_elixir_checker = 1
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+set signcolumn=yes
+"set statusline+=%*
+
+"Ansible-vim PLugin Config
+augroup ansible_vim_fthosts
+  autocmd!
+  autocmd BufNewFile,BufRead hosts setfiletype yaml.ansible
+augroup END
+au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
+
+" Markdown Syntax Support
+augroup markdown
+    au!
+    au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
+augroup END
+
+let g:prettier#exec_cmd_path = "/usr/bin/prettier"
+let g:prettier#autoformat = 0
+let g:prettier#config#single_quote = 'true'
+let g:prettier#config#bracket_spacing = 'false'
+let g:prettier#config#parser = 'flow'
+let g:prettier#quickfix_enabled = 0
+let g:formatterpath = ['/usr/bin/shfmt']
+let b:ale_fixers = ['prettier', 'shfmt', 'puppetlint','fecs', 'stylelint', 'remove_trailing_lines', 'trim_whitespace']
+
+" ale options
+let g:ale_python_flake8_options = '--ignore=E129,E501,E302,E265,E241,E305,E402,W503,W391'
+let g:ale_python_pylint_options = '-j 0 --max-line-length=140'
+let g:ale_list_window_size = 4
+let g:ale_sign_column_always = 0
+let g:ale_open_list = 1
+let g:ale_keep_list_window_open = '1'
+let g:ale_sign_error = '‼'
+let g:ale_sign_warning = '∙'
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = '0'
+let g:ale_lint_on_save = '1'
+
+" Python Config
+let python_highlight_all=1
+let g:pymode_options_max_line_length = 140
+let g:pymode_lint_options_pep8 = {'max_line_length': g:pymode_options_max_line_length}
+let g:pymode_options_colorcolumn = 1
+au BufNewFile,BufRead *.py
+    \set tabstop=4
+    \set softtabstop=4
+    \set shiftwidth=4
+    \set textwidth=79
+    \set expandtab
+    \set autoindent
+    \set fileformat=unix
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match TrailSpace /\s\+$/
+""python with virtualenv support
+"py3 << EOF
+"import os
+"import sys
+"if 'VIRTUAL_ENV' in os.environ:
+"  project_base_dir = os.environ['VIRTUAL_ENV']
+"  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+"  execfile(activate_this, dict(__file__=activate_this))
+"EOF
+
+
+" set CSV plugin config
+let g:csv_delim=','
+
+"  Shebang line automatically generated
+augroup Shebang
+  autocmd BufNewFile *.py 0put =\"#!/usr/bin/env python\<nl># -*- coding: iso-8859-15 -*-\<nl>\"|$
+  autocmd BufNewFile *.rb 0put =\"#!/usr/bin/env ruby\<nl># -*- coding: None -*-\<nl>\"|$
+  autocmd BufNewFile *.sh 0put =\"#!/usr/bin/env bash\<nl># -*- coding: None -*-\<nl>\"|$
+  autocmd BufNewFile *.tex 0put =\"%&plain\<nl>\"|$
+  autocmd BufNewFile *.\(cc\|hh\) 0put =\"//\<nl>// \".expand(\"<afile>:t\").\" -- \<nl>//\<nl>\"|2|start!
+augroup END
+
+
+" Vim Wiki
+let g:vimwiki_list = [{'path': '~/.config/vim/vimwiki', 'syntax': 'mediawiki', 'ext': '.md'}]
+
+" Teraform Config
+let g:terraform_align=1
+let g:terraform_fold_sections=1
+let g:terraform_fmt_on_save=1
+let g:syntastic_terraform_tffilter_plan = 1
+" (Optional) Default: 0, enable(1)/disable(0) plugin's keymapping
+let g:terraform_completion_keys = 1
+" (Optional) Default: 1, enable(1)/disable(0) terraform module registry completion
+let g:terraform_registry_module_completion = 0
+"au BufRead,BufNewFile *.tf* set filetype=terraform "make a filetype category
+"au BufWrite terraform :TerraformFmt " autocommand on this filetype
+
+""""" Custom Commands
+command Wdiff :w !diff % -
+command W :w !sudo tee %
+
+"auto indent for brackets
+nmap <leader>Q :lcl<cr>:q<cr>
+nnoremap <leader>H :nohlsearch<Bar>:echo<CR>
+
+"Keyboard mapping
+map <C-n> :NERDTreeToggle<CR>
+map <C-h> :tabprevious<CR>
+map <C-l> :tabnext<CR>
+map <leader>h :wincmd h<CR>
+map <leader>j :wincmd j<CR>
+map <leader>k :wincmd k<CR>
+map <leader>: :wincmd l<CR>
+"Remove all trailing whitespace by pressing C-S
+nnoremap <C-S> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
+" FZF config
+let g:fzf_nvim_statusline = 1
+nnoremap <silent> <leader>f :FZF<CR>
+
+" Switch between tabs
+nmap <leader>1 1gt
+nmap <leader>2 2gt
+nmap <leader>3 3gt
+nmap <leader>4 4gt
+nmap <leader>5 5gt
+nmap <leader>6 6gt
+nmap <leader>7 7gt
+nmap <leader>8 8gt
+nmap <leader>9 9gt
+
+" Open New tab by leader<Enter>
+nnoremap <silent> <leader><Enter> :tabnew<CR>
+
+" Open tig
+nnoremap <Leader>gg :tabnew<CR>:terminal tig<CR>
+
+" Enable folding with the spacebar
+nnoremap <space> za
+let g:SimpylFold_docstring_preview=1
+
+" Other Random Config

@@ -1,0 +1,44 @@
+#!/bin/bash
+
+GITLAB_API_PRIVATE_TOKEN="w1oLyW8i6R4Rhczq1hzA"
+
+if ! git status >/dev/null 2>&1; then
+	echo "ERROR: current directory is not a git repo" >&2
+	exit 1
+fi
+
+if [ -z "$GITLAB_API_PRIVATE_TOKEN" ]; then
+	echo "ERROR: private token not found" >&2
+	echo "Please set GITLAB_API_PRIVATE_TOKEN and try again" >&2
+	echo "Hint: visit https://gitlab.com/profile/personal_access_tokens" >&2
+	exit 1
+fi
+
+if [ -n "$GITLAB_REMOTE" ]; then
+	REMOTE=$GITLAB_REMOTE
+elif git remote | grep gitlab >/dev/null 2>&1; then
+	REMOTE=gitlab
+elif git remote | grep origin >/dev/null 2>&1; then
+	REMOTE=origin
+else
+	echo "ERROR: no suitable branch found. Checked 'gitlab' and 'origin'." >&2
+	echo "Try setting GITLAB_REMOTE variable to remote name and try again." >&2
+	exit 1
+fi
+
+if ! [ -x "$(command -v jq)" ]; then
+	echo 'ERROR: jq JSON parser required but not found. See https://stedolan.github.io/jq/' >&2
+	exit 1
+fi
+
+PROJECT=$(git remote get-url $REMOTE | sed -Ee 's/.*:(.+)\.git/\1/')
+PROJECT_ENCODED=$(echo $PROJECT | sed -Ee 's/\//%2F/')
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+# we could also use HEAD so long as no local commits have been made since push
+SHA=$(git rev-parse $REMOTE/$BRANCH)
+
+echo "Status of last pipeline for $PROJECT on $REMOTE/$BRANCH:" >&2
+
+JSON=$(curl --header "PRIVATE-TOKEN: $GITLAB_API_PRIVATE_TOKEN" "https://gitlab.com/api/v4/projects/$PROJECT_ENCODED/repository/commits/$SHA" 2>/dev/null)
+
+echo $JSON | jq .last_pipeline.status

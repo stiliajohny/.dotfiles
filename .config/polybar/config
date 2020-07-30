@@ -1,0 +1,118 @@
+# Global WM Settings
+
+[global/wm]
+margin-bottom = 0
+margin-top = 0
+
+include-file = ~/.config/polybar/colors.ini
+;include-file = ~/.config/polybar/modules.ini
+include-file = ~/.config/polybar/user_modules.ini
+include-file = ~/.config/polybar/bars.ini
+
+
+
+[bar/top]
+enable-ipc = true
+bottom = false
+;monitor = eDP1
+monitor = ${env:MONITOR:}
+width = 100%
+height = 32
+dpi = 100
+
+background = ${colors.bg}
+foreground = ${colors.fg}
+
+
+line-color = ${colors.bg}
+line-size = 1
+
+padding-left = 0
+padding-right = 0
+module-margin-left = 3
+module-margin-right = 3
+
+
+separator = |
+
+font-3 = "Symbols Nerd Font:style=2048-em"
+font-1 = "Material Icons:size=11;2"
+font-2 = "xos4 Terminus:size=14;0"
+font-0 = "Siji:pixelsize=11;1"
+font-4 = "Iosevka Nerd Font:pixelsize=13;3"
+font-5 = "Ubuntu Condensed:size=10;2"
+font-6 = "icomoon-feather:size=10;2"
+font-7 = "xos4 Terminus:size=12;1"
+font-8 = "NotoSans-Regular:style=Regular"
+font-9 = "Fantasque Sans Mono:pixelsize=10;3"
+font-10 = "Font Awesome 5 Brands,Font Awesome 5 Brands Regular:style=Regular"
+font-11 = "Ionicons:style=Regular"
+
+modules-left = info-tmux-sessions
+;modules-left = info-tmux-sessions ;google github reddit facebook youtube
+modules-right = menu-readshift menu-screenres fans-dell info-git-project info-vagrant info-docker isrunning-compton vpn-openvpn-status pingrt info-hackspeed info-redshift-temp updates consumation battery1 wireless-network wired-network
+
+
+wm-restack = i3
+
+tray-position = right
+tray-scale = 1
+tray-background = ${colors.black}
+tray-foreground = ${colors.white}
+tray-maxsize = 24
+
+tray-offset-y = 0
+tray-offset-x = 1
+
+scroll-up = i3wm-wsnext
+scroll-down = i3wm-wsprev
+
+overline-size = 10
+overline-color = ${colors.bg}
+underline-size = 2
+underline-color = ${colors.bg}
+
+;##############################################################################
+
+[bar/bottom]
+;monitor = eDP1
+monitor = ${env:MONITOR:}
+bottom = true
+width = 100%
+height = 34
+dpi = 100
+
+scroll-up = i3wm-wsnext
+scroll-down = i3wm-wsprev
+
+background = ${colors.bg}
+foreground = ${colors.fg}
+
+line-color = ${colors.bg}
+line-size = 2
+
+separator = "| "
+
+spacing = 3
+padding-right = 4
+module-margin-left = 0
+module-margin-right = 6
+
+
+font-3 = "Symbols Nerd Font:style=2048-em"
+font-1 = "Material Icons:size=11;2"
+font-2 = "xos4 Terminus:size=14;0"
+font-0 = "Siji:pixelsize=11;1"
+font-4 = "Iosevka Nerd Font:pixelsize=13;3"
+font-5 = "Ubuntu Condensed:style=Regular"
+font-6 = "icomoon-feather:size=10;2"
+font-7 = "xos4 Terminus:size=12;1"
+font-8 = "NotoSans-Regular:style=Regular"
+font-9 = "Fantasque Sans Mono:pixelsize=10;3"
+font-10 = "Font Awesome 5 Brands,Font Awesome 5 Brands Regular:style=Regular"
+font-11 = "Ionicons:style=Regular"
+
+
+modules-left = i3
+modules-right =  cpu info-processes memory temperature filesystem_bar volume popup-calendar
+
