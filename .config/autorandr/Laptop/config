@@ -1,0 +1,15 @@
+output DP1
+off
+output DP2
+off
+output DP3
+off
+output VIRTUAL1
+off
+output eDP1
+crtc 0
+gamma 0.769:0.769:0.769
+mode 2880x1620
+pos 0x0
+primary
+rate 60.00
