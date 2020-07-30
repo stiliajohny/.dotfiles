@@ -1,0 +1,28 @@
+---
+version:
+  config: 1584829861
+  puppet: 6.13.0
+resources:
+  changed: 0
+  corrective_change: 0
+  failed: 0
+  failed_to_restart: 0
+  out_of_sync: 0
+  restarted: 0
+  scheduled: 0
+  skipped: 0
+  total: 7
+time:
+  catalog_application: 0.015335144998971373
+  config_retrieval: 0.100917201
+  filebucket: 8.5948e-05
+  schedule: 0.00047908999999999994
+  total: 0.015732767
+  transaction_evaluation: 0.005995837000227766
+  last_run: 1584829861
+changes:
+  total: 0
+events:
+  failure: 0
+  success: 0
+  total: 0

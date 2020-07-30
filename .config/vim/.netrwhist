@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/home/jstilia/Documents/GitHub/Ansible-Provisioning'
+let g:netrw_dirhist_5='/Users/isk06/Documents/GitHub/crs-nbcu-aws-resident-infra/mgmt/core/iam'
+let g:netrw_dirhist_4='/Users/isk06/Documents/GitHub/crs-nbcu-aws-resident-infra/mgmt/core'
+let g:netrw_dirhist_3='/Users/isk06/Documents/GitHub/crs-nbcu-aws-resident-infra/mgmt/core/iam'
+let g:netrw_dirhist_2='/Users/isk06/.aws'
+let g:netrw_dirhist_1='/home/jstilia/Documents/GitHub/prometheus-network-latency-check/lib/python3.8/site-packages/pyspeedtest-1.2.7.dist-info'

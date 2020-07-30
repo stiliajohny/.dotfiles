@@ -1,0 +1,86 @@
+---
+File[/home/jstilia/.puppetlabs/etc/puppet]:
+  :checked: 2020-03-19 23:37:05.527946299 +00:00
+  :synced: 2020-03-19 23:37:05.528315175 +00:00
+File[/home/jstilia/.puppetlabs/etc/code]:
+  :checked: 2020-03-19 23:37:05.528732030 +00:00
+  :synced: 2020-03-19 23:37:05.528936327 +00:00
+File[/home/jstilia/.puppetlabs/opt/puppet/cache]:
+  :checked: 2020-03-19 23:37:05.529256586 +00:00
+  :synced: 2020-03-19 23:37:05.529449301 +00:00
+File[/home/jstilia/.puppetlabs/var/log]:
+  :checked: 2020-03-19 23:37:05.529855286 +00:00
+  :synced: 2020-03-19 23:37:05.530179221 +00:00
+File[/home/jstilia/.puppetlabs/opt/puppet/cache/state]:
+  :checked: 2020-03-19 23:37:05.530477610 +00:00
+  :synced: 2020-03-19 23:37:05.530732617 +00:00
+File[/home/jstilia/.puppetlabs/var/run]:
+  :checked: 2020-03-19 23:37:05.531084775 +00:00
+  :synced: 2020-03-19 23:37:05.531358064 +00:00
+File[/home/jstilia/.puppetlabs/opt/puppet/cache/lib]:
+  :checked: 2020-03-19 23:37:09.480385386 +00:00
+  :synced: 2020-03-19 23:37:05.531868021 +00:00
+File[/home/jstilia/.puppetlabs/opt/puppet/cache/preview]:
+  :checked: 2020-03-19 23:37:05.532160351 +00:00
+  :synced: 2020-03-19 23:37:05.532453130 +00:00
+File[/home/jstilia/.puppetlabs/etc/puppet/ssl]:
+  :checked: 2020-03-19 23:37:05.532757132 +00:00
+  :synced: 2020-03-19 23:37:05.533015175 +00:00
+File[/home/jstilia/.puppetlabs/etc/puppet/ssl/certs]:
+  :checked: 2020-03-19 23:37:05.533437379 +00:00
+  :synced: 2020-03-19 23:37:05.533692027 +00:00
+File[/home/jstilia/.puppetlabs/etc/puppet/ssl/public_keys]:
+  :checked: 2020-03-19 23:37:05.533980979 +00:00
+  :synced: 2020-03-19 23:37:05.534275063 +00:00
+File[/home/jstilia/.puppetlabs/etc/puppet/ssl/certificate_requests]:
+  :checked: 2020-03-19 23:37:05.534587624 +00:00
+  :synced: 2020-03-19 23:37:05.534884159 +00:00
+File[/home/jstilia/.puppetlabs/etc/puppet/ssl/private_keys]:
+  :checked: 2020-03-19 23:37:05.535179870 +00:00
+  :synced: 2020-03-19 23:37:05.535429853 +00:00
+File[/home/jstilia/.puppetlabs/etc/puppet/ssl/private]:
+  :checked: 2020-03-19 23:37:05.535754022 +00:00
+  :synced: 2020-03-19 23:37:05.536002959 +00:00
+File[/home/jstilia/.puppetlabs/opt/puppet/cache/client_yaml]:
+  :checked: 2020-03-19 23:37:05.536338278 +00:00
+  :synced: 2020-03-19 23:37:05.536625906 +00:00
+File[/home/jstilia/.puppetlabs/opt/puppet/cache/client_data]:
+  :checked: 2020-03-19 23:37:05.536952404 +00:00
+  :synced: 2020-03-19 23:37:05.537259169 +00:00
+File[/home/jstilia/.puppetlabs/etc/puppet/devices]:
+  :checked: 2020-03-19 23:37:05.537614885 +00:00
+  :synced: 2020-03-19 23:37:05.537931819 +00:00
+File[/home/jstilia/.puppetlabs/opt/puppet/cache/clientbucket]:
+  :checked: 2020-03-19 23:37:05.538256303 +00:00
+  :synced: 2020-03-19 23:37:05.538514421 +00:00
+File[/home/jstilia/.puppetlabs/opt/puppet/cache/state/graphs]:
+  :checked: 2020-03-19 23:37:05.538849913 +00:00
+  :synced: 2020-03-19 23:37:05.539044383 +00:00
+File[/home/jstilia/.puppetlabs/opt/puppet/cache/facts.d]:
+  :checked: 2020-03-19 23:37:09.403569418 +00:00
+  :synced: 2020-03-19 23:37:05.539516090 +00:00
+File[/home/jstilia/.puppetlabs/opt/puppet/cache/locales]:
+  :checked: 2020-03-19 23:37:09.565587561 +00:00
+  :synced: 2020-03-19 23:37:05.540037192 +00:00
+Stage[main]:
+  :checked: 2020-03-21 22:31:01.856426767 +00:00
+Class[Settings]:
+  :checked: 2020-03-21 22:31:01.855487786 +00:00
+Class[Main]:
+  :checked: 2020-03-21 22:31:01.856235199 +00:00
+Schedule[puppet]:
+  :checked: 2020-03-21 22:31:01.856647409 +00:00
+Schedule[hourly]:
+  :checked: 2020-03-21 22:31:01.856819198 +00:00
+Schedule[daily]:
+  :checked: 2020-03-21 22:31:01.857000824 +00:00
+Schedule[weekly]:
+  :checked: 2020-03-21 22:31:01.857157585 +00:00
+Schedule[monthly]:
+  :checked: 2020-03-21 22:31:01.857333325 +00:00
+Schedule[never]:
+  :checked: 2020-03-21 22:31:01.857510933 +00:00
+Filebucket[puppet]:
+  :checked: 2020-03-21 22:31:01.857736849 +00:00
+Node[dellxps13]:
+  :checked: 2020-03-21 22:31:01.856063544 +00:00
