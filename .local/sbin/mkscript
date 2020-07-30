@@ -1,0 +1,160 @@
+#!/bin/bash -
+#title           :mkscript.sh
+#description     :This script will make a header for a bash script.
+#author		 :John Stilia
+#date            :20111101
+#version         :0.4
+#usage		 :bash mkscript.sh
+#notes           :Install Vim, Emacs and Nano to use this script.
+#bash_version    :4.1.5(1)-release
+#==============================================================================
+# Colors
+# ----------------------------------
+NOCOLOR='\033[0m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+LIGHTGRAY='\033[0;37m'
+DARKGRAY='\033[1;30m'
+LIGHTRED='\033[1;31m'
+LIGHTGREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+LIGHTBLUE='\033[1;34m'
+LIGHTPURPLE='\033[1;35m'
+LIGHTCYAN='\033[1;36m'
+WHITE='\033[1;37m'
+
+
+today=$(date +%Y%m%d)
+div=======================================
+
+/usr/bin/clear
+
+function select_title() {
+
+	# Get the user input.
+	echo -e "${LIGHTBLUE}Enter a title:${NOCOLOR} "
+	read -r title
+
+	# Remove the spaces from the title if necessary.
+	title=${title// /_}
+
+	# Convert uppercase to lowercase.
+	title=${title,,}
+
+	# Add .sh to the end of the title if it is not there already.
+	[ "${title: -3}" != '.sh' ] && title=${title}.sh
+
+	# Check to see if the file exists already.
+	if [ -e $title ]; then
+		echo -e "${RED}The script \"$title\" already exists. \nPlease select another title.${NOCOLOR}"
+		select_title
+	fi
+
+}
+
+function select_editor() {
+
+	# Select between Vim or Emacs.
+	echo -e "Select an editor. \n1) for Vim. \n2) for Emacs. \n3) for Nano."
+	echo -e $title
+	read -r editor
+
+	# Open the file with the cursor on the twelth line.
+	case $editor in
+	1)
+		vim +12 $title
+		;;
+	2)
+		emacs +12 $title &
+		;;
+	3)
+		nano $title
+		;;
+	*)
+		/usr/bin/clear
+		printf "%s\n%s\n\n" "I did not understand your selection." \
+			"Press <Ctrl-c> to quit."
+		select_editor
+		;;
+	esac
+
+}
+
+function questions() {
+	printf "${BLUE}Enter a description: "
+	read -r dscrpt
+	printf "Enter your name: "
+	read -r name
+	printf "Enter the version number: "
+	read -r vnum
+	printf "How many funtions do you want to create? ( 0 for none ) \n"
+	read -r numFun
+	echo $numFun
+	if [[ $numFun -eq "0" ]]; then 
+		echo -e "No functions will be create."
+	else 
+
+	for countFun in {1..$numFun}; do
+		echo -e "Name the first function"
+		read -r tempFunName
+		echo -e "function $tempFunName() \n{\n\n}"
+	done
+
+	fi
+
+}
+
+
+function fileCreate() {
+
+	# Format the output and write it to a file.
+	printf "%-16s\n\
+%-16s%-8s\n\
+%-16s%-8s\n\
+%-16s%-8s\n\
+%-16s%-8s\n\
+%-16s%-8s\n\
+%-16s%-8s\n\
+%-16s%-8s\n\
+%-16s%-8s\n\
+%s\n\n\n" '#!/bin/bash -' '#title' ":$title" '#description' \
+		":${dscrpt}" '#author' ":$name" '#date' ":$today" '#version' \
+		":$vnum" '#usage' ":./$title" '#notes' ':' '#bash_version' \
+		":${BASH_VERSION}" \#$div${div} \
+		"" \
+		"# ----------------------------------
+# Colors
+# ----------------------------------
+NOCOLOR='\033[0m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+ORANGE='\033[0;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+LIGHTGRAY='\033[0;37m'
+DARKGRAY='\033[1;30m'
+LIGHTRED='\033[1;31m'
+LIGHTGREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+LIGHTBLUE='\033[1;34m'
+LIGHTPURPLE='\033[1;35m'
+LIGHTCYAN='\033[1;36m'
+WHITE='\033[1;37m'
+
+# example \${BLUE}example text\${NOCOLOR} " >$title
+}
+
+function makeExec() {
+	# Make the file executable.
+	chmod +x $title
+}
+
+select_title
+questions
+fileCreate
+select_editor
