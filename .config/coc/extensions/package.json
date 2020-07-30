@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "coc-actions": ">=1.4.0",
+    "coc-css": ">=1.2.3",
+    "coc-git": ">=1.7.13",
+    "coc-html": ">=1.2.4",
+    "coc-json": ">=1.2.6",
+    "coc-kite": ">=0.0.10",
+    "coc-markdownlint": ">=1.4.0",
+    "coc-marketplace": ">=1.7.0",
+    "coc-prettier": ">=1.1.14",
+    "coc-sh": ">=0.5.1",
+    "coc-terminal": ">=0.3.1",
+    "coc-yaml": ">=1.0.4"
+  }
+}

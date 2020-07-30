@@ -1,0 +1,30 @@
+output DP1
+off
+output DP1-3
+off
+output DP2
+off
+output DP3
+off
+output VIRTUAL1
+off
+output DP1-2
+crtc 2
+gamma 0.769:0.667:0.556
+mode 1920x1080
+pos 1080x0
+rate 60.00
+output DP1-1
+crtc 1
+gamma 0.769:0.667:0.556
+mode 2560x1080
+pos 0x1080
+rate 60.00
+rotate right
+output eDP1
+crtc 0
+gamma 0.769:0.667:0.556
+mode 2880x1620
+pos 1080x1080
+primary
+rate 60.00
