@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =6
+let g:netrw_dirhistcnt =7
+let g:netrw_dirhist_7='/home/jstilia/.tmux'
 let g:netrw_dirhist_6='/home/jstilia/Documents/GitHub/Ansible-Provisioning'
 let g:netrw_dirhist_5='/Users/isk06/Documents/GitHub/crs-nbcu-aws-resident-infra/mgmt/core/iam'
 let g:netrw_dirhist_4='/Users/isk06/Documents/GitHub/crs-nbcu-aws-resident-infra/mgmt/core'
