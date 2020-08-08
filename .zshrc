@@ -1,6 +1,6 @@
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/jstilia/.conf/oh-my-zsh"
+export ZSH="/home/jstilia/.config/oh-my-zsh"
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export FZF_BASE=/usr/bin/fzf
 export GOPATH=$HOME/go
