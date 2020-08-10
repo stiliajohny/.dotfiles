@@ -219,6 +219,7 @@ call plug#end()
 
 " Set colorscheme
 colo onedark
+silent! colorscheme onedark
 highlight UnwanttedTab ctermbg=red guibg=darkred
 highlight TrailSpace guibg=red ctermbg=darkred
 match UnwanttedTab /\t/

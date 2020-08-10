@@ -1,1 +1,0 @@
-/home/jstilia/.zprezto/runcoms/zshenv
