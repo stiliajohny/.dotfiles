@@ -450,12 +450,6 @@ let g:SimpylFold_docstring_preview=1
 " tag list
 map <leader>t :TagbarToggle<CR>
 
-" copy, cut and paste
-vmap <C-c> "+y
-vmap <C-x> "+c
-vmap <C-v> c<ESC>"+p
-imap <C-v> <ESC>"+pa
-
 
 " Other Random Config
 " indent/unindent with tab/shift-tab
