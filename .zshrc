@@ -30,37 +30,35 @@ ZSH_THEME="agnoster"
 
 plugins=(
     git
-    vi-mode
+    git-prompt
+    github
+    gitignore
+    helm
+    history
+    history-substring-search
+    httpie
+    kube-ps1
+    pep8
+    pip
+    pyenv
+    python
+    sudo
+    systemd
+    terraform
+    themes
+    tig
+    timer
+    tmux
     vagrant
     vagrant-prompt
-    tmux
-    thefuck
-    terraform
-    systemd
-    sudo
-    pip
-    per-directory-history
-    pep8
-    kube-ps1
-    httpie
-    history-substring-search
-    history
-    helm
-    gitignore
-    github
-    git-prompt
-    zsh-autosuggestions
-    z
-    python
-    pyenv
+    vi-mode
     virtualenv
     virtualenvwrapper
     web-search
+    z
+    zsh-autosuggestions
     zsh-interactive-cd
     zsh_reload
-    timer
-    tig
-    themes
 )
 
 # Plugin Config
