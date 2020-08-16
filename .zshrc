@@ -26,7 +26,7 @@ export PATH=$HOME/.local/sbin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 
 
-ZSH_THEME="agnoster"
+ZSH_THEME="bira"
 
 plugins=(
     git
