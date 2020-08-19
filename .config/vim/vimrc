@@ -218,8 +218,8 @@ call plug#end()
 " lazyGit
 
 " Set colorscheme
-if filereadable("~/.config/vim/plugged/onedark.vim/colors/onedark.vim")
-    colo onedark
+if filereadable( expand("$HOME/.config/vim/colors/onedark.vim") )
+       colorscheme onedark
 endif
 highlight UnwanttedTab ctermbg=red guibg=darkred
 highlight TrailSpace guibg=red ctermbg=darkred
