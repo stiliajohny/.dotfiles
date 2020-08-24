@@ -6,6 +6,7 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 export FZF_BASE=/usr/bin/fzf
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$HOME/.gem/ruby/2.7.0/bin
 
 
 # XDG Base Directory Specification
