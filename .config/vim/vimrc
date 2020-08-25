@@ -209,6 +209,7 @@ Plug 'hail2u/vim-css3-syntax'
 Plug 'ap/vim-css-color'
 Plug 'MicahElliott/Rocannon'
 Plug 'pearofducks/ansible-vim', { 'do': './UltiSnips/generate.sh' }
+Plug 'kristijanhusak/vim-carbon-now-sh'
 " Initialize plugin system
 call plug#end()
 
