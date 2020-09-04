@@ -1,6 +1,6 @@
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/jstilia/.config/oh-my-zsh"
+export ZSH="$HOME/.config/oh-my-zsh"
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export FZF_BASE=/usr/bin/fzf
 export GOPATH=$HOME/go
@@ -26,7 +26,7 @@ export PATH=$HOME/.local/sbin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 
 
-ZSH_THEME="agnoster"
+ZSH_THEME="bira"
 
 plugins=(
     git
@@ -34,7 +34,6 @@ plugins=(
     vagrant
     vagrant-prompt
     tmux
-    thefuck
     terraform
     systemd
     sudo
@@ -49,7 +48,6 @@ plugins=(
     gitignore
     github
     git-prompt
-    zsh-autosuggestions
     z
     python
     pyenv
@@ -133,3 +131,21 @@ function acp() {
 if [ -z "$TMUX" ]; then
     tmux attach -t default || tmux new -s default
 fi
+
+# Set the default kube context if present
+DEFAULT_KUBE_CONTEXTS="$HOME/.kube/config"
+if test -f "${DEFAULT_KUBE_CONTEXTS}"
+then
+  export KUBECONFIG="$DEFAULT_KUBE_CONTEXTS"
+fi
+# Additional contexts should be in ~/.kube/custom-contexts/
+CUSTOM_KUBE_CONTEXTS="$HOME/.kube/custom-contexts"
+mkdir -p "${CUSTOM_KUBE_CONTEXTS}"
+OIFS="$IFS"
+IFS=$'\n'
+for contextFile in `find "${CUSTOM_KUBE_CONTEXTS}" -type f -name "*.yml"`
+do
+    export KUBECONFIG="$contextFile:$KUBECONFIG"
+done
+IFS="$OIFS"
+PROMPT='$(kube_ps1)'$PROMPT
