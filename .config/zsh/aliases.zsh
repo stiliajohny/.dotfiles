@@ -166,3 +166,5 @@ alias cgit='cd ~/Documents/GitHub/ && mgitstatus'
 
 alias k=kubectl
 alias test-passed='if [ "$?" -eq "0" ]; then lolcat ~/.config/zsh/tp -a -s 40 -d 2; fi;'
+
+alias eksctl="https_proxy=socks5://localhost:8888 kubectl"
