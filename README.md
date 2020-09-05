@@ -46,7 +46,7 @@ Index
 
 * Now clone your dotfiles into a [bare](http://www.saintsjd.com/2011/01/what-is-a-bare-git-repository/) repository in a "_dot_" folder of your `$HOME`:
 
-`git clone --bare git@gitlab.johnstilia.co.uk:jstilia/dotfiles.git $HOME/.cfg `
+`git clone --bare git@github.com:stiliajohny/dotfiles.git $HOME/.cfg `
 
 * Define the alias in the current shell scope:
 
@@ -104,7 +104,7 @@ Please move or remove them before you can switch branches.Aborting
 For completeness this is what I ended up with (tested on many freshly minted [Alpine Linux](http://www.alpinelinux.org/) containers to test it out):
 
 ```
-git clone --bare git@gitlab.johnstilia.co.uk:jstilia/dotfiles.git $HOME/.cfg
+git clone --bare git@github.com:stiliajohny/dotfiles.git $HOME/.cfg
 function config {
    /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@
 }
