@@ -18,6 +18,7 @@ export ZSH_CACHE="$XDG_CACHE_HOME/zsh"
 export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
+export GEM_HOME=$HOME/.gem
 mkdir -p $ZSH_CACHE
 export VIMINIT=":source $XDG_CONFIG_HOME"/vim/vimrc
 # executable search path
