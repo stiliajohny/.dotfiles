@@ -31,17 +31,16 @@ export PATH=$HOME/.cargo/bin:$PATH
 ZSH_THEME="bira"
 
 plugins=(
+    aws
+    fzf
     git
     git-prompt
     github
     gitignore
     helm
-    history
-    history-substring-search
     httpie
     kube-ps1
     pep8
-    per-directory-history
     pip
     pyenv
     python
@@ -59,9 +58,10 @@ plugins=(
     virtualenvwrapper
     web-search
     z
-    zsh_reload
     zsh-autosuggestions
+    zsh-completions
     zsh-interactive-cd
+    zsh_reload
 )
 
 # Plugin Config
@@ -151,6 +151,7 @@ do
     export KUBECONFIG="$contextFile:$KUBECONFIG"
 done
 IFS="$OIFS"
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh) ]]
 
 # ZSH Theme - Preview: https://gyazo.com/8becc8a7ed5ab54a0262a470555c3eed.png
 local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
@@ -186,3 +187,8 @@ ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
 ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
 
 
+
+[ -f ~/.config/fzf/fzf.zsh ] && source ~/.config/fzf/fzf.zsh
+export FZF_DEFAULT_OPS="--extended"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
