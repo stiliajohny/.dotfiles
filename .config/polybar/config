@@ -50,7 +50,7 @@ font-11 = "Ionicons:style=Regular"
 
 modules-left = info-tmux-sessions
 ;modules-left = info-tmux-sessions ;google github reddit facebook youtube
-modules-right = menu-readshift menu-screenres fans-dell info-git-project info-vagrant info-docker isrunning-compton vpn-openvpn-status pingrt info-hackspeed info-redshift-temp updates consumation battery1 wireless-network wired-network
+modules-right = menu-readshift menu-screenres fans-dell info-git-project info-vbox info-vagrant info-docker isrunning-compton vpn-openvpn-status pingrt info-hackspeed info-redshift-temp updates consumation battery1 wireless-network wired-network
 
 
 wm-restack = i3
