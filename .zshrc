@@ -27,9 +27,6 @@ export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.local/sbin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 
-
-ZSH_THEME="bira"
-
 plugins=(
     aws
     fzf
@@ -86,9 +83,9 @@ SAVEHIST=1000000
 HISTSIZE=1200000
 setopt share_history append_history extended_history hist_no_store hist_ignore_all_dups hist_ignore_space
 # 2x control is completion from history!!!
-zle -C hist-complete complete-word _generic
-zstyle ':completion:hist-complete:*' completer _history
-bindkey '^X^X' hist-complete
+#zle -C hist-complete complete-word _generic
+#zstyle ':completion:hist-complete:*' completer _history
+#bindkey '^X^X' hist-complete
 # If a command is issued that can’t be executed as a normal command, and the command is the name of a directory, perform the cd command to that directory.
 setopt AUTO_CD
 # Treat  the ‘#’, ‘~’ and ‘^’ characters as part of patterns for filename generation, etc.  (An initial unquoted ‘~’ always produces named directory expansion.)
