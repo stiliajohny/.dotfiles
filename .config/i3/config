@@ -155,14 +155,14 @@ bindsym $mod+r mode "resize"
 hide_edge_borders both
 # Smart gaps (gaps used if only more than one container on the workspace)
 for_window [class="^.*"] border pixel 2
-gaps inner 15
-gaps outer 10
-smart_gaps on
+#gaps inner 15
+#gaps outer 10
+#smart_gaps on
 # Change gaps dynamically
-bindsym $mod+Shift+g gaps inner current set 0; gaps outer current set 0
-bindsym $mod+Shift+t gaps inner current set 15; gaps outer current set 15
-bindsym $mod+bracketleft gaps inner current plus 5
-bindsym $mod+bracketright gaps inner current minus 5
+#bindsym $mod+Shift+g gaps inner current set 0; gaps outer current set 0
+#bindsym $mod+Shift+t gaps inner current set 15; gaps outer current set 15
+#bindsym $mod+bracketleft gaps inner current plus 5
+#bindsym $mod+bracketright gaps inner current minus 5
 
 # screenshot
 bindsym Print exec scrot '%S:%M:%H_%Y-%m-%d_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'
@@ -191,15 +191,17 @@ mode "$mode_system" {
 		bindsym Escape mode "default"
 }
 #Setting wallpaper
-exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/$(ls ~/.config/wallpaper | shuf -n 1);  exec notify-send "Update Wallpaper"
-exec --no-startup-id betterlockscreen -u  ~/.config/wallpaper/$(ls ~/.config/wallpaper | shuf -n 1); exec notify-send "Update Betterlockscreen "
+exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/321307.jpg;  exec notify-send "Update Wallpaper"
+#exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/$(ls ~/.config/wallpaper | shuf -n 1);  exec notify-send "Update Wallpaper"
+exec --no-startup-id betterlockscreen -u  ~/.config/wallpaper/321307.jpg ; exec notify-send "Update Betterlockscreen "
+#exec --no-startup-id betterlockscreen -u  ~/.config/wallpaper/$(ls ~/.config/wallpaper | shuf -n 1); exec notify-send "Update Betterlockscreen "
 
 # Autostart applications
 exec --no-startup-id xrandr --output eDP1 --mode 2880x1620; exec notify-send "Change screen resolution "
 exec --no-startup-id betterlockscreen -w dim; exec notify-send "Initiate Betterlockscreen "
 exec --no-startup-id redshift-gtk; exec notify-send "Initiate Redshift"
 exec --no-startup-id blueman-applet; exec notify-send "Initiate Bluetooth Manager"
-exec --no-startup-id picom --shadow-exclude '!focused' -b --config /home/jstilia/.config/compton/compton.conf ;exec notify-send "Initiate Picom"
+exec --no-startup-id picom --shadow-exclude '!focused' -b --config %HOME/.config/compton/compton.conf ;exec notify-send "Initiate Picom"
 exec_always  ~/.config/polybar/launch.sh ;exec notify-send "Initiate Polybar"
 exec --no-startup-id discord --start-minimized& ;exec notify-send "Initiate Discord" -i "/usr/share/pixmaps/discord.png" 
 
@@ -212,3 +214,73 @@ exec --no-startup-id discord --start-minimized& ;exec notify-send "Initiate Disc
 
 #exec --no-startup-id owncloud;
 #exec --no-startup-id betterlockscreen -w dim --off 5
+
+# Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
+set $mode_gaps Gaps: (o) outer, (i) inner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_inner" {
+        bindsym plus  gaps inner current plus 5
+        bindsym minus gaps inner current minus 5
+        bindsym 0     gaps inner current set 0
+
+        bindsym Shift+plus  gaps inner all plus 5
+        bindsym Shift+minus gaps inner all minus 5
+        bindsym Shift+0     gaps inner all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_outer" {
+        bindsym plus  gaps outer current plus 5
+        bindsym minus gaps outer current minus 5
+        bindsym 0     gaps outer current set 0
+
+        bindsym Shift+plus  gaps outer all plus 5
+        bindsym Shift+minus gaps outer all minus 5
+        bindsym Shift+0     gaps outer all set 0
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+
+# Color palette used for the terminal ( ~/.Xresources file )
+# Colors are gathered based on the documentation:
+# https://i3wm.org/docs/userguide.html#xresources
+# Change the variable name at the place you want to match the color
+# of your terminal like this:
+# [example]
+# If you want your bar to have the same background color as your 
+# terminal background change the line 362 from:
+# background #14191D
+# to:
+# background $term_background
+# Same logic applied to everything else.
+set_from_resource $term_background background
+set_from_resource $term_foreground foreground
+set_from_resource $term_color0     color0
+set_from_resource $term_color1     color1
+set_from_resource $term_color2     color2
+set_from_resource $term_color3     color3
+set_from_resource $term_color4     color4
+set_from_resource $term_color5     color5
+set_from_resource $term_color6     color6
+set_from_resource $term_color7     color7
+set_from_resource $term_color8     color8
+set_from_resource $term_color9     color9
+set_from_resource $term_color10    color10
+set_from_resource $term_color11    color11
+set_from_resource $term_color12    color12
+set_from_resource $term_color13    color13
+set_from_resource $term_color14    color14
+set_from_resource $term_color15    color15
+
