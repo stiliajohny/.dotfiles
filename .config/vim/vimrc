@@ -46,6 +46,8 @@ let g:HardMode_level = 'wannabe'
 let g:HardMode_hardmodeMsg = 'Don''t use this!'
 autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
+let g:nord_uniform_status_lines = 1
+
 " Enable highlighting of the current line
 set cursorline
 
@@ -86,7 +88,7 @@ set clipboard=unnamed
 
 """" START Plug Configuration
 " Specify a directory for plugins
-call plug#begin('~/.config/vim/plugged')
+call plug#begin('$HOME/.config/vim/plugged')
 
 " Utility
 Plug 'scrooloose/nerdtree'
@@ -182,6 +184,7 @@ Plug 'colepeters/spacemacs-theme.vim'
 Plug 'vim-scripts/desert256.vim'
 Plug 'rainux/vim-desert-warm-256'
 Plug 'jnurmine/Zenburn'
+Plug 'arcticicestudio/nord-vim'
 
 " Vim Native Plugins
 Plug 'vimwiki/vimwiki'  " vim WiKi, enable with <leader>ndwt
@@ -219,9 +222,10 @@ call plug#end()
 " lazyGit
 
 " Set colorscheme
-if filereadable( expand("$HOME/.config/vim/colors/onedark.vim") )
-       colorscheme onedark
-endif
+"if filereadable( expand("$HOME/.config/vim/colors/onedark.vim") )
+"       colorscheme nord
+"endif
+colorscheme nord
 highlight UnwanttedTab ctermbg=red guibg=darkred
 highlight TrailSpace guibg=red ctermbg=darkred
 match UnwanttedTab /\t/
@@ -246,7 +250,7 @@ let g:NERDTreeAutoDeleteBuffer = 1
 let g:NERDTreeShowBookmarks = 1
 let g:NERDTreeCascadeOpenSingleChildDir = 1
 "Nerdtree Git PLug in
-let g:NERDTreeIndicatorMapCustom = { "Modified"  : "✹","Staged"    : "✚", "Untracked" : "✭", "Renamed"   : "➜", "Unmerged"  : "═", "Deleted"   : "✖", "Dirty"     : "✗", "Clean"     : "✔︎", 'Ignored'   : '☒', "Unknown"   : "?" }
+let g:NERDTreeGitStatusIndicatorMapCustom = { "Modified"  : "✹","Staged"    : "✚", "Untracked" : "✭", "Renamed"   : "➜", "Unmerged"  : "═", "Deleted"   : "✖", "Dirty"     : "✗", "Clean"     : "✔︎", 'Ignored'   : '☒', "Unknown"   : "?" }
 
 
 " wrap toggle
@@ -300,11 +304,11 @@ endfunction
 
 
 " Airline Config
-let g:airline#extensions#tabline#enabled = 0
-let g:airline_powerline_fonts = 1
-let g:airline_theme='dark'
-let g:hybrid_custom_term_colors = 1
-let g:hybrid_reduced_contrast = 1
+"let g:airline#extensions#tabline#enabled = 0
+"let g:airline_powerline_fonts = 1
+"let g:airline_theme='dark'
+"let g:hybrid_custom_term_colors = 1
+"let g:hybrid_reduced_contrast = 1
 
 " syntastic
 let g:syntastic_always_populate_loc_list = 1
@@ -450,4 +454,62 @@ nmap <S-tab> <<
 command Wdiff :w !diff % -
 command W :w !sudo tee %
 
+let g:lightline = {
+      \ 'colorscheme': 'nord',
+      \ 'active': {
+      \   'left': [
+      \     [ 'mode', 'paste' ],
+      \     [ 'fugitive', 'filename' ]
+      \   ]
+      \ },
+      \ 'component_function': {
+      \   'fugitive': 'LightlineFugitive',
+      \   'readonly': 'LightlineReadonly',
+      \   'modified': 'LightlineModified',
+      \   'filename': 'LightlineFilename'
+      \ },
+      \ 'separator': {
+      \   'left': '',
+      \   'right': ''
+      \ },
+      \ 'subseparator': {
+      \   'left': '',
+      \   'right': ''
+      \ }
+    \ }
 
+function! LightlineModified()
+  if &filetype == "help"
+    return ""
+  elseif &modified
+    return "+"
+  elseif &modifiable
+    return ""
+  else
+    return ""
+  endif
+endfunction
+
+function! LightlineReadonly()
+  if &filetype == "help"
+    return ""
+  elseif &readonly
+    return ""
+  else
+    return ""
+  endif
+endfunction
+
+function! LightlineFugitive()
+  if exists("*fugitive#head")
+    let branch = fugitive#head()
+    return branch !=# '' ? ' '.branch : ''
+  endif
+  return ''
+endfunction
+
+function! LightlineFilename()
+  return ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+       \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
+       \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+endfunction
