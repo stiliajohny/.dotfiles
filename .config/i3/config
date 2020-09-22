@@ -191,9 +191,9 @@ mode "$mode_system" {
 		bindsym Escape mode "default"
 }
 #Setting wallpaper
-exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/321307.jpg;  exec notify-send "Update Wallpaper"
+exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/wallpaper.jpg;  exec notify-send "Update Wallpaper"
 #exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/$(ls ~/.config/wallpaper | shuf -n 1);  exec notify-send "Update Wallpaper"
-exec --no-startup-id betterlockscreen -u  ~/.config/wallpaper/321307.jpg ; exec notify-send "Update Betterlockscreen "
+exec --no-startup-id betterlockscreen -u  ~/.config/wallpaper/wallpaper.jpg ; exec notify-send "Update Betterlockscreen "
 #exec --no-startup-id betterlockscreen -u  ~/.config/wallpaper/$(ls ~/.config/wallpaper | shuf -n 1); exec notify-send "Update Betterlockscreen "
 
 # Autostart applications
