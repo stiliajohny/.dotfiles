@@ -1,10 +1,8 @@
 
-alias vpnconnectJohnStilia="sudo openvpn --daemon --auth-nocache --cd "/etc/openvpn/conf.d" --config "vpn-johnstilia-co-uk.ovpn""
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias tbc='nc termbin.com 9999 | xclip -selection c'
 alias in-office='xrandr --output eDP1 --off --output DP1-1 --primary --mode 1920x1080 --pos 1080x1320 --rotate normal --output DP1-2 --mode 2560x1080 --pos 0x0 --rotate right'
 
-alias yayy="yay --noconfirm"
 alias yay="clear; echo \"HAVE YOU PUT IT IN ANSIBLE?\""
 export EDITOR="vim"
 
@@ -36,15 +34,15 @@ alias ls=' exa --group-directories-first'
 alias v="clear; exa --git -h -l --group-directories-first --time-style long-iso --color automatic"
 alias l="v"
 
-alias p=' ps aux | grep'
+alias p='ps aux | grep'
 alias g='git'
 alias d=' dirs -v'
 alias ka="killall"
 
-alias cd=' cd'
-alias ..=' cd ..; ls'
-alias ...=' cd ..; cd ..; ls'
-alias ....=' cd ..; cd ..; cd ..; ls'
+alias cd='cd'
+alias ..='cd ..; ls'
+alias ...='cd ..; cd ..; ls'
+alias ....='cd ..; cd ..; cd ..; ls'
 alias cd..='..'
 alias cd...='...'
 alias cd....='....'
@@ -156,15 +154,14 @@ alias tb2='tar -jxvf'
 alias tbz='tar -zxvf'
 alias b2='bzip2 -d'
 alias b2z='bzip2 -z'
-alias ssh='autossh -M shuf -i 1000-2000 -n 1'
 
 function find_in() { find . -name $1 -print | xargs grep --color=auto -inH $2; }
 
 alias bigdir="du -hsx * | sort -rh | head -10"
-alias mkdr='mkdir $1 && cd ./$1'
 alias cgit='cd ~/Documents/GitHub/ && mgitstatus'
 
 alias k=kubectl
 alias test-passed='if [ "$?" -eq "0" ]; then lolcat ~/.config/zsh/tp -a -s 40 -d 2; fi;'
 
 alias eksctl="https_proxy=socks5://localhost:8888 kubectl"
+alias ekshelm="https_proxy=socks5://localhost:8888 helm"
