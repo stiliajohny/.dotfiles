@@ -42,14 +42,13 @@ GIT_FOLDER=~/Documents/GitHub/
 #	exit 9999
 #fi
 
-echo -e "%{F#3cb703} :$(~/.local/bin/mgitstatus $GIT_FOLDER  |grep  ': ok' | wc -l )%{F-}/%{F#e53935}$(~/.local/bin/mgitstatus -e $GIT_FOLDER | wc -l) %{F-}"
 
 if [  -d "$GIT_FOLDER" ]
 then
 	case "$1" in
-	rofi-left) cd "$GIT_FOLDER" ;  mgitstatus -e . | rofi -dmenu -window-title "Git Status " 
+rofi-left) ~/.local/bin/mgitstatus -e $GIT_FOLDER | grep -Eo '[^/]+/?$' | cut -d / -f1 | rofi -dmenu -window-title "Git Status"
 		;;
-	*) echo ""
+	*) echo -e "%{F#3cb703} :$(~/.local/bin/mgitstatus $GIT_FOLDER  |grep  ': ok' | wc -l )%{F-}/%{F#e53935}$(~/.local/bin/mgitstatus -e $GIT_FOLDER | wc -l) %{F-}"
 		;;
 	esac
 fi
