@@ -31,8 +31,25 @@ LIGHTPURPLE='\033[1;35m'
 LIGHTCYAN='\033[1;36m'
 WHITE='\033[1;37m'
 
-# example ${BLUE}example text${NOCOLOR}
+GIT_FOLDER=~/Documents/GitHub/
+### Check if a directory does not exist ###
+#if [ ! -d "$GIT_FOLDER" ]
+#then
+#    exit 9999 # die with error code 9999
+#fi
+#if ! command -v mgitstatus &> /dev/null
+#then
+#	exit 9999
+#fi
 
+echo -e "%{F#3cb703} :$(~/.local/bin/mgitstatus $GIT_FOLDER  |grep  ': ok' | wc -l )%{F-}/%{F#e53935}$(~/.local/bin/mgitstatus -e $GIT_FOLDER | wc -l) %{F-}"
 
-
-echo -e "%{F#3cb703} :$(~/.local/bin/mgitstatus ~/Documents/GitHub  |grep  ': ok' | wc -l )%{F-}/%{F#e53935}$(~/.local/bin/mgitstatus -e ~/Documents/GitHub | wc -l) %{F-}"
+if [  -d "$GIT_FOLDER" ]
+then
+	case "$1" in
+	rofi-left) cd "$GIT_FOLDER" ;  mgitstatus -e . | rofi -dmenu -window-title "Git Status " 
+		;;
+	*) echo ""
+		;;
+	esac
+fi
