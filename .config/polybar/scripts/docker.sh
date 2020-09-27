@@ -7,3 +7,14 @@ if [ "$docker_is_active" == "active" ]; then
 else
 	echo "%{F#e53935}  : Inactive"
 fi
+
+
+if [ "$docker_is_active" == "active" ]; then
+case "$1" in
+
+rofi-left) docker ps --format {{.Names}} | rofi -dmenu
+    ;;
+*) echo ""
+   ;;
+esac
+fi
