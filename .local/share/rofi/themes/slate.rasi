@@ -10,7 +10,7 @@ configuration {
     // The display name of this browser
     display-window:                 "";
     display-combi:                  "";
-    show-icons: true;
+    show-icons: false;
 }
 
 

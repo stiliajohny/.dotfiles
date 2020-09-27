@@ -33,7 +33,7 @@ module-margin-left = 3
 module-margin-right = 3
 
 
-separator = |
+separator = "|"
 
 font-3 = "Symbols Nerd Font:style=2048-em"
 font-1 = "Material Icons:size=11;2"
