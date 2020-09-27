@@ -9,8 +9,6 @@ include-file = ~/.config/polybar/colors.ini
 include-file = ~/.config/polybar/user_modules.ini
 include-file = ~/.config/polybar/bars.ini
 
-
-
 [bar/top]
 enable-ipc = true
 bottom = false
@@ -23,15 +21,13 @@ dpi = 100
 background = ${colors.bg}
 foreground = ${colors.fg}
 
-
 line-color = ${colors.bg}
 line-size = 1
 
 padding-left = 0
-padding-right = 0
-module-margin-left = 3
-module-margin-right = 3
-
+padding-right = 8
+module-margin-left = 1
+module-margin-right = 1
 
 separator = "|"
 
@@ -49,9 +45,7 @@ font-10 = "Font Awesome 5 Brands,Font Awesome 5 Brands Regular:style=Regular"
 font-11 = "Ionicons:style=Regular"
 
 modules-left = info-tmux-sessions
-;modules-left = info-tmux-sessions ;google github reddit facebook youtube
-modules-right = menu-readshift menu-screenres fans-dell info-git-project info-vbox info-vagrant info-docker isrunning-compton vpn-openvpn-status pingrt info-hackspeed info-redshift-temp updates consumation battery1 wireless-network wired-network
-
+modules-right = menu-readshift menu-screenres fans-dell info-git-project info-vbox info-vagrant info-docker isrunning-compton vpn-openvpn-status pingrt updates consumation battery1 wireless-network wired-network
 
 wm-restack = i3
 
@@ -62,7 +56,7 @@ tray-foreground = ${colors.white}
 tray-maxsize = 24
 
 tray-offset-y = 0
-tray-offset-x = 1
+tray-offset-x = 0
 
 scroll-up = i3wm-wsnext
 scroll-down = i3wm-wsprev
@@ -93,11 +87,10 @@ line-size = 2
 
 separator = "| "
 
-spacing = 3
-padding-right = 4
+spacing = 1
+padding-right = 1
 module-margin-left = 0
 module-margin-right = 6
-
 
 font-3 = "Symbols Nerd Font:style=2048-em"
 font-1 = "Material Icons:size=11;2"
@@ -112,7 +105,5 @@ font-9 = "Fantasque Sans Mono:pixelsize=10;3"
 font-10 = "Font Awesome 5 Brands,Font Awesome 5 Brands Regular:style=Regular"
 font-11 = "Ionicons:style=Regular"
 
-
 modules-left = i3
 modules-right =  cpu info-processes memory temperature filesystem_bar volume popup-calendar
-
