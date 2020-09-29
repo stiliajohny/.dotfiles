@@ -54,7 +54,6 @@ plugins=(
     virtualenv
     virtualenvwrapper
     web-search
-    z
     zsh-autosuggestions
     zsh-completions
     zsh-interactive-cd
