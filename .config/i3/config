@@ -14,7 +14,7 @@ font pango:DejaVu Sans Mono 8
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
-# and nm-applet is a desktop environment-independent system tray GUI for it.
+ # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
 # start a terminal
@@ -24,8 +24,8 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+q kill
 
 # Start Rofi
-bindsym $mod+d exec rofi -show run  -i -lines 10 -eh 1 -width 30 -padding 50 -opacity "40" -font "Droid Sans 14"
-bindsym $mod+Shift+d exec i3-dmenu-desktop --dmenu='rofi -dmenu -i -lines 10 -eh 1 -width 30 -padding 50 -opacity "40" -font "Droid Sans 14"'
+bindsym $mod+Shift+d exec rofi -show run  -i -lines 10 -eh 1 -width 30 -padding 50 -opacity "40" -font "Droid Sans 14"
+bindsym $mod+d exec i3-dmenu-desktop --dmenu='rofi -dmenu -i -lines 10 -eh 1 -width 30 -padding 50 -opacity "40" -font "Droid Sans 14" -window-title Apps'
 bindsym $mod+g exec --no-startup-id rofi -show window -i -lines 10 -eh 1 -width 50 -padding 50 -opacity "85" -font "Droid Sans 16"
 bindsym $mod+i exec --no-startup-id ~/.local/bin/i3-layout-manager
 
