@@ -213,6 +213,7 @@ Plug 'ap/vim-css-color'
 Plug 'MicahElliott/Rocannon'
 Plug 'pearofducks/ansible-vim', { 'do': './UltiSnips/generate.sh' }
 Plug 'kristijanhusak/vim-carbon-now-sh'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Initialize plugin system
 call plug#end()
 
