@@ -1,0 +1,58 @@
+import { Disposable } from 'vscode-languageserver-protocol';
+import Document from '../model/document';
+import { CompleteConfig, CompleteOption, PopupChangeEvent } from '../types';
+import Complete from './complete';
+export interface LastInsert {
+    character: string;
+    timestamp: number;
+}
+export declare class Completion implements Disposable {
+    config: CompleteConfig;
+    private floating;
+    private currItem;
+    private activated;
+    private input;
+    private lastInsert?;
+    private disposables;
+    private complete;
+    private recentScores;
+    private resolveTokenSource;
+    private pretext;
+    private changedTick;
+    private insertCharTs;
+    private insertLeaveTs;
+    init(): void;
+    private get nvim();
+    get option(): CompleteOption;
+    private get isCommandLine();
+    private addRecent;
+    get isActivated(): boolean;
+    private get document();
+    private getCompleteConfig;
+    startCompletion(option: CompleteOption): Promise<void>;
+    private resumeCompletion;
+    hasSelected(): boolean;
+    private showCompletion;
+    private _doComplete;
+    private onTextChangedP;
+    private onTextChangedI;
+    private triggerCompletion;
+    private onCompleteDone;
+    private onInsertLeave;
+    private onInsertEnter;
+    private onInsertCharPre;
+    private get latestInsert();
+    private get latestInsertChar();
+    shouldTrigger(document: Document, pre: string): boolean;
+    onPumChange(ev: PopupChangeEvent): Promise<void>;
+    start(complete: Complete): void;
+    private cancelResolve;
+    stop(): void;
+    private getInput;
+    getResumeInput(): string;
+    private get completeOpt();
+    private getCompleteItem;
+    dispose(): void;
+}
+declare const _default: Completion;
+export default _default;
