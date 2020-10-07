@@ -1,13 +1,13 @@
 # Setup fzf
 # ---------
-if [[ ! "$PATH" == */home/jstilia/.config/oh-my-zsh/fzf/bin* ]]; then
-  export PATH="${PATH:+${PATH}:}/home/jstilia/.config/oh-my-zsh/fzf/bin"
+if [[ ! "$PATH" == *$HOME/.config/oh-my-zsh/fzf/bin* ]]; then
+  export PATH="${PATH:+${PATH}:}$HOME/.config/oh-my-zsh/fzf/bin"
 fi
 
 # Auto-completion
 # ---------------
-[[ $- == *i* ]] && source "/home/jstilia/.config/oh-my-zsh/fzf/shell/completion.zsh" 2> /dev/null
+[[ $- == *i* ]] && source "$HOME/.config/oh-my-zsh/fzf/shell/completion.zsh" 2> /dev/null
 
 # Key bindings
 # ------------
-source "/home/jstilia/.config/oh-my-zsh/fzf/shell/key-bindings.zsh"
+source "$HOME/.config/oh-my-zsh/fzf/shell/key-bindings.zsh"

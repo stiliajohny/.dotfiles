@@ -105,7 +105,6 @@ Plug 'benmills/vimux'
 Plug 'gilsondev/searchtasks.vim'
 Plug 'Shougo/neocomplete.vim'
 Plug 'tpope/vim-dispatch'
-
 " Generic Programming Support
 Plug 'honza/vim-snippets'
 Plug 'Townk/vim-autoclose'
@@ -119,33 +118,27 @@ Plug 'neomake/neomake'
 Plug 'mattn/emmet-vim'
 Plug 'rodjek/vim-puppet'
 Plug 'puppetlabs/puppet-syntax-vim' "Puppet Language support
-
 " Markdown / Writting
 Plug 'reedes/vim-pencil'
 Plug 'tpope/vim-markdown'
 Plug 'jtratner/vim-flavored-markdown'
-
 " Git Support
 Plug 'kablamo/vim-git-log'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'  " show git changes to files in gutter
-
 " PHP Support
 Plug 'phpvim/phpcd.vim'
 Plug 'tobyS/pdv'
-
 " Python Support
 Plug 'hdima/python-syntax' "Python syntax
 Plug 'vim-scripts/indentpython.vim'
 Plug 'Vimjas/vim-python-pep8-indent'  "better indenting for python
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-
 " Erlang Support
 Plug 'vim-erlang/vim-erlang-tags'
 Plug 'vim-erlang/vim-erlang-runtime'
 Plug 'vim-erlang/vim-erlang-omnicomplete'
 Plug 'vim-erlang/vim-erlang-compiler'
-
 " Elixir Support
 Plug 'elixir-lang/vim-elixir'
 Plug 'avdgaag/vim-phoenix'
@@ -156,46 +149,21 @@ Plug 'frost/vim-eh-docs'
 Plug 'slashmili/alchemist.vim'
 Plug 'tpope/vim-endwise'
 Plug 'jadercorrea/elixir_generator.vim'
-
 " Elm Support
 Plug 'lambdatoast/elm.vim'
-
 " Theme / Interface
-Plug 'joshdick/onedark.vim'
-Plug 'ryanoasis/vim-devicons'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'sjl/badwolf'
-Plug 'tomasr/molokai'
-Plug 'morhetz/gruvbox'
-Plug 'zenorocha/dracula-theme'
-Plug 'junegunn/limelight.vim'
-Plug 'mkarmona/colorsbox'
-Plug 'romainl/Apprentice'
-Plug 'Lokaltog/vim-distinguished'
-Plug 'chriskempson/base16-vim'
-Plug 'w0ng/vim-hybrid'
-Plug 'AlessandroYorba/Sierra'
-Plug 'daylerees/colour-schemes'
-Plug 'effkay/argonaut.vim'
-Plug 'ajh17/Spacegray.vim'
-Plug 'atelierbram/Base2Tone-vim'
-Plug 'colepeters/spacemacs-theme.vim'
 Plug 'vim-scripts/desert256.vim'
 Plug 'rainux/vim-desert-warm-256'
 Plug 'jnurmine/Zenburn'
 Plug 'arcticicestudio/nord-vim'
-
 " Vim Native Plugins
 Plug 'vimwiki/vimwiki'  " vim WiKi, enable with <leader>ndwt
 Plug 'dpelle/vim-LanguageTool'
 Plug 'liuchengxu/vim-which-key' " displays available keybindings in popup
-
 " Terraform Plugins
 Plug 'hashivim/vim-terraform'
 Plug 'juliosueiras/vim-terraform-completion'
 Plug 'jgerry/terraform-vim-folding'
-
 " Other Plugins
 "Plug 'wakatime/vim-wakatime' " Quantify your coding inside Vim.
 Plug 'w0rp/ale' " linting and parsing plugin
@@ -214,6 +182,7 @@ Plug 'MicahElliott/Rocannon'
 Plug 'pearofducks/ansible-vim', { 'do': './UltiSnips/generate.sh' }
 Plug 'kristijanhusak/vim-carbon-now-sh'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'wikitopian/hardmode',
 " Initialize plugin system
 call plug#end()
 
@@ -443,7 +412,7 @@ nnoremap <space> za
 let g:SimpylFold_docstring_preview=1
 " tag list
 map <leader>t :TagbarToggle<CR>
-
+" Hard mode Enabled
 
 " Other Random Config
 " indent/unindent with tab/shift-tab
@@ -477,7 +446,7 @@ let g:lightline = {
       \   'left': '',
       \   'right': ''
       \ }
-    \ }
+   \ }
 
 function! LightlineModified()
   if &filetype == "help"
