@@ -5,6 +5,7 @@
 .cache
 .cargo
 .cfg
+.cfg
 .cinnamon/
 .config/Mailspring*
 .config/QtProject.conf
@@ -13,6 +14,7 @@
 .config/bashtop/error.log
 .config/beets*
 .config/chromium*
+.config/coc/mru
 .config/config.yaml
 .config/configstore/*
 .config/dconf*
@@ -24,8 +26,10 @@
 .config/mimeapps.list
 .config/nautilus/search-metadata
 .config/pulse
+.config/tmux/plugins/*
 .config/vifm/vifminfo
 .config/vim/plugged/*
+.config/vim/viminfo*
 .config/xfce4
 .config/zsh/zsh_history
 .cpan
@@ -73,4 +77,3 @@ Public/
 Videos
 VirtualBox VMs/
 bin
-.cfg
