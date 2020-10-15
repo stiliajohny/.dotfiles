@@ -1,4 +1,5 @@
-# Dotfiles
+<h1 align="center">dotfiles ❤ ~/</h1>
+
 
 Apply dotfiles with native `git bare`
 Index
