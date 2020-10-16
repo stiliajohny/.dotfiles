@@ -1,5 +1,3 @@
-<h1 align="center">dotfiles ❤ ~/</h1>
-
 
 <h1 align="center">dotfiles ❤ ~/</h1
 
@@ -7,12 +5,6 @@
 
 <p align="center">
     <a href="#vanila">Vanila Installl</a>&nbsp;&nbsp;&nbsp;
-    <a href="https://files.dikiaap.id/img/dotfiles/dunst.png">Dunst</a>&nbsp;&nbsp;&nbsp;
-    <a href="https://files.dikiaap.id/img/dotfiles/i3blocks.png">i3blocks</a>&nbsp;&nbsp;&nbsp;
-    <a href="https://files.dikiaap.id/img/dotfiles/zsh.png">Zsh</a>&nbsp;&nbsp;&nbsp;
-    <a href="https://files.dikiaap.id/img/dotfiles/tmux.png">tmux</a>&nbsp;&nbsp;&nbsp;
-    <a href="https://files.dikiaap.id/img/dotfiles/colors.png">Colors</a>&nbsp;&nbsp;&nbsp;
-    <a href="https://files.dikiaap.id/img/dotfiles/dircolors.png">dircolors</a>
 </p>
 
 # <a name="vanila"></a>Install it on vanila system
