@@ -193,27 +193,14 @@ mode "$mode_system" {
 #Setting wallpaper
 exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/wallpaper.jpg;  exec notify-send "Update Wallpaper"
 #exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/$(ls ~/.config/wallpaper | shuf -n 1);  exec notify-send "Update Wallpaper"
-exec --no-startup-id betterlockscreen -u  ~/.config/wallpaper/wallpaper.jpg ; exec notify-send "Update Betterlockscreen "
-#exec --no-startup-id betterlockscreen -u  ~/.config/wallpaper/$(ls ~/.config/wallpaper | shuf -n 1); exec notify-send "Update Betterlockscreen "
 
 # Autostart applications
 exec --no-startup-id xrandr --output eDP1 --mode 2880x1620; exec notify-send "Change screen resolution "
-exec --no-startup-id betterlockscreen -w dim; exec notify-send "Initiate Betterlockscreen "
 exec --no-startup-id redshift-gtk; exec notify-send "Initiate Redshift"
 exec --no-startup-id blueman-applet; exec notify-send "Initiate Bluetooth Manager"
-exec --no-startup-id picom --shadow-exclude '!focused' -b --config %HOME/.config/compton/compton.conf ;exec notify-send "Initiate Picom"
+exec --no-startup-id picom ;exec notify-send "Initiate Picom"
 exec_always  ~/.config/polybar/launch.sh ;exec notify-send "Initiate Polybar"
-exec --no-startup-id discord --start-minimized& ;exec notify-send "Initiate Discord" -i "/usr/share/pixmaps/discord.png" 
 
-# Workspace specific settings
-#exec --no-startup-id i3-msg 'workspace $ws1; exec keepassxc'
-#exec --no-startup-id i3-msg 'workspace $ws1; exec bitwarden'
-#exec --no-startup-id i3-msg 'workspace $ws2; exec firefox'
-#exec --no-startup-id i3-msg 'workspace $ws2; exec slack'
-#exec --no-startup-id i3-msg 'workspace $ws3; exec terminator'
-
-#exec --no-startup-id owncloud;
-#exec --no-startup-id betterlockscreen -w dim --off 5
 
 # Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
 set $mode_gaps Gaps: (o) outer, (i) inner
@@ -259,8 +246,8 @@ mode "$mode_gaps_outer" {
 # Change the variable name at the place you want to match the color
 # of your terminal like this:
 # [example]
-# If you want your bar to have the same background color as your 
-# terminal background change the line 362 from:
+# If you want your bar to have the same background color as your
+# terminal background change the line
 # background #14191D
 # to:
 # background $term_background
