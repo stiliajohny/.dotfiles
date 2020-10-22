@@ -6,10 +6,7 @@
 
 == Interesting ==
 
-
 == Shell ==
-
-
 
 == Snippets & Tips  ==
   * [[Python]]
@@ -18,10 +15,8 @@
   * [[Live AWS disk resize]]
   * [[PuppetFB Querries]]
 
-
 == Configurations examples ==
   *
-
 
 == Articles ==
   * [[ESP Board( 8266 )]]
@@ -35,3 +30,6 @@
   * [[SelfSigned Certs]]
   * [[Tmux T&T ]]
   * [[Ansible]]
+
+== DevSecOps ==
+  * [[Configure Twistlock]]
