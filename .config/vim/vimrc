@@ -1,78 +1,108 @@
 """""""""""""""""""""""""""""""""""
-" John Stilia  Vimrc configuration
+" Vimrc configuration
 """""""""""""""""""""""""""""""""""""
 set nocompatible
-set backspace=2             " Backspace deletes like most programs in insert mode
-set completeopt=menuone,noselect,noinsert
-set encoding=utf-8
-set history=5000
-set incsearch               " do incremental searching
-set laststatus=2            " Always display the status line
-set lazyredraw              " speed up on large files"
-set modelines=0             " Disable modelines as a security precaution
-set nobackup
-set noerrorbells            " remove bells (i think this is default in neovim)
-set nomodeline
-set noshowmode              " keep command line clean
-set noswapfile              " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
-set nowritebackup
 set number
-set relativenumber
-set ruler                   " show the cursor position all the time
-set shell=zsh               " set default shell for vim operations
+set completeopt=menuone,noselect,noinsert
+set nowritebackup
+set nobackup
+set nomodeline
+set autoindent " Copy indent from last line when starting new line
+set modelines=0             " Disable modelines as a security precaution
+set autoread " Set to auto read when a file is changed from the outside
+set backspace=indent,eol,start
+set cursorline " Highlight current line
+set expandtab " Expand tabs to spaces
+set foldcolumn=0 " Column to show folds
+set foldenable " Enable folding
+set foldlevel=0 " Close all folds by default
+set foldmethod=syntax " Syntax are used to specify folds
+set noswapfile              " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
+set foldminlines=0 " Allow folding single lines
+set foldnestmax=5 " Set max fold nesting level
+set formatoptions=
+set formatoptions+=c " Format comments
+set formatoptions+=r " Continue comments by default
+set formatoptions+=o " Make comment when using o or O from comment line
+set formatoptions+=q " Format comments with gq
+set formatoptions+=n " Recognize numbered lists
+set formatoptions+=2 " Use indent from 2nd line of a paragraph
+set formatoptions+=l " Don't break lines that are already long
+set formatoptions+=1 " Break before 1-letter words
+set gdefault " By default add g flag to search/replace. Add g to toggle
+set guicursor= " Disable cursor style changes in Neovim
+set hidden " When a buffer is brought to foreground, remember undo history and marks
+set history=5000 " Increase history from 20 default
+set hlsearch " Highlight searches
+set ignorecase
+set incsearch " Highlight dynamically as pattern is typed
+set laststatus=2 " Always show status line
+set lazyredraw " Don't redraw when we don't have to, speed up on large files
+set lispwords+=defroutes " Compojure
+set lispwords+=defpartial,defpage " Noir core
+set lispwords+=defaction,deffilter,defview,defsection " Ciste core
+set lispwords+=describe,it " Speclj TDD/BDD
 set shiftround              " round indent to multiple of 'shiftwidth' (for << and >>)"
 set shiftwidth=2            " indent size for << and >>
-set shortmess+=c
+set magic " Enable extended regexes
+set mouse=a " Enable mouse in all in all modes
 set showcmd                 " display incomplete commands
-set softtabstop=2           " remove <Tab> symbols as it was spaces
-set t_Co=256
-set tabstop=2               " number of spaces that a <Tab> in the file counts for
-set textwidth=0             " disable auto break long lines"
-set undofile                " save undos
+set textwidth=0             " disable auto break long lines
 set undoreload=100000       " maximum number lines to save for undo on a buffer reload
-set viminfo='50,<1000,s100,:0,n~/.config/vim/viminfo
+set noerrorbells " Disable error bells
+set colorcolumn=80,140
+set clipboard=unnamedplus
+set nojoinspaces " Only insert single space after a '.', '?' and '!' with a join command
+set noshowmode " Don't show the current mode (airline.vim takes care of us), keep command line clean
+set nostartofline " Don't reset cursor to start of line when moving around
+set nowrap " Do not wrap lines
+set ofu=syntaxcomplete#Complete " Set omni-completion method
+set regexpengine=1 " Use the old regular expression engine (it's faster for certain language syntaxes)
+set report=0 " Show all changes
+set ruler " Show the cursor position
 set virtualedit=onemore     " allow the cursor to move just past the end of the line"
 set visualbell
-set wildmode=longest,list,full
-" Set Proper Tabs
-set tabstop=4
-set shiftwidth=4
-set smarttab
-set expandtab
+set scrolloff=3 " Start scrolling three lines before horizontal border of window
+set shell=zsh               " set default shell for vim operations
+set shiftwidth=4 " The # of spaces for indenting
+set softtabstop=4
+set shortmess+=c  " Don't show the intro message when starting vim
+set showtabline=2 " Always show tab bar
+set sidescrolloff=3 " Start scrolling three columns before vertical border of window
+set smartcase " Ignore 'ignorecase' if search patter contains uppercase characters
+set smarttab " At start of line, <Tab> inserts shiftwidth spaces, <Bs> deletes shiftwidth spaces
+set splitbelow " New window goes below
+set splitright " New windows goes right
+set suffixes=.bak,~,.swp,.swo,.o,.d,.info,.aux,.log,.dvi,.pdf,.bin,.bbl,.blg,.brf,.cb,.dmg,.exe,.ind,.idx,.ilg,.inx,.out,.toc,.pyc,.pyd,.dll
+set switchbuf=""
+set ttyfast " Send more characters at a given time
+set undofile " Persistent Undo
+set visualbell " Use visual bell instead of audible bell (annnnnoying)
+set wildchar=<TAB> " Character for CLI expansion (TAB-completion)
+set wildignore+=.DS_Store
+set wildignore+=*.jpg,*.jpeg,*.gif,*.png,*.gif,*.psd,*.o,*.obj,*.min.js
+set wildignore+=*/bower_components/*,*/node_modules/*
+set wildignore+=*/smarty/*,*/vendor/*,*/.git/*,*/.hg/*,*/.svn/*,*/.sass-cache/*,*/log/*,*/tmp/*,*/build/*,*/ckeditor/*,*/doc/*,*/source_maps/*,*/dist/*
+set wildmenu " Hitting TAB in command mode will show possible completions above command line
+set wildmode=list:longest " Complete only until point of ambiguity
+set winminheight=0 " Allow splits to be reduced to a single line
+set wrapscan " Searches wrap around end of file
 
-" Enable highlighting of the current line
-set cursorline
-
-" Change PopUp highlighting colour
-highlight Pmenu ctermbg=gray guibg=gray
-
-"  Set new Leader Key
-let mapleader = '\'
-
-syntax on
-syntax enable
+" Colors, Fonts, and Syntax.
 filetype plugin indent on
+syntax enable
+set t_Co=256
+highlight Pmenu ctermbg=gray guibg=gray
+let mapleader = '\'
+set encoding=utf-8
 
-" set vim XDG paths
+" Directories.
 set undodir=$XDG_DATA_HOME/vim/undo
 set directory=$XDG_DATA_HOME/vim/swap
 set backupdir=$XDG_DATA_HOME/vim/backup
+
 set runtimepath=$XDG_CONFIG_HOME/vim,$VIMRUNTIME,$XDG_CONFIG_HOME/vim/after
-
 set list listchars=tab:\|·,trail:·,nbsp:· " Display extra whitespace
-set nojoinspaces                          " Use one space, not two, after punctuation.
-
-" Make it obvious where 80 & 140 characters is
-set textwidth=140
-set colorcolumn=80,140
-
-"Enable folding
-set foldmethod=indent
-set foldlevel=99
-
-" Set Clipboard
-set clipboard=unnamedplus
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " START Plug Configuration
@@ -146,12 +176,19 @@ Plug 'ap/vim-css-color'
 Plug 'MicahElliott/Rocannon'
 Plug 'kristijanhusak/vim-carbon-now-sh'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'vim-syntastic/syntastic'
 " Initialize plugin system
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Configuration Section
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+autocmd VimEnter *
+            \   if !argc()
+            \ |   Startify
+            \ |   NERDTree
+            \ |   wincmd w
+            \ | endif
 
 highlight UnwanttedTab ctermbg=red guibg=darkred
 highlight TrailSpace guibg=red ctermbg=darkred
@@ -251,6 +288,7 @@ let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeHijackNetrw = 0
+let NERDTreeQuitOnOpen = 1
 let g:NERDTreeWinSize = 31
 let g:NERDTreeChDirMode = 2
 let g:NERDTreeAutoDeleteBuffer = 1
@@ -594,7 +632,20 @@ let g:startify_lists = [
         \ { 'type': 'commands',  'header': ['   Commands']       },
           \ ]
 
-
+" Syntastic.
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_phpcs_disable = 1
+let g:syntastic_phpmd_disable = 1
+let g:syntastic_php_checkers = ['php']
+let g:syntastic_quiet_messages = { "type": "style" }
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_auto_jump = 2
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -648,6 +699,7 @@ map <leader>t :TagbarToggle<CR>
 nmap <Tab> >>
 imap <S-Tab> <Esc><<i
 nmap <S-tab> <<
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Custom Commands
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
