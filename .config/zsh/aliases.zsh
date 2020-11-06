@@ -1,7 +1,6 @@
-
+alias centos-test-env="docker run -t -i centos bash -c 'yum upgrade -q -y  ; ls ; /bin/bash'"
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias tbc='nc termbin.com 9999 | xclip -selection c'
-alias in-office='xrandr --output eDP1 --off --output DP1-1 --primary --mode 1920x1080 --pos 1080x1320 --rotate normal --output DP1-2 --mode 2560x1080 --pos 0x0 --rotate right'
 
 alias yay="clear; echo \"HAVE YOU PUT IT IN ANSIBLE?\""
 export EDITOR="vim"
@@ -163,5 +162,5 @@ alias cgit='cd ~/Documents/GitHub/ && mgitstatus'
 alias k=kubectl
 alias test-passed='if [ "$?" -eq "0" ]; then lolcat ~/.config/zsh/tp -a -s 40 -d 2; fi;'
 
-alias eksctl="https_proxy=socks5://localhost:8888 kubectl"
-alias ekshelm="https_proxy=socks5://localhost:8888 helm"
+alias eksctl='https_proxy=socks5://localhost:8888 kubectl'
+alias ekshelm='https_proxy=socks5://localhost:8888 helm'

@@ -65,6 +65,8 @@ plugins=(
 TIMER_FORMAT='[%d]'
 source $ZSH/oh-my-zsh.sh
 source $XDG_CONFIG_HOME/zsh/aliases.zsh
+source $XDG_CONFIG_HOME/zsh/functions.zsh
+source $XDG_CONFIG_HOME/zsh/minikube.zsh
 source $XDG_CONFIG_HOME/zsh/zplug/init.zsh
 
 
@@ -104,27 +106,6 @@ setopt PUSHD_IGNORE_DUPS
 
 # DON NOT Allow ‘>’ redirection to truncate existing files, and ‘>>’ to create files. Otherwise ‘>!’ or ‘>|’ must be used to truncate  a file, and ‘>>!’ or ‘>>|’ to create a file.
 setopt no_clobber
-
-
-# SKY go config
-function usesamlauth() {
-  local _args
-  local _cmd
-  _cmd="samlauth $*"
-  CREDS="$( samlauth $* )"
-  if [ $? -eq 0 ]; then
-    eval "${CREDS}"
-  else
-    echo "Error assuming auth with saml" >&2
-  fi
-}
-
-
-function acp() {
-  git add .
-  git commit -m "$1"
-  git push
-}
 
 
 if [ -z "$TMUX" ]; then
