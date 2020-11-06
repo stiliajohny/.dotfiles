@@ -4,6 +4,29 @@
 # functions and key bindings to that functions
 #
 
+#Git Add Commit Push
+
+function acp() {
+  git add .
+  git commit -m "$1"
+  git push
+}
+
+# SamlAuth
+function usesamlauth() {
+  local _args
+  local _cmd
+  _cmd="samlauth $*"
+  CREDS="$( samlauth $* )"
+  if [ $? -eq 0 ]; then
+    eval "${CREDS}"
+  else
+    echo "Error assuming auth with saml" >&2
+  fi
+}
+
+
+
 # strg+x,s adds sudo to the line
 # Zsh Buch p.159 - http://zshbuch.org/
 run-with-sudo() { LBUFFER="sudo $LBUFFER" }
@@ -166,12 +189,6 @@ translate() {
 }
 
 # cd to the root of the current vcs repository
-gr() {
-    # vcsroot=`echo $vcs_info_msg_0_ | cut -d "|" -f 5`
-    vcsroot=`/home/seebi/.vim/scripts/vcsroot.sh`
-    echo $vcsroot && cd $vcsroot
-}
-
 # delete-to-previous-slash
 # http://www.zsh.org/mla/users/2005/msg01314.html
 backward-delete-to-slash () {
