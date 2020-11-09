@@ -1,11 +1,51 @@
-# @author     Sebastian Tramp <mail@sebastian.tramp.name>
-# @license    http://opensource.org/licenses/gpl-license.php
-#
 # functions and key bindings to that functions
 #
 
-#Git Add Commit Push
+# Docker run alias
+function centos_test_docker() {
+    XSOCK=/tmp/.X11-unix
+    XAUTH=$(mktemp /tmp/dockergui_tmp.XXXX.xauth)
 
+    xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f $XAUTH nmerge -
+    chmod 666 $XAUTH
+    #chown -Rh  root $XAUTH
+    mkdir -p $HOME/docker-shared
+
+    docker run -it --rm \
+        --cap-add=SYS_PTRACE \
+        -e DISPLAY=$DISPLAY \
+        -e XAUTHORITY=$XAUTH \
+        -v /tmp/.X11-unix/:/tmp/.X11-unix \
+        -v $XAUTH:$XAUTH \
+        --name centos \
+        --hostname centos \
+        -v $HOME/docker-shared:/home centos\
+        /bin/bash -c "yum -y -q update; yum "
+    /bin/rm $XAUTH
+}
+function kali_test_docker() {
+    XSOCK=/tmp/.X11-unix
+    XAUTH=$(mktemp /tmp/dockergui_tmp.XXXX.xauth)
+
+    xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f $XAUTH nmerge -
+    chmod 666 $XAUTH
+    #chown -Rh  root $XAUTH
+    mkdir -p $HOME/docker-shared
+
+    docker run -it --rm \
+        --cap-add=SYS_PTRACE \
+        -e DISPLAY=$DISPLAY \
+        -e XAUTHORITY=$XAUTH \
+        -v /tmp/.X11-unix/:/tmp/.X11-unix \
+        -v $XAUTH:$XAUTH \
+        --name kalilinux-kali\
+        --hostname kalilinux-kali\
+        -v $HOME/docker-shared:/home kalilinux/kali-rolling \
+        /bin/bash -c "export DEBIAN_FRONTEND=noninteractive ; apt update; apt dist-upgrade -y ; apt autoremove -y ; apt clean -y ;apt install kali-tools-top10 -y; /bin/bash"
+    /bin/rm $XAUTH
+}
+
+#Git Add Commit Push
 function acp() {
   git add .
   git commit -m "$1"
@@ -35,7 +75,7 @@ bindkey '^Xs' run-with-sudo
 
 # Top ten memory hogs
 # http://www.commandlinefu.com/commands/view/7139/top-ten-memory-hogs
-memtop() {ps -eorss,args | gsort -nr | gpr -TW$COLUMNS | ghead}
+memtop() {ps -eorss,args | sort -nr | pr -TW$COLUMNS | head}
 zle -N memtop
 
 tmux-hglog() {
@@ -118,21 +158,10 @@ r() {
     autoload -U $f:t
 }
 
-# activates zmv
-autoload zmv
-# noglob so you don't need to quote the arguments of zmv
-# mmv *.JPG *.jpg
-alias mmv='noglob zmv -W'
 
 # start a webcam for screencast
 function webcam () {
-    mplayer -cache 128 -tv driver=v4l2:width=350:height=350 -vo xv tv:// -noborder -geometry "+1340+445" -ontop -quiet 2>/dev/null >/dev/null
-}
-
-# Rename files in a directory in an edited list fashion
-# http://www.commandlinefu.com/commands/view/7818/
-function massmove () {
-    ls > ls; paste ls ls > ren; vi ren; sed 's/^/mv /' ren|bash; rm ren ls
+    mplayer tv:// -tv driver=v4l2:device=/dev/video0:width=1280:height=720:fps=30:outfmt=yuy2 -vf mirror -fps 30
 }
 
 
@@ -148,9 +177,6 @@ function clock () {
     done &
 }
 
-function apt-import-key () {
-    gpg --keyserver subkeys.pgp.net --recv-keys $1 | gpg --armor --export $1 | sudo apt-key add -
-}
 
 # create a new script, automatically populating the shebang line, editing the
 # script, and making it executable.
@@ -176,17 +202,6 @@ git-out() {
     done
 }
 
-# Query Wikipedia via console over DNS
-# http://www.commandlinefu.com/commands/view/2829
-wp() {
-    dig +short txt ${1}.wp.dg.cx
-}
-
-# translate via google language tools (more lightweight than leo)
-# http://www.commandlinefu.com/commands/view/5034/
-translate() {
-    wget -qO- "http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&q=$1&langpair=$2|${3:-en}" | sed 's/.*"translatedText":"\([^"]*\)".*}/\1\n/'
-}
 
 # cd to the root of the current vcs repository
 # delete-to-previous-slash
