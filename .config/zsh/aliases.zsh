@@ -1,4 +1,3 @@
-alias centos-test-env="docker run -t -i centos bash -c 'yum upgrade -q -y  ; ls ; /bin/bash'"
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias tbc='nc termbin.com 9999 | xclip -selection c'
 
