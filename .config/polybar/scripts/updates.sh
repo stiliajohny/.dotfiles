@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-BAR_ICON=""
+BAR_ICON="􏂓"
 NOTIFY_ICON=/usr/share/icons/ArchLabs-Dark/32x32/apps/system-software-update.svg
 
 get_total_updates() { UPDATES=$(~/.config/polybar/scripts/arch_updates.sh ); }
@@ -27,9 +27,9 @@ while true; do
     # every 10 seconds another check for updates is done
     while (( UPDATES > 0 )); do
         if (( UPDATES == 1 )); then
-            echo " $UPDATES Update"
+            echo "$BAR_ICON $UPDATES Update"
         elif (( UPDATES > 1 )); then
-            echo " $UPDATES Updates"
+            echo "$BAR_ICON $UPDATES Updates"
         else
             echo $BAR_ICON
         fi
