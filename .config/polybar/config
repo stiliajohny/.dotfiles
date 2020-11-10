@@ -106,4 +106,4 @@ font-10 = "Font Awesome 5 Brands,Font Awesome 5 Brands Regular:style=Regular"
 font-11 = "Ionicons:style=Regular"
 
 modules-left = i3
-modules-right =  cpu info-processes memory_bar temperature filesystem_bar volume battery_bar
+modules-right =  cpu info-processes temperature memory_bar filesystem_bar volume battery_bar
