@@ -45,7 +45,7 @@ font-10 = "Font Awesome 5 Brands,Font Awesome 5 Brands Regular:style=Regular"
 font-11 = "Ionicons:style=Regular"
 
 modules-left = info-tmux-sessions
-modules-right = menu-readshift menu-screenres fans-dell info-git-project info-vbox info-vagrant info-docker isrunning-compton vpn-openvpn-status pingrt updates wireless-network wired-network date
+modules-right = menu-readshift menu-screenres fans-dell info-git-project info-vbox info-vagrant info-docker isrunning-compton vpn-openvpn-status pingrt updates wireless-network wired-network
 
 wm-restack = i3
 
@@ -106,4 +106,4 @@ font-10 = "Font Awesome 5 Brands,Font Awesome 5 Brands Regular:style=Regular"
 font-11 = "Ionicons:style=Regular"
 
 modules-left = i3
-modules-right =  cpu info-processes temperature memory_bar filesystem_bar volume battery_bar
+modules-right =  cpu info-processes temperature memory_bar filesystem_bar volume battery_bar date
