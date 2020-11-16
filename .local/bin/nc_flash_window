@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+## This script provides a faster method for sending a flash request to the
+## server. openbsd variant of netcat is required.
+xdg_runtime_dir="${XDG_RUNTIME_DIR:-/tmp}"
+echo "1" | nc -uU -w0 -q1 "$xdg_runtime_dir"/flashfocus_socket
