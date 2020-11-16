@@ -177,6 +177,7 @@ Plug 'MicahElliott/Rocannon'
 Plug 'kristijanhusak/vim-carbon-now-sh'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-syntastic/syntastic'
+Plug 'mattn/calendar-vim'
 " Initialize plugin system
 call plug#end()
 
@@ -202,31 +203,31 @@ let g:tagbar_iconchars = ['▶', '▼']
 
 " Coc Configuration
 let g:coc_global_extensions = [
-    \ 'coc-snippets',
-    \ 'coc-sh',
-    \ 'coc-java-debug',
-    \ 'coc-java',
-    \ 'coc-lists',
+    \ 'coc-css',
+    \ 'coc-cssmodules',
     \ 'coc-emmet',
-    \ 'coc-tasks',
-    \ 'coc-pairs',
-    \ 'coc-tsserver',
+    \ 'coc-emoji',
+    \ 'coc-explorer',
     \ 'coc-floaterm',
     \ 'coc-html',
-    \ 'coc-css',
-    \ 'coc-emoji',
-    \ 'coc-cssmodules',
-    \ 'coc-yaml',
-    \ 'coc-python',
-    \ 'coc-pyright',
-    \ 'coc-explorer',
-    \ 'coc-svg',
+    \ 'coc-java',
+    \ 'coc-java-debug',
+    \ 'coc-json',
+    \ 'coc-lists',
+    \ 'coc-marketplace',
+    \ 'coc-pairs',
     \ 'coc-prettier',
+    \ 'coc-pyright',
+    \ 'coc-python',
+    \ 'coc-sh',
+    \ 'coc-snippets',
+    \ 'coc-svg',
+    \ 'coc-tasks',
+    \ 'coc-tsserver',
     \ 'coc-vimlsp',
     \ 'coc-xml',
+    \ 'coc-yaml',
     \ 'coc-yank',
-    \ 'coc-json',
-    \ 'coc-marketplace',
     \ ]
 " Use tab for trigger completion with characters ahead and navigate.
 inoremap <silent><expr> <TAB>
@@ -705,4 +706,3 @@ nmap <S-tab> <<
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 command Wdiff :w !diff % -
 command W :w !sudo tee %
-
