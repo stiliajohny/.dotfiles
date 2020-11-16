@@ -26,8 +26,10 @@ LIGHTPURPLE='\033[1;35m'
 LIGHTCYAN='\033[1;36m'
 WHITE='\033[1;37m'
 
+set -e
+
 echo -e "[$(date)] Updating credentials..."
-#[ -z "$1" ] && echo -e  "${RED}Give a profile name from your ~/.aws/credentials file${NOCOLOR}" &&  exit
+[ -z "$1" ] && echo -e  "${RED}Give a profile name from your ~/.aws/credentials file${NOCOLOR}" &&  exit
 ROOT_PROFILE="$1"
 MFA_PROFILE="$ROOT_PROFILE-mfa"
 # Compute a single-use MFA code
