@@ -51,17 +51,17 @@
 [urgency_low]
     background = "#232323"
     foreground = "#a8a8a8"
-    timeout = 10
+    timeout = 3
 
 [urgency_normal]
     background = "#232323"
     foreground = "#a8a8a8"
-    timeout = 10
+    timeout = 3
 
 [urgency_critical]
     background = "#d64e4e"
     foreground = "#f0e0e0"
     frame_color = "#d64e4e"
-    timeout = 0
+    timeout = 3
     icon = /usr/share/icons/Paper/16x16/status/dialog-warning.png
 
