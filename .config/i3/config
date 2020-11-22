@@ -42,8 +42,8 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # Split screen
-bindsym $mod+h split h;exec notify-send 'Tile horizontally'
-bindsym $mod+v split v;exec notify-send 'Tile vertically'
+bindsym $mod+h split h;exec dunstify 'Tile horizontally'
+bindsym $mod+v split v;exec dunstify 'Tile vertically'
 bindsym $mod+q split toggle
 
 # enter fullscreen mode for the focused container
@@ -114,7 +114,9 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
-
+assign [class="Alacritty"]          → $ws1
+assign [class="Firefox"]            → $ws2
+assign [class="Code"]               → $ws3
 
 # Sound control
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +1%
@@ -122,8 +124,8 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -1%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20;exec notify-send "Brightness Increase $(xrandr --verbose | grep -i brightness | cut -f2 -d ' ' | head -n1)" # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20;exec notify-send "Brightness Decrease  $(xrandr --verbose | grep -i brightness | cut -f2 -d ' ' | head -n1)" # decrease screen brightness
+bindsym XF86MonBrightnessUp exec xbacklight -inc 20;exec dunstify "Brightness Increase $(xrandr --verbose | grep -i brightness | cut -f2 -d ' ' | head -n1)" # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 20;exec dunstify "Brightness Decrease  $(xrandr --verbose | grep -i brightness | cut -f2 -d ' ' | head -n1)" # decrease screen brightness
 
 
 
@@ -191,15 +193,15 @@ mode "$mode_system" {
 		bindsym Escape mode "default"
 }
 #Setting wallpaper
-exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/wallpaper.jpg;  exec notify-send "Update Wallpaper"
-#exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/$(ls ~/.config/wallpaper | shuf -n 1);  exec notify-send "Update Wallpaper"
+exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/wallpaper.jpg;  exec dunstify "Update Wallpaper"
+#exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/$(ls ~/.config/wallpaper | shuf -n 1);  exec dunstify "Update Wallpaper"
 
 # Autostart applications
-exec --no-startup-id xrandr --output eDP1 --mode 2880x1620; exec notify-send "Change screen resolution "
-exec --no-startup-id redshift-gtk; exec notify-send "Initiate Redshift"
-exec --no-startup-id blueman-applet; exec notify-send "Initiate Bluetooth Manager"
-exec --no-startup-id picom ;exec notify-send "Initiate Picom"
-exec_always  ~/.config/polybar/launch.sh ;exec notify-send "Initiate Polybar"
+exec --no-startup-id xrandr --output eDP1 --mode 2880x1620; exec dunstify "Change screen resolution "
+exec --no-startup-id redshift-gtk; exec dunstify "Initiate Redshift"
+exec --no-startup-id blueman-applet; exec dunstify "Initiate Bluetooth Manager"
+exec --no-startup-id picom ;exec dunstify "Initiate Picom"
+exec_always  ~/.config/polybar/launch.sh ;exec dunstify "Initiate Polybar"
 
 
 # Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
@@ -270,4 +272,3 @@ set_from_resource $term_color12    color12
 set_from_resource $term_color13    color13
 set_from_resource $term_color14    color14
 set_from_resource $term_color15    color15
-
