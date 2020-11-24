@@ -358,6 +358,8 @@ function ToggleMouse()
     endif
 endfunction
 
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
 "Ansible-vim PLugin Config
 augroup ansible_vim_fthosts
     autocmd!
@@ -584,6 +586,7 @@ function! StartifyEntryFormat()
 endfunction
 
 let g:startify_bookmarks = [
+            \ { 't': '~/.config/tmux/tmux.conf' },
             \ { 'c': '~/.config/i3/config' },
             \ { 'i': '~/.config/vim/vimrc' },
             \ { 'p': '~/.config/polybar/config' },
