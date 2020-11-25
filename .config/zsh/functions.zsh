@@ -1,6 +1,14 @@
 # functions and key bindings to that functions
 #
 
+# Terrafali alias function
+
+function terrafile-ssh_agent(){
+eval "$(ssh-agent -s)" # start the ssh agent if not already running
+ssh-add ~/.ssh/id_rsa # example key name
+terrafile install # use terrafile
+}
+
 # Docker run alias
 function centos_test_docker() {
     XSOCK=/tmp/.X11-unix
