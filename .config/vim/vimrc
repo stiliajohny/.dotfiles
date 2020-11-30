@@ -122,6 +122,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'godlygeek/tabular'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'benmills/vimux'
+Plug 'sagarrakshe/toggle-bool'
 
 " Generic Programming Support
 Plug 'Townk/vim-autoclose'
@@ -178,6 +179,7 @@ Plug 'kristijanhusak/vim-carbon-now-sh'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-syntastic/syntastic'
 Plug 'mattn/calendar-vim'
+Plug 'pearofducks/ansible-vim'
 " Initialize plugin system
 call plug#end()
 
@@ -651,6 +653,11 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
+" Ansible Highliter
+let g:ansible_name_highlight = 'd'
+let g:ansible_normal_keywords_highlight = 'Constant'
+let g:ansible_extra_keywords_highlight = 1
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Keyboard mapping
@@ -686,7 +693,8 @@ nmap <leader>6 6gt
 nmap <leader>7 7gt
 nmap <leader>8 8gt
 nmap <leader>9 9gt
-
+" Toggle Booleans
+noremap leader><r :ToggleBool<CR>
 " Open New tab by leader<Enter>
 nnoremap <silent> <leader><Enter> :tabnew<CR>
 " Open tig
@@ -703,6 +711,20 @@ map <leader>t :TagbarToggle<CR>
 nmap <Tab> >>
 imap <S-Tab> <Esc><<i
 nmap <S-tab> <<
+
+
+function! TogglePaste()
+    if(&paste == 0)
+        set paste
+        echo "Paste Mode Enabled"
+    else
+        set nopaste
+        echo "Paste Mode Disabled"
+    endif
+endfunction
+
+map <leader>p :call TogglePaste()<cr>
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Custom Commands
