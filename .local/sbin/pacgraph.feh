@@ -1,2 +1,0 @@
-#!/bin/bash
-pacgraph -b "#000000" -l "#9c6464" -t "#fc7f03" -d "#5e0000" -f /home/jstilia/.config/wallpaper/99810  && feh --bg-fill /home/jstilia/.config/wallpaper/99810.png
