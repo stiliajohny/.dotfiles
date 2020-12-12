@@ -918,3 +918,161 @@ db37ff6944253676c36c39de36f5f7d5|file:///home/jstilia/.config/jesseduffield/lazy
 	oS:dd
 810e1746aa3ce7fad74c822811e936f0|file:///home/jstilia/.config/i3/config|118|1|V|conf
 	assign [class="Firefox"]            → $ws2
+8b59a1d89638adbcea618bc6b5e05580|file:///home/jstilia/.ssh/authorized_keys|1|1|V|
+	ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIklIqmHOUz8WIeODCtLznoBqX+FT7Fs2vm57Ig5uCYd jstilia@dell-xps-7590-archlabs-laptop.johnstilia.internal
+b5ecb63ea6954520ac0337a17c3950f5|file:///home/jstilia/.ssh/authorized_keys|3|1|V|
+	ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDfZkkB7gXpYQVan4FEHAlwl44pB3knavvHuDG5tCkXmXLi2zomCuqKzyJ4Yc1uJchUKBIq6+27VRw2E6SX2QRTnvsz9i2hzsillISwwgoQpAj4KGnJqlr6nosK759Ry+ofg3HsjQGknSdqwJ+Lp54+Hbac5V9wS9w0V2gCkgne0KmJ36fBMlJxG+KCUYIdrCWWdwNoR0GuULqta300948yZyU6QQKRACCtfbQRyXc0qg4sGe/9YdSyo1Y58TwHjBHEEA+edDB22/Il3dMo+VLkhFlVDCCTZFMqdJ0qeH20xPgp3T8x7NPynBLdMA/d8tvevxfQJ1HsBINUrvCp3GPR jstilia@DESKTOP-G0I7EFB
+89ae56f016af010b5e20c9e6a6b73aab|file:///home/jstilia/Documents/GitHub/git-pre_commit_scripts/script.sh|4|1|v|sh
+	a=$(pylint source/ | wc -l)
+	b=20
+	
+	errorsCount="$(echo "${a}" | tr -d '[:space:]')"
+	
+	if [ $errorsCount -gt $b ]
+	then
+	    exit 1
+	f
+23eeeb4347bdd26bfc6b7ee9a3b755dd|file:///home/jstilia/Documents/GitHub/git-pre_commit_scripts/.pre-commit-config.yaml|19|15|v|ansible
+	python
+ff41de0bc894b191fe1328f13210b58e|file:///home/jstilia/Documents/GitHub/git-pre_commit_scripts/.pre-commit-config.yaml|24|1|v|ansible
+	    - id: simple-pylint
+	      name: simple-pylint
+	      entry: pylint
+	      args: ["api/"]
+	      language: system
+	      types: [python]
+	      pass_filenames: true
+	
+	
+aa86d92c3e64be14c3606894d566dfa5|file:///home/jstilia/Documents/GitHub/git-pre_commit_scripts/.pre-commit-config.yaml|22|1|v|ansible
+	- repo: local
+	  hooks:
+	    - id: inline-pylint-with-bash
+	      name: inline-pylint-with-bash
+	      entry: bash -c 'lines=$(pylint api/ | wc -l) && (( lines > 10)) && exit 1'
+	      language: system
+	      types: [python]
+	      pass_filenames: true
+	
+	    - id: custom-script-file
+	      name: custom-script-file
+	      entry: ./script.sh
+	      language: script
+	      types: [python]
+	      pass_filenames: true
+9cd13aff3caefb4a2ea3afb1892cfe09|file:///home/jstilia/Documents/GitHub/git-pre_commit_scripts/.pre-commit-config.yaml|26|18|V|ansible
+	      files: \.x$
+aa5aee0e1359410e087d927c69faa80b|file:///home/jstilia/Documents/GitHub/git-pre_commit_scripts/.pre-commit-config.yaml|27|9|v|ansible
+	git://github.com/antonbabenko/pre-commit-terraform
+	
+a7d1d9b0669175a1d65fc113022618fa|file:///home/jstilia/Documents/GitHub/git-pre_commit_scripts/.pre-commit-config.yaml|27|15|v|ansible
+	 # Get the latest from: https://github.com/antonbabenko/pre-commit-terraform/releases
+f933f170b0aee3691a926c15d43cd498|file:///home/jstilia/Documents/GitHub/git-pre_commit_scripts/.pre-commit-config.yaml|32|5|v|ansible
+	- repo: https://github.com/pre-commit/pre-commit-hooks
+	        rev: v2.4.0
+	        hooks:
+	          - id: check-merge-conflict
+4a60fb44d36e34e1fd8790d4d92c9314|file:///home/jstilia/Documents/GitHub/git-pre_commit_scripts/.pre-commit-config.yaml|36|10|v|ansible
+	ON> # Get the latest from: https://github.com/gruntwork-io/pre-commit/releases
+3aa4a5a35b7b95d4e98a1d827c762cac|file:///home/jstilia/Documents/GitHub/git-pre_commit_scripts/.pre-commit-config.yaml|12|5|V|ansible
+	    -   id: check-yaml
+55c29f45310dc8d68af226ce92d4c2e4|file:///home/jstilia/Documents/GitHub/git-pre_commit_scripts/.pre-commit-config.yaml|15|5|V|ansible
+	    -   id: end-of-file-fixer
+1bf5c5845c4bd230618a53d9246f00fc|file:///home/jstilia/Documents/GitHub/git-pre_commit_scripts/.pre-commit-config.yaml|18|5|V|ansible
+	    -   id: trailing-whitespace
+8c7dd922ad47494fc02c388e12c00eac|file:///home/jstilia/Documents/GitHub/git-pre_commit_scripts/.pre-commit-config.yaml|26|15|v|ansible
+	file
+8284e0c159959dce883ba056fb758a0d|file:///home/jstilia/.config/tmux/tmux.conf|8|1|V|tmux
+	#set -g xterm-keys on
+6338b12d84c37cc7c642c89d90a1ad4f|file:///home/jstilia/.config/tmux/tmux.conf|8|1|V|tmux
+	#set-window-option -g xterm-keys on
+1b14755c7d2432399a0d2e513eee31cd|file:///home/jstilia/.config/tmux/tmux.conf|15|1|v|tmux
+	bind-key c command-prompt -p "window name:" "new-window; rename-window '%%'"
+	bind-key n command-prompt -p "Session  name:" "new-session -s '%%'"
+	
+1ffd9e753c8054cc61456ac7fac1ac89|file:///home/jstilia/.config/tmux/tmux.conf|47|23|v|tmux
+	black
+43f38c09ff15e4cb735b88f5b661ff9c|file:///home/jstilia/.config/tmux/tmux.conf|62|18|V|tmux
+	## set bottom bar
+0704e8100a5270cd9e641cf13c208bc8|file:///home/jstilia/.config/tmux/tmux.conf|62|26|V|tmux
+	#set -g status-interval 1
+a83623c7f8576b104838e7c208e515d0|file:///home/jstilia/.config/tmux/tmux.conf|62|26|V|tmux
+	#set -g status-right '#[fg=white]CPU: #{cpu_percentage}-#[fg=green]#{net_speed}-#[fg=white]#(cut -d " " -f 1-3 /proc/loadavg)-#[fg=green]Bat: #{battery_percentage} #{battery_remain} #[default]'
+dc1daaac2dfedc6b08e445c95f962567|file:///home/jstilia/.config/tmux/tmux.conf|62|26|V|tmux
+	#set -g status-left '#{prefix_highlight}#{?window_zoomed_flag,#[fg=red]#[italics],#[fg=green]}<Z>(#S) #(whoami) - #{online_status}'
+3d7735524ba529c242118f9b3be295dd|file:///home/jstilia/.config/alacritty/alacritty.yml|5|7|V|yaml
+	  Underline:
+4f2c610f10cebb56e7d2355d7003f81c|file:///home/jstilia/.config/alacritty/alacritty.yml|5|7|V|yaml
+	    # I doubt you want less width for this thing.
+020cfa2291d6f82f8803981bca3c2c5e|file:///home/jstilia/.config/alacritty/alacritty.yml|5|7|V|yaml
+	    height: 0.5 - 2
+df221e622f97552ea7a26a4b76e9aaf5|file:///home/jstilia/.config/alacritty/alacritty.yml|5|16|v|yaml
+	
+	    width: 2
+cd5c33c7b80d84ecb337a3af954f794d|file:///home/jstilia/.config/alacritty/alacritty.yml|5|16|v|yaml
+	
+	# Colors (Base16 Default Dark)
+574f41b4b84ede4769d16204e59b024e|file:///home/jstilia/.config/alacritty/alacritty.yml|5|16|v|yaml
+	
+	colors:
+e6bc643c7d8985fd0636496865faae24|file:///home/jstilia/.config/tmux/tmux.conf|96|37|V|tmux
+	set -g @net_speed_interfaces "eth0 wlan0"
+52c1d97a5811102b8829a135ba524e7d|file:///home/jstilia/.config/tmux/tmux.conf|95|37|V|tmux
+	set -g @plugin 'tmux-plugins/tmux-net-speed'
+9e321c8f63267288d6e607fbcad275d3|file:///home/jstilia/.config/tmux/tmux.conf|124|32|V|tmux
+	#set -g window-style 'fg=colour,bg=colour236'
+878a6591ca1de650a6c1f2a4ecfc4392|file:///home/jstilia/.config/tmux/tmux.conf|129|56|v|tmux
+	6"
+	
+	## Restore Vim sessions
+	set -g @resurrect-strategy-vim 'session'
+	## Restore Neovim sessions
+41babb8423c6fd5e9b21d8512261b21d|file:///home/jstilia/.config/alacritty/alacritty.yml|7|13|V|yaml
+	      # BOBOB
+e723369f6f34aebd43bfc699d81ef444|file:///home/jstilia/.config/alacritty/alacritty.yml|7|12|V|yaml
+	      # BOB
+9a5d5313189cbfc6dc73e03c28346c22|file:///home/jstilia/.config/alacritty/alacritty.yml|7|9|V|yaml
+	      # B
+70e08fa221f5a242b2b3f21dd4d1a83c|file:///home/jstilia/.tmux.conf|123|1|V|tmux
+	set -g default-terminal "screen-256color"
+b9618eec7dbcfa2a39c0147d37f0b45c|file:///home/jstilia/.tmux.conf|122|1|V|tmux
+	#enable 256 color compatability
+	
+265b9b023f408fef55763fdf55492a74|file:///home/jstilia/.tmux.conf|122|1|V|tmux
+	#enable 256 color compatability
+8cd84a3d8412feb5774a63d0ae567110|file:///home/jstilia/.tmux.conf|10|43|V|tmux
+	set -ag terminal-overrides ",xterm-256color:RGB"
+16d734448d74f7b3dfc3be1587c5a289|file:///home/jstilia/.config/alacritty/alacritty.yml|36|1|V|yaml
+	## Colors (Base16 Default Dark)
+	#colors:
+	#  # Default colors
+	#  primary:
+	#    background: '0x000000'
+	#    foreground: '0xffffff'
+	#
+	#  # Colors the cursor will use if `custom_cursor_colors` is true
+	#  cursor:
+	#    text: '0xd8d8d8'
+	#    cursor: '0xd8d8d8'
+	#
+	#  # Normal colors
+	#  normal:
+	#    black:   '0x181818'
+	#    red:     '0xab4642'
+	#    green:   '0xa1b56c'
+	#    yellow:  '0xf7ca88'
+	#    blue:    '0x7cafc2'
+	#    magenta: '0xba8baf'
+	#    cyan:    '0x86c1b9'
+	#    white:   '0xd8d8d8'
+	#
+	#  # Bright colors
+	#  bright:
+	#    black:   '0x585858'
+	#    red:     '0xab4642'
+	#    green:   '0xa1b56c'
+	#    yellow:  '0xf7ca88'
+	#    blue:    '0x7cafc2'
+	#    magenta: '0xba8baf'
+	#    cyan:    '0x86c1b9'
+	#    white:   '0xf8f8f8'

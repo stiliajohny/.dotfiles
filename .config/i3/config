@@ -124,8 +124,8 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -1%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20;exec dunstify "Brightness Increase $(xrandr --verbose | grep -i brightness | cut -f2 -d ' ' | head -n1)" # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20;exec dunstify "Brightness Decrease  $(xrandr --verbose | grep -i brightness | cut -f2 -d ' ' | head -n1)" # decrease screen brightness
+bindsym XF86MonBrightnessUp exec light -A 3;exec dunstify "Brightness Increase $(xrandr --verbose | grep -i brightness | cut -f2 -d ' ' | head -n1)" # increase screen brightness
+bindsym XF86MonBrightnessDown exec light -U 3;exec dunstify "Brightness Decrease  $(xrandr --verbose | grep -i brightness | cut -f2 -d ' ' | head -n1)" # decrease screen brightness
 
 
 
