@@ -67,7 +67,7 @@ source $ZSH/oh-my-zsh.sh
 source $XDG_CONFIG_HOME/zsh/aliases.zsh
 source $XDG_CONFIG_HOME/zsh/functions.zsh
 source $XDG_CONFIG_HOME/zsh/minikube.zsh
-source $XDG_CONFIG_HOME/zsh/zplug/init.zsh
+#source $XDG_CONFIG_HOME/zsh/zplug/init.zsh
 
 
 # User configuration
