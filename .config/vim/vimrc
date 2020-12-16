@@ -122,7 +122,6 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'godlygeek/tabular'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'benmills/vimux'
-Plug 'sagarrakshe/toggle-bool'
 
 " Generic Programming Support
 Plug 'Townk/vim-autoclose'
