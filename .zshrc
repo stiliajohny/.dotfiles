@@ -6,7 +6,7 @@ export FZF_BASE=/usr/bin/fzf
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$HOME/.gem/ruby/2.7.0/bin
-
+export TERM=xterm
 
 # XDG Base Directory Specification
 # http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
