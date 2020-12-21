@@ -174,8 +174,8 @@ bindsym Control+Shift+Print exec scrot -s $HOME/Pictures/Screenshots/$(date +%Y-
 
 
 # Lock screen
-bindsym $mod+l exec betterlockscreen -l -d -b -t "Don't touch my machine!"
-#bindsym $mod+l exec i3lock-fancy
+#bindsym $mod+l exec betterlockscreen -l -d -b -t "Don't touch my machine!"
+bindsym $mod+l exec ~/.local/sbin/my-i3lock-config.sh
 
 bindsym $mod+n mode "$mode_system"
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
