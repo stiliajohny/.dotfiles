@@ -1,1 +1,0 @@
-/home/jstilia/.local/share/vifm/Trash/000_.zsh
