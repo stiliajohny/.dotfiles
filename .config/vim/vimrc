@@ -122,7 +122,6 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'godlygeek/tabular'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'benmills/vimux'
-Plug 'sagarrakshe/toggle-bool'
 
 " Generic Programming Support
 Plug 'Townk/vim-autoclose'
@@ -273,7 +272,7 @@ let g:carbon_now_sh_options =
             \ 'theme': 'nord',
             \ 'lineNumbers': 'true' }
 " Color scheme
-colorscheme nord
+colorscheme desert256
 
 "enable rainbow
 let g:rainbow_active = 1
@@ -509,7 +508,7 @@ au BufWrite terraform :TerraformFmt " autocommand on this filetype
 
 
 let g:lightline = {
-      \ 'colorscheme': 'nord',
+      \ 'colorscheme': 'default',
       \ 'active': {
       \   'left': [
       \     [ 'mode', 'paste' ],

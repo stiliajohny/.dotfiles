@@ -14,5 +14,17 @@
 [alias]
         up = pull --recurse-submodules
         co = checkout --recurse-submodules
+	hooks = !\"/home/jstilia/.githooks/bin/githooks\"
 [merge]
         tool = vimdiff
+[githooks]
+	installDir = /home/jstilia/.githooks
+	runner = /home/jstilia/.githooks/release/base-template.sh
+	cloneUrl = https://github.com/rycus86/githooks.git
+	cloneBranch = master
+	useCoreHooksPath = false
+[init]
+	templateDir = /home/jstilia/.githooks/templates
+[githooks "autoupdate"]
+	enabled = true
+	lastrun = 1608589493

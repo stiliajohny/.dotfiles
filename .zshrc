@@ -6,8 +6,6 @@ export FZF_BASE=/usr/bin/fzf
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$HOME/.gem/ruby/2.7.0/bin
-
-
 # XDG Base Directory Specification
 # http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -26,6 +24,13 @@ export PATH=/usr/local/sbin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.local/sbin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
+
+if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+        export TERM='xterm-256color'
+else
+        export TERM='xterm-color'
+fi
+
 
 plugins=(
     aws
