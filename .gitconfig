@@ -27,3 +27,4 @@
 	templateDir = /home/jstilia/.githooks/templates
 [githooks "autoupdate"]
 	enabled = true
+	lastrun = 1608589493
