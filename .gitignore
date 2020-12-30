@@ -14,6 +14,7 @@
 .config/beets*
 .config/chromium*
 .config/coc/extensions/*
+.config/coc/extensions/coc-yank-data/**
 .config/coc/mru
 .config/config.yaml
 .config/configstore/*
