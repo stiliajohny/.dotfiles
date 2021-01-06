@@ -23,7 +23,7 @@ alias grep='grep --color=auto'
 
 alias sign='gpg --detach-sign --armor'
 
-alias SimpleServer='open http://localhost:8000; python -m SimpleHTTPServer'
+alias SimpleServer='firefox http://localhost:8000; python3 -m http.server'
 
 ##### standard aliases (start with a space to be ignored in history)
 alias ll="ls -lhS"

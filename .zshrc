@@ -112,7 +112,6 @@ setopt PUSHD_IGNORE_DUPS
 # DON NOT Allow ‘>’ redirection to truncate existing files, and ‘>>’ to create files. Otherwise ‘>!’ or ‘>|’ must be used to truncate  a file, and ‘>>!’ or ‘>>|’ to create a file.
 setopt no_clobber
 
-
 if [ -z "$TMUX" ]; then
     tmux attach -t default || tmux new -s default
 fi

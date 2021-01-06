@@ -14,12 +14,12 @@
 [alias]
         up = pull --recurse-submodules
         co = checkout --recurse-submodules
-	hooks = !\"~/.githooks/bin/githooks\"
+	hooks = !\"/home/jstilia/.githooks/bin/githooks\"
 [merge]
         tool = vimdiff
 [githooks]
-	installDir = ~/.githooks
-	runner = ~/.githooks/release/base-template.sh
+	installDir = /home/jstilia/.githooks
+	runner = /home/jstilia/.githooks/release/base-template.sh
 	cloneUrl = https://github.com/rycus86/githooks.git
 	cloneBranch = master
 	useCoreHooksPath = false

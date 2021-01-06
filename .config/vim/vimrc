@@ -588,8 +588,8 @@ endfunction
 
 let g:startify_bookmarks = [
             \ { 't': '~/.config/tmux/tmux.conf' },
-            \ { 'c': '~/.config/i3/config' },
-            \ { 'i': '~/.config/vim/vimrc' },
+            \ { 'i': '~/.config/i3/config' },
+            \ { 'v': '~/.config/vim/vimrc' },
             \ { 'p': '~/.config/polybar/config' },
             \ { 'z': '~/.zshrc' },
             \ ]

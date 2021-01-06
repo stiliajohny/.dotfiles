@@ -1,33 +1,38 @@
 # This is an I3WM config
 
 set $mod Mod4
+set $TERMINAL alacritty
 
 bindsym Ctrl+$mod+Right workspace next
 bindsym Ctrl+$mod+Left workspace prev
 
+# Make the currently focused window a scratchpad
+bindsym $mod+minus move scratchpad
+
+# Show the first scratchpad window
+bindsym $mod+plus scratchpad show
+
+# Enable Alt+Tab Functionality
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
+
+# Jump to last used workspace
+bindsym $mod+grave workspace back_and_forth
+
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:DejaVu Sans Mono 8
+#font pango:DejaVu Sans Mono 8
 
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+# Start a terminal
+bindsym $mod+Return exec alacritty
 
-# NetworkManager is the most popular way to manage wireless networks on Linux,
- # and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
-
-# start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
-
-# kill focused window
+# Kill focused window
 bindsym $mod+Shift+q kill
 
 # Start Rofi
 bindsym $mod+Shift+d exec rofi -show run  -i -lines 10 -eh 1 -width 30 -padding 50 -opacity "40" -font "Droid Sans 14"
 bindsym $mod+d exec i3-dmenu-desktop --dmenu='rofi -dmenu -i -lines 10 -eh 1 -width 30 -padding 50 -opacity "40" -font "Droid Sans 14" -window-title Apps'
 bindsym $mod+g exec --no-startup-id rofi -show window -i -lines 10 -eh 1 -width 50 -padding 50 -opacity "85" -font "Droid Sans 16"
-bindsym $mod+i exec --no-startup-id ~/.local/bin/i3-layout-manager
 
 # Navigate on the tiles
 bindsym $mod+Left focus left
@@ -46,24 +51,24 @@ bindsym $mod+h split h;exec dunstify 'Tile horizontally'
 bindsym $mod+v split v;exec dunstify 'Tile vertically'
 bindsym $mod+q split toggle
 
-# enter fullscreen mode for the focused container
+# Enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
-# change container layout (stacked, tabbed, toggle split)
+# Change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
-# toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
-
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-# change focus between tiling / floating windows
+# Toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# Change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
-# declare floating windows based on title ( get the title after opening the app  wmctrl -l  )
+# Declare floating windows based on title ( get the title after opening the app  wmctrl -l  )
 for_window [ title="Volume Control" ] floating enable
 for_window [ title="Bluetooth Devices" ] floating enable
 for_window [ title="Date & Time" ] floating enable
@@ -115,7 +120,7 @@ bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
 assign [class="Alacritty"]          → $ws1
-assign [class="Firefox"]            → $ws2
+assign [class="Firefox*"]           → $ws2
 assign [class="Code"]               → $ws3
 
 # Sound control
@@ -167,11 +172,7 @@ for_window [class="^.*"] border pixel 2
 #bindsym $mod+bracketright gaps inner current minus 5
 
 # screenshot
-bindsym Print exec scrot '%S:%M:%H_%Y-%m-%d_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'
-bindsym Control+Print exec scrot -u $HOME/Pictures/Screenshots/`date +%Y-%m-%d_%H:%M:%S`.png
-bindsym Control+Shift+Print exec scrot -s $HOME/Pictures/Screenshots/$(date +%Y-%m-%d_%H:%M:%S).png
-
-
+bindsym Print exec ~/.local/bin/screenshot.sh
 
 # Lock screen
 #bindsym $mod+l exec betterlockscreen -l -d -b -t "Don't touch my machine!"
@@ -180,29 +181,37 @@ bindsym $mod+l exec ~/.local/sbin/my-i3lock-config.sh
 bindsym $mod+n mode "$mode_system"
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
-	bindsym l exec --no-startup-id i3exit lock, mode "default"
-		bindsym s exec --no-startup-id i3exit suspend, mode "default"
-		bindsym u exec --no-startup-id i3exit switch_user, mode "default"
-		bindsym e exec --no-startup-id i3exit logout, mode "default"
-		bindsym h exec --no-startup-id i3exit hibernate, mode "default"
-		bindsym r exec --no-startup-id i3exit reboot, mode "default"
-		bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+    bindsym l exec --no-startup-id i3exit lock, mode "default"
+    bindsym s exec --no-startup-id i3exit suspend, mode "default"
+    bindsym u exec --no-startup-id i3exit switch_user, mode "default"
+    bindsym e exec --no-startup-id i3exit logout, mode "default"
+    bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+    bindsym r exec --no-startup-id i3exit reboot, mode "default"
+    bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
 
-# exit system mode: "Enter" or "Escape"
-		bindsym Return mode "default"
-		bindsym Escape mode "default"
+    # exit system mode: "Enter" or "Escape"
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
+
 #Setting wallpaper
-exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/wallpaper.jpg;  exec dunstify "Update Wallpaper"
-#exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/$(ls ~/.config/wallpaper | shuf -n 1);  exec dunstify "Update Wallpaper"
+#exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/wallpaper.jpg;  exec dunstify "Update Wallpaper"
+exec --no-startup-id feh --bg-fill  ~/.config/wallpaper/$(ls ~/.config/wallpaper | shuf -n 1);  exec dunstify "Update Wallpaper"
 
 # Autostart applications
+exec_always  ~/.config/polybar/launch.sh ;exec dunstify "Initiate Polybar"
 exec --no-startup-id xrandr --output eDP1 --mode 2880x1620; exec dunstify "Change screen resolution "
 exec --no-startup-id redshift-gtk; exec dunstify "Initiate Redshift"
 exec --no-startup-id blueman-applet; exec dunstify "Initiate Bluetooth Manager"
 exec --no-startup-id picom ;exec dunstify "Initiate Picom"
-exec_always  ~/.config/polybar/launch.sh ;exec dunstify "Initiate Polybar"
 
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
+# screen before suspend. Use loginctl lock-session to lock your screen.
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+# NetworkManager is the most popular way to manage wireless networks on Linux,
+# and nm-applet is a desktop environment-independent system tray GUI for it.
+exec --no-startup-id nm-applet
 
 # Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
 set $mode_gaps Gaps: (o) outer, (i) inner
