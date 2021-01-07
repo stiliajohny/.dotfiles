@@ -14,7 +14,9 @@ case "$1" in
 
 rofi-right) docker images --format "{{.Repository}} has the following {{.ID}}" | rofi -dmenu -window-title "Existing Docker Images"
     ;;
-rofi-left) docker ps --format {{.Names}} | rofi -dmenu -window-title "Running Docker Containers"
+#rofi-left) docker ps --format {{.Names}} | rofi -dmenu -window-title "Running Docker Containers"
+rofi-left) container=$(docker ps --format {{.Names}} | rofi -dmenu -window-title "Running Docker Containers") ; xterm -fa 'Monospace' -fs 14 -e bash -c "docker exec -it ${container} /bin/bash"
+
     ;;
 *) echo ""
    ;;
