@@ -27,4 +27,4 @@
 	templateDir = ~/.githooks/templates
 [githooks "autoupdate"]
 	enabled = true
-	lastrun = 1608589493
+	lastrun = 1610211875

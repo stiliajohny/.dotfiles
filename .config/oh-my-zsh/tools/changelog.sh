@@ -90,7 +90,17 @@ function parse-commit {
 
     if [[ "$body" =~ "BREAKING CHANGE: (.*)" || \
       "$subject" =~ '^[^ :\)]+\)?!: (.*)$' ]]; then
+<<<<<<< Updated upstream
+      message="${match[1]}"
+      # remove CR characters (might be inserted in GitHub UI commit description form)
+      message="${message//$'\r'/}"
+      # skip next paragraphs (separated by two newlines or more)
+      message="${message%%$'\n\n'*}"
+      # ... and replace newlines with spaces
+      echo "${message//$'\n'/ }"
+=======
       echo "${match[1]}"
+>>>>>>> Stashed changes
     else
       return 1
     fi
@@ -280,7 +290,7 @@ function display-release {
 
     local hash subject
     for hash message in ${(kv)breaking}; do
-      echo " - $(fmt:hash) $(fmt:subject "${message}")"
+      echo " - $(fmt:hash) $(fmt:scope) $(fmt:subject "${message}")"
     done | sort
     echo
   }
