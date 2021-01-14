@@ -135,6 +135,16 @@ IFS="$OIFS"
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh) ]]
 
 # ZSH Theme - Preview: https://gyazo.com/8becc8a7ed5ab54a0262a470555c3eed.png
+
+zsh_terraform() {
+  # break if there is no .terraform directory
+  if [[ -d .terraform ]]; then
+      local tf_workspace=$($(which terraform) workspace show)
+      echo -n "(TF: $tf_workspace)-"
+  fi
+}
+
+
 local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
 
 if [[ $UID -eq 0 ]]; then
@@ -152,7 +162,7 @@ local venv_prompt='$(virtualenv_prompt_info)'
 
 ZSH_THEME_RVM_PROMPT_OPTIONS="i v g"
 
-PROMPT="╭──"\$(kube_ps1)"──${user_host}${current_dir}${rvm_ruby}${git_branch}${venv_prompt}
+PROMPT="╭──"\$(zsh_terraform)\$(kube_ps1)"──${user_host}${current_dir}${rvm_ruby}${git_branch}${venv_prompt}
 ╰─%B${user_symbol}%b "
 RPROMPT="%B${return_code}%b"
 
