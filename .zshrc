@@ -1,11 +1,24 @@
 
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.config/oh-my-zsh"
-export PATH=$HOME/bin:/usr/local/bin:$PATH
-export FZF_BASE=/usr/bin/fzf
+if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+        export TERM='xterm-256color'
+else
+        export TERM='xterm-color'
+fi
+
+# executable search path
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$HOME/.gem/ruby/2.7.0/bin
+export PATH=/usr/local/sbin:$PATH
+export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/.local/sbin:$PATH
+export PATH=$HOME/.cargo/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+export PAGER=""
+export ZSH="$HOME/.config/oh-my-zsh"
+export FZF_BASE=/usr/bin/fzf
+
 # XDG Base Directory Specification
 # http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -19,17 +32,17 @@ export XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
 export GEM_HOME=$HOME/.gem
 mkdir -p $ZSH_CACHE
 export VIMINIT=":source $XDG_CONFIG_HOME"/vim/vimrc
-# executable search path
-export PATH=/usr/local/sbin:$PATH
-export PATH=$HOME/.local/bin:$PATH
-export PATH=$HOME/.local/sbin:$PATH
-export PATH=$HOME/.cargo/bin:$PATH
 
-if [ -e /usr/share/terminfo/x/xterm-256color ]; then
-        export TERM='xterm-256color'
-else
-        export TERM='xterm-color'
-fi
+TIMER_FORMAT='[%d]'
+[ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
+[ -f $XDG_CONFIG_HOME/zsh/aliases.zsh ] && source $XDG_CONFIG_HOME/zsh/aliases.zsh
+[ -f $XDG_CONFIG_HOME/zsh/functions.zsh ] && source $XDG_CONFIG_HOME/zsh/functions.zsh
+[ -f $XDG_CONFIG_HOME/zsh/minikube.zsh ] && source $XDG_CONFIG_HOME/zsh/minikube.zsh
+[ -f $XDG_CONFIG_HOME/zsh/vagrant.zsh ] && source  $XDG_CONFIG_HOME/zsh/vagrant.zsh
+[ -f $XDG_CONFIG_HOME/zsh/kube-config.zsh ] && source  $XDG_CONFIG_HOME/zsh/kube-config.zsh
+[ -f $XDG_CONFIG_HOME/zsh/terraform_prompt.zsh ] && source  $XDG_CONFIG_HOME/zsh/terraform_prompt.zsh
+[ -f $XDG_CONFIG_HOME/zsh/custom_theme.zsh ] && source  $XDG_CONFIG_HOME/zsh/custom_theme.zsh
+[ -f  $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 
 
 plugins=(
@@ -67,16 +80,8 @@ plugins=(
 
 # Plugin Config
 
-TIMER_FORMAT='[%d]'
-source $ZSH/oh-my-zsh.sh
-source $XDG_CONFIG_HOME/zsh/aliases.zsh
-source $XDG_CONFIG_HOME/zsh/functions.zsh
-source $XDG_CONFIG_HOME/zsh/minikube.zsh
-#source $XDG_CONFIG_HOME/zsh/zplug/init.zsh
-
 
 # User configuration
-
 
 # History Settings (big history for use with many open shells and no dups)
 # Different History files for root and standard user
@@ -88,10 +93,6 @@ fi
 SAVEHIST=1000000
 HISTSIZE=1200000
 setopt share_history append_history extended_history hist_no_store hist_ignore_all_dups hist_ignore_space
-# 2x control is completion from history!!!
-#zle -C hist-complete complete-word _generic
-#zstyle ':completion:hist-complete:*' completer _history
-#bindkey '^X^X' hist-complete
 # If a command is issued that can’t be executed as a normal command, and the command is the name of a directory, perform the cd command to that directory.
 setopt AUTO_CD
 # Treat  the ‘#’, ‘~’ and ‘^’ characters as part of patterns for filename generation, etc.  (An initial unquoted ‘~’ always produces named directory expansion.)
@@ -116,67 +117,5 @@ if [ -z "$TMUX" ]; then
     tmux attach -t default || tmux new -s default
 fi
 
-# Set the default kube context if present
-DEFAULT_KUBE_CONTEXTS="$HOME/.kube/config"
-if test -f "${DEFAULT_KUBE_CONTEXTS}"
-then
-  export KUBECONFIG="$DEFAULT_KUBE_CONTEXTS"
-fi
-# Additional contexts should be in ~/.kube/custom-contexts/
-CUSTOM_KUBE_CONTEXTS="$HOME/.kube/custom-contexts"
-mkdir -p "${CUSTOM_KUBE_CONTEXTS}"
-OIFS="$IFS"
-IFS=$'\n'
-for contextFile in `find "${CUSTOM_KUBE_CONTEXTS}" -type f -name "*.yml"`
-do
-    export KUBECONFIG="$contextFile:$KUBECONFIG"
-done
-IFS="$OIFS"
-[[ $commands[kubectl] ]] && source <(kubectl completion zsh) ]]
-
-# ZSH Theme - Preview: https://gyazo.com/8becc8a7ed5ab54a0262a470555c3eed.png
-
-zsh_terraform() {
-  # break if there is no .terraform directory
-  if [[ -d .terraform ]]; then
-      local tf_workspace=$($(which terraform) workspace show)
-      echo -n "(TF: $tf_workspace)-"
-  fi
-}
-
-
-local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
-
-if [[ $UID -eq 0 ]]; then
-    local user_host='%{$terminfo[bold]$fg[red]%}%n@%m %{$reset_color%}'
-    local user_symbol='#'
-else
-    local user_host='%{$terminfo[bold]$fg[green]%}%n@%m %{$reset_color%}'
-    local user_symbol='$'
-fi
-
-local current_dir='%{$terminfo[bold]$fg[blue]%}%~ %{$reset_color%}'
-local git_branch='$(git_prompt_info)'
-local rvm_ruby='$(ruby_prompt_info)'
-local venv_prompt='$(virtualenv_prompt_info)'
-
-ZSH_THEME_RVM_PROMPT_OPTIONS="i v g"
-
-PROMPT="╭──"\$(zsh_terraform)\$(kube_ps1)"──${user_host}${current_dir}${rvm_ruby}${git_branch}${venv_prompt}
-╰─%B${user_symbol}%b "
-RPROMPT="%B${return_code}%b"
-
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[yellow]%}‹"
-ZSH_THEME_GIT_PROMPT_SUFFIX="› %{$reset_color%}"
-
-ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg[red]%}‹"
-ZSH_THEME_RUBY_PROMPT_SUFFIX="› %{$reset_color%}"
-
-ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="%{$fg[green]%}‹"
-ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="› %{$reset_color%}"
-ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
-ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
-
 export FZF_DEFAULT_OPS="--extended"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
