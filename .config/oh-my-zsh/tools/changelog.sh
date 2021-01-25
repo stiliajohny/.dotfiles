@@ -86,11 +86,10 @@ function parse-commit {
 
   # Return subject if the body or subject match the breaking change format
   function commit:is-breaking {
-    local subject="$1" body="$2"
+    local subject="$1" body="$2" message
 
     if [[ "$body" =~ "BREAKING CHANGE: (.*)" || \
       "$subject" =~ '^[^ :\)]+\)?!: (.*)$' ]]; then
-<<<<<<< Updated upstream
       message="${match[1]}"
       # remove CR characters (might be inserted in GitHub UI commit description form)
       message="${message//$'\r'/}"
@@ -98,9 +97,6 @@ function parse-commit {
       message="${message%%$'\n\n'*}"
       # ... and replace newlines with spaces
       echo "${message//$'\n'/ }"
-=======
-      echo "${match[1]}"
->>>>>>> Stashed changes
     else
       return 1
     fi
@@ -290,7 +286,7 @@ function display-release {
 
     local hash subject
     for hash message in ${(kv)breaking}; do
-      echo " - $(fmt:hash) $(fmt:scope) $(fmt:subject "${message}")"
+      echo " - $(fmt:hash) $(fmt:scope)$(fmt:subject "${message}")"
     done | sort
     echo
   }
@@ -350,16 +346,23 @@ function display-release {
 
 function main {
   # $1 = until commit, $2 = since commit
-  # $3 = output format (--raw|--text|--md)
   local until="$1" since="$2"
+
+  # $3 = output format (--text|--raw|--md)
+  # --md:   uses markdown formatting
+  # --raw:  outputs without style
+  # --text: uses ANSI escape codes to style the output
   local output=${${3:-"--text"}#--*}
 
   if [[ -z "$until" ]]; then
     until=HEAD
   fi
 
-  # If $since is not specified, look up first version tag before $until
   if [[ -z "$since" ]]; then
+    # If $since is not specified:
+    # 1) try to find the version used before updating
+    # 2) try to find the first version tag before $until
+    since=$(command git config --get oh-my-zsh.lastVersion 2>/dev/null) || \
     since=$(command git describe --abbrev=0 --tags "$until^" 2>/dev/null) || \
     unset since
   elif [[ "$since" = --all ]]; then

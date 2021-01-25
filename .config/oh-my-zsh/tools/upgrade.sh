@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 if [ -z "$ZSH_VERSION" ]; then
-  exec zsh "$0"
+  exec zsh "$0" "$@"
 fi
 
 cd "$ZSH"
@@ -10,7 +10,7 @@ cd "$ZSH"
 # and that terminal supports them.
 
 local -a RAINBOW
-local RED GREEN YELLOW BLUE UNDER BOLD RESET
+local RED GREEN YELLOW BLUE BOLD DIM UNDER RESET
 
 if [ -t 1 ]; then
   RAINBOW=(
@@ -28,6 +28,7 @@ if [ -t 1 ]; then
   YELLOW=$(printf '\033[33m')
   BLUE=$(printf '\033[34m')
   BOLD=$(printf '\033[1m')
+  DIM=$(printf '\033[2m')
   UNDER=$(printf '\033[4m')
   RESET=$(printf '\033[m')
 fi
@@ -69,15 +70,15 @@ if git pull --rebase --stat origin master; then
   else
     message="Hooray! Oh My Zsh has been updated!"
 
+    # Save the commit prior to updating
+    git config oh-my-zsh.lastVersion "$last_commit"
+
     # Display changelog with less if available, otherwise just print it to the terminal
     if [[ "$1" = --interactive ]]; then
       "$ZSH/tools/changelog.sh" HEAD "$last_commit"
     fi
-<<<<<<< Updated upstream
 
     printf "${BLUE}%s \`${BOLD}%s${RESET}${BLUE}\`${RESET}\n" "You can see the changelog with" "omz changelog"
-=======
->>>>>>> Stashed changes
   fi
 
   printf '%s         %s__      %s           %s        %s       %s     %s__   %s\n' $RAINBOW $RESET

@@ -1,4 +1,5 @@
 
+
 if [ -e /usr/share/terminfo/x/xterm-256color ]; then
         export TERM='xterm-256color'
 else
@@ -39,10 +40,12 @@ TIMER_FORMAT='[%d]'
 [ -f $XDG_CONFIG_HOME/zsh/functions.zsh ] && source $XDG_CONFIG_HOME/zsh/functions.zsh
 [ -f $XDG_CONFIG_HOME/zsh/minikube.zsh ] && source $XDG_CONFIG_HOME/zsh/minikube.zsh
 [ -f $XDG_CONFIG_HOME/zsh/vagrant.zsh ] && source  $XDG_CONFIG_HOME/zsh/vagrant.zsh
-[ -f $XDG_CONFIG_HOME/zsh/kube-config.zsh ] && source  $XDG_CONFIG_HOME/zsh/kube-config.zsh
 [ -f $XDG_CONFIG_HOME/zsh/terraform_prompt.zsh ] && source  $XDG_CONFIG_HOME/zsh/terraform_prompt.zsh
 [ -f $XDG_CONFIG_HOME/zsh/custom_theme.zsh ] && source  $XDG_CONFIG_HOME/zsh/custom_theme.zsh
-[ -f  $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+[ -f $XDG_CONFIG_HOME/zsh/kube-ps1.sh ] && source  $XDG_CONFIG_HOME/zsh/kube-ps1.sh
+[ -f $XDG_CONFIG_HOME/zsh/kube-config.zsh ] && source  $XDG_CONFIG_HOME/zsh/kube-config.zsh
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh) ]]
+
 
 
 plugins=(
@@ -79,8 +82,8 @@ plugins=(
 )
 
 # Plugin Config
-
-
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
+#DISABLE_MAGIC_FUNCTIONS=true
 # User configuration
 
 # History Settings (big history for use with many open shells and no dups)
@@ -116,7 +119,6 @@ setopt no_clobber
 if [ -z "$TMUX" ]; then
     tmux attach -t default || tmux new -s default
 fi
-
 
 
 # ZSH Theme - Preview: https://gyazo.com/8becc8a7ed5ab54a0262a470555c3eed.png
@@ -156,4 +158,5 @@ ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
 
 
 export FZF_DEFAULT_OPS="--extended"
-
+[ -f  $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+source $ZSH/oh-my-zsh.sh
