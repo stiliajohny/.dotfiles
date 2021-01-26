@@ -159,4 +159,3 @@ ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
 
 export FZF_DEFAULT_OPS="--extended"
 [ -f  $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
-source $ZSH/oh-my-zsh.sh
