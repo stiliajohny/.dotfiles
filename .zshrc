@@ -35,16 +35,7 @@ mkdir -p $ZSH_CACHE
 export VIMINIT=":source $XDG_CONFIG_HOME"/vim/vimrc
 
 TIMER_FORMAT='[%d]'
-[ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
-[ -f $XDG_CONFIG_HOME/zsh/aliases.zsh ] && source $XDG_CONFIG_HOME/zsh/aliases.zsh
-[ -f $XDG_CONFIG_HOME/zsh/functions.zsh ] && source $XDG_CONFIG_HOME/zsh/functions.zsh
-[ -f $XDG_CONFIG_HOME/zsh/minikube.zsh ] && source $XDG_CONFIG_HOME/zsh/minikube.zsh
-[ -f $XDG_CONFIG_HOME/zsh/vagrant.zsh ] && source  $XDG_CONFIG_HOME/zsh/vagrant.zsh
-[ -f $XDG_CONFIG_HOME/zsh/terraform_prompt.zsh ] && source  $XDG_CONFIG_HOME/zsh/terraform_prompt.zsh
-[ -f $XDG_CONFIG_HOME/zsh/custom_theme.zsh ] && source  $XDG_CONFIG_HOME/zsh/custom_theme.zsh
-[ -f $XDG_CONFIG_HOME/zsh/kube-ps1.sh ] && source  $XDG_CONFIG_HOME/zsh/kube-ps1.sh
-[ -f $XDG_CONFIG_HOME/zsh/kube-config.zsh ] && source  $XDG_CONFIG_HOME/zsh/kube-config.zsh
-[[ $commands[kubectl] ]] && source <(kubectl completion zsh) ]]
+
 
 
 
@@ -81,9 +72,23 @@ plugins=(
     zsh_reload
 )
 
+[ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
+
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh) ]]
+[ -f $XDG_CONFIG_HOME/zsh/aliases.zsh ] && source $XDG_CONFIG_HOME/zsh/aliases.zsh
+[ -f $XDG_CONFIG_HOME/zsh/functions.zsh ] && source $XDG_CONFIG_HOME/zsh/functions.zsh
+[ -f $XDG_CONFIG_HOME/zsh/minikube.zsh ] && source $XDG_CONFIG_HOME/zsh/minikube.zsh
+[ -f $XDG_CONFIG_HOME/zsh/vagrant.zsh ] && source  $XDG_CONFIG_HOME/zsh/vagrant.zsh
+[ -f $XDG_CONFIG_HOME/zsh/terraform_prompt.zsh ] && source  $XDG_CONFIG_HOME/zsh/terraform_prompt.zsh
+[ -f $XDG_CONFIG_HOME/zsh/custom_theme.zsh ] && source  $XDG_CONFIG_HOME/zsh/custom_theme.zsh
+[ -f $XDG_CONFIG_HOME/zsh/kube-ps1.sh ] && source  $XDG_CONFIG_HOME/zsh/kube-ps1.sh
+[ -f $XDG_CONFIG_HOME/zsh/kube-config.zsh ] && source  $XDG_CONFIG_HOME/zsh/kube-config.zsh
+
 # Plugin Config
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
-#DISABLE_MAGIC_FUNCTIONS=true
+DISABLE_MAGIC_FUNCTIONS=true
+
+
 # User configuration
 
 # History Settings (big history for use with many open shells and no dups)
