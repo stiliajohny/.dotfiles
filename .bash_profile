@@ -1,0 +1,2 @@
+# Trigger ~/.bashrc commands
+. ~/.bashrc
