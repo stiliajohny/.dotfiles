@@ -25,6 +25,3 @@ Centos Minimal Instalation
 `set hlsearch`
 `set smartcase`
 `EOT`
-
-
-

@@ -20,11 +20,42 @@
 [githooks]
 	installDir = /home/jstilia/.githooks
 	runner = /home/jstilia/.githooks/release/base-template.sh
-	cloneUrl = https://github.com/rycus86/githooks.git
+	cloneUrl =https://github.com/stiliajohny/githooks.git
 	cloneBranch = master
 	useCoreHooksPath = false
 [init]
 	templateDir = ~/.githooks/templates
+	defaultBranch = master
 [githooks "autoupdate"]
 	enabled = true
-	lastrun = 1610211875
+	lastrun = 1614800210
+[commit]
+    gpgsign = false
+[core]
+    excludesfile = ~/.gitignore
+    pager        = less -FRX
+    editor       = vim
+    autocrlf     = input
+    safecrlf     = true
+    whitespace   = cr-at-eol
+    preloadindex = true
+[diff]
+    compaction-heuristic = true
+[grep]
+    linenumber = true
+[i18n]
+    commitEncoding = utf8
+    logOutputEncoding = utf8
+[includeIf "gitdir:~/stripe/"]
+    path = .gitconfig-work
+[merge]
+    tool          = vimdiff
+    conflictstyle = diff3
+    summary       = true
+[pager]
+    diff = diff-so-fancy | less --tabs=1,5 -RFX
+    show = diff-so-fancy | less --tabs=1,5 -RFX
+[push]
+    default = tracking
+[pull]
+	rebase = true
