@@ -161,6 +161,10 @@ Plug 'hashivim/vim-terraform'
 Plug 'juliosueiras/vim-terraform-completion'
 Plug 'jgerry/terraform-vim-folding'
 
+" Go Programming
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+
 " Other Plugins
 Plug 'w0rp/ale' " linting and parsing plugin
 Plug 'frazrepo/vim-rainbow' " rainbow Matching brackets
@@ -179,6 +183,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-syntastic/syntastic'
 Plug 'mattn/calendar-vim'
 Plug 'pearofducks/ansible-vim'
+
 " Initialize plugin system
 call plug#end()
 
@@ -423,6 +428,23 @@ au BufNewFile,BufRead *.py
     \set autoindent
     \set fileformat=unix
 au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match TrailSpace /\s\+$/
+
+" Go Configuration
+au filetype go inoremap <buffer> . .<C-x><C-o>
+" Also run `goimports` on your current file on every save
+" Might be be slow on large codebases, if so, just comment it out
+let g:go_fmt_command = "goimports"
+" Status line types/signatures.
+let g:go_auto_type_info = 1
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_deadline = "5s"
+let g:go_metalinter_command = 'gopls'
+let g:go_gopls_staticcheck = 0
 
 " set CSV plugin config
 let g:csv_delim=','
