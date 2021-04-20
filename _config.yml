@@ -1,6 +1,6 @@
 theme: jekyll-theme-midnight
 exclude:
-  - .config
-  - .fonts
-  - .local  
-  - .tmux
+  - /.config
+  - /.fonts
+  - /.local  
+  - /.tmux
