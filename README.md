@@ -1,5 +1,5 @@
 
-<h1 align="center">dotfiles ❤ ~/</h1
+# dotfiles ❤ ~/
 
 
  <img src="https://github.com/stiliajohny/dotfiles/raw/master/.config/wallpaper/screenshot/screen.png" alt="Girl in a jacket" width="50%" height="50%">
