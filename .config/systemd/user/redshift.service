@@ -1,9 +1,0 @@
-[Unit]
-Description=Redshift
-
-[Service]
-Environment=DISPLAY=:0
-ExecStart=/usr/bin/redshift -v -l 51.509865:-0.118092 -b 1:0.5 -t 6500k:4500k -r  -l manual
-
-[Install]
-WantedBy=multi-user.target%  

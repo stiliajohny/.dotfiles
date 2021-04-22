@@ -1,5 +1,0 @@
-#Template for AL projects for Dynamics 365 BC
-#launch.json folder
-.vscode/
-#Symbols folder
-.alpackages/
