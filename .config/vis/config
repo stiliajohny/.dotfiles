@@ -28,7 +28,7 @@ visualizers=spectrum
 #Configures what character the spectrum visualizer will use. Specifying a space (e.g " ") means the
 #background will be colored instead of the character. Defaults to " ".
 #special characters: 🌑,●,•,·
-visualizer.spectrum.character=⚫️
+visualizer.spectrum.character=•
 
 #Spectrum bar width. Defaults to 1.
 visualizer.spectrum.bar.width=1

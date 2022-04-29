@@ -18,8 +18,8 @@ temp="$HOME/.cache/screen.mp4"
 function menu_callback {
     [ -f "$temp" ] && case "$(echo -e "yes\nno" |   rofi -dmenu -window-title  "Stop recording")" in
         "yes") killall --user $USER --ignore-case --signal SIGTERM  ffmpeg && \
-               mv "$temp" "$video_directory/screencast-$(date).mp4" && \
-               notify-send -i video-x-generic "Screencast saved" "Saved to $video_directory/screencast-$(date).mp4"
+            mv "$temp" "$video_directory/screencast-$(date).mp4" && \
+            notify-send -i video-x-generic "Screencast saved" "Saved to $video_directory/screencast-$(date).mp4"
         ;;
         *) ;;
         esac || case "$(echo -e " full screen\n  select window\n壘  screencast\n壘    screencast (select)\n壘  screencast with audio\n壘    screencast with audio (select)\n" |  rofi -dmenu -window-title  "Snappy")" in

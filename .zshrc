@@ -140,7 +140,7 @@ plugins=(
     zsh-history-substring-search
     zsh-interactive-cd
     )
-ZSH_THEME="trapd00r"
+ZSH_THEME="fino-time"
 
 [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh) ]]
