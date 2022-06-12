@@ -108,7 +108,7 @@ TIMER_FORMAT='[%d]'
 
 
 plugins=(
-    wakatime
+    zsh-wakatime
     aws
     fzf
     git
