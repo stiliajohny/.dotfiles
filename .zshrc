@@ -109,6 +109,7 @@ TIMER_FORMAT='[%d]'
 
 plugins=(
     zsh-wakatime
+    zsh-256color
     aws
     fzf
     git
@@ -140,7 +141,7 @@ plugins=(
     zsh-history-substring-search
     zsh-interactive-cd
     )
-ZSH_THEME="fino-time"
+ZSH_THEME="mh"
 
 [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh) ]]
