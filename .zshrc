@@ -256,11 +256,8 @@ do
 done
 IFS="$OIFS"
 
-
-
-
 export FZF_DEFAULT_OPS="--extended"
-[ -f  $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+[ -f  $HOME/.config/zsh/.fzf.zsh ] && source $HOME/.config/zsh/.fzf.zsh
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
