@@ -133,11 +133,16 @@ assign [class="firefox"]            → $ws2
 assign [class="Code"]               → $ws3
 assign [class="Slack"]              → $ws4
 assign [class="discord"]            → $ws5
+assign [class="Mailspring"]         → $ws6
 
 # Sound control
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +1%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -1%
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
+
+
+# Display
+bindsym XF86Display exec arandr
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec light -A 3;exec dunstify "Brightness Increase $(xrandr --verbose | grep -i brightness | cut -f2 -d ' ' | head -n1)" # increase screen brightness
@@ -213,6 +218,7 @@ exec_always  ~/.config/polybar/launch.sh ;exec dunstify "Initiate Polybar"
 exec --no-startup-id xrandr --output eDP1 --mode 2880x1620; exec dunstify "Change screen resolution "
 exec --no-startup-id redshift-gtk; exec dunstify "Initiate Redshift"
 exec --no-startup-id blueman-applet; exec dunstify "Initiate Bluetooth Manager"
+exec --no-startup-id blueberry-tray; exec dunstify "Initiate Bluetooth Tray"
 # exec --no-startup-id picom ;exec dunstify "Initiate Picom"
 #exec --no-startup-id volumeicon ;exec dunstify "Initiate Volumeicon"
 exec --no-startup-id alacritty ; exec dunstify "Initiate Alacrity"
@@ -220,6 +226,7 @@ exec --no-startup-id slack ; exec dunstify "Initiate Slack"
 exec --no-startup-id discord ; exec dunstify "Initiate Discord"
 exec --no-startup-id code ; exec dunstify "Initiate Code"
 exec --no-startup-id firefox ; exec dunstify "Initiate Firefox"
+exec --no-startup-id mailspring ; exec dunstify "Initiate Mailspring"
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
@@ -279,28 +286,28 @@ mode "$mode_gaps_outer" {
 # to:
 # background $term_background
 # Same logic applied to everything else.
-set_from_resource $term_background background
-set_from_resource $term_foreground foreground
-set_from_resource $term_color0     color0
-set_from_resource $term_color1     color1
-set_from_resource $term_color2     color2
-set_from_resource $term_color3     color3
-set_from_resource $term_color4     color4
-set_from_resource $term_color5     color5
-set_from_resource $term_color6     color6
-set_from_resource $term_color7     color7
-set_from_resource $term_color8     color8
-set_from_resource $term_color9     color9
-set_from_resource $term_color10    color10
-set_from_resource $term_color11    color11
-set_from_resource $term_color12    color12
-set_from_resource $term_color13    color13
-set_from_resource $term_color14    color14
-set_from_resource $term_color15    color15
+# set_from_resource $term_background background
+# set_from_resource $term_foreground foreground
+# set_from_resource $term_color0     color0
+# set_from_resource $term_color1     color1
+# set_from_resource $term_color2     color2
+# set_from_resource $term_color3     color3
+# set_from_resource $term_color4     color4
+# set_from_resource $term_color5     color5
+# set_from_resource $term_color6     color6
+# set_from_resource $term_color7     color7
+# set_from_resource $term_color8     color8
+# set_from_resource $term_color9     color9
+# set_from_resource $term_color10    color10
+# set_from_resource $term_color11    color11
+# set_from_resource $term_color12    color12
+# set_from_resource $term_color13    color13
+# set_from_resource $term_color14    color14
+# set_from_resource $term_color15    color15
 
 
-#colors:                border  backgr. text   indicator
-client.focused          #ff0000 #ffffff #ffffff #222222
-client.focused_inactive #888888 #222222 #ffffff #222222
-client.unfocused        #880000 #222222 #ffffff #222222
-client.urgent           #900000 #900000 #ffffff #222222
+# #colors:                border  backgr. text   indicator
+# client.focused          #ff0000 #ffffff #ffffff #222222
+# client.focused_inactive #888888 #222222 #ffffff #222222
+# client.unfocused        #880000 #222222 #ffffff #222222
+# client.urgent           #900000 #900000 #ffffff #222222
