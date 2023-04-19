@@ -1,10 +1,6 @@
-# Run the colorscript script at first
-# ~/.config/zsh/shell-color-scripts/colorscript.sh -r
-
-
 
 setopt autocd              # change directory just by typing its name
-setopt correct            # auto correct mistakes
+setopt correct             # auto correct mistakes
 setopt interactivecomments # allow comments in interactive mode
 setopt magicequalsubst     # enable filename expansion for arguments of the form ‘anything=expression’
 setopt nonomatch           # hide error message if there is no match for the pattern
@@ -12,44 +8,14 @@ setopt notify              # report the status of background jobs immediately
 setopt numericglobsort     # sort filenames numerically when it makes sense
 setopt promptsubst         # enable command substitution in prompt
 
-
 WORDCHARS=${WORDCHARS//\/} # Don't consider certain characters part of the word
 
 # hide EOL sign ('%')
-# PROMPT_EOL_MARK=""
-
-# # configure key keybindings
-# bindkey -e                                        # emacs key bindings
-# bindkey ' ' magic-space                           # do history expansion on space
-# bindkey '^U' backward-kill-line                   # ctrl + U
-# bindkey '^[[3;5~' kill-word                       # ctrl + Supr
-# bindkey '^[[3~' delete-char                       # delete
-# bindkey '^[[1;5C' forward-word                    # ctrl + ->
-# bindkey '^[[1;5D' backward-word                   # ctrl + <-
-# bindkey '^[[5~' beginning-of-buffer-or-history    # page up
-# bindkey '^[[6~' end-of-buffer-or-history          # page down
-# bindkey '^[[H' beginning-of-line                  # home
-# bindkey '^[[F' end-of-line                        # end
-# bindkey '^[[Z' undo                               # shift + tab undo last action
+PROMPT_EOL_MARK=""
 
 # enable completion features
 autoload -Uz compinit
 compinit -d ~/.cache/zcompdump
-zstyle ':completion:*:*:*:*:*' menu select
-zstyle ':completion:*' auto-description 'specify: %d'
-zstyle ':completion:*' completer _expand _complete
-zstyle ':completion:*' format 'Completing %d'
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
-zstyle ':completion:*' rehash true
-zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
-zstyle ':completion:*' use-compctl false
-zstyle ':completion:*' verbose true
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
-
-
 
 if [ -e /usr/share/terminfo/x/xterm-256color ]; then
         export TERM='xterm-256color'
@@ -66,12 +32,13 @@ export PATH=/usr/local/sbin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.local/sbin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
+export PATH=$HOME/Documents/flutter/flutter/bin:$PATH
+export PATH="${PATH}:${HOME}/.krew/bin"
+
 
 export PATH=$HOME/bin:/usr/local/bin:$PATH
-export JAVA_HOME='/usr/lib/jvm/java-17-openjdk/'
+export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH=$JAVA_HOME/bin:$PATH
-
-
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
@@ -100,15 +67,13 @@ mkdir -p $ZSH_CACHE
 export VIMINIT=":source $XDG_CONFIG_HOME"/vim/vimrc
 export COOKIECUTTER_CONFIG="$XDG_CONFIG_HOME/cookiecutterrc"
 
-export CHROME_EXECUTABLE=/usr/bin/google-chrome-stable
-
-export sky_user_email="john.stilia@sky.uk"
-export sky_mfa_mode="sms"
 TIMER_FORMAT='[%d]'
+export CHROME_EXECUTABLE=/Applications/Arc.app/Contents/MacOS/Arc
+
 
 
 plugins=(
-    zsh-wakatime
+    wakatime
     zsh-256color
     aws
     fzf
@@ -130,9 +95,6 @@ plugins=(
     tig
     timer
     tmux
-    vagrant
-    vagrant-prompt
-    vi-mode
     virtualenv
     virtualenvwrapper
     web-search
@@ -160,6 +122,8 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
 DISABLE_MAGIC_FUNCTIONS=true
 ZSH_POETRY_AUTO_ACTIVATE=1
 ZSH_POETRY_AUTO_DEACTIVATE=1
+SHOW_AWS_PROMPT=true
+ZSH_THEME_AWS_PREFIX="AWS: "
 
 # User configuration
 
@@ -198,42 +162,6 @@ if [ -z "$TMUX" ]; then
 fi
 
 
-# ZSH Theme - Preview: https://gyazo.com/8becc8a7ed5ab54a0262a470555c3eed.png
-
-# # local return_code="%(?..%{$fg[red]%}%? ↵ %{$reset_color%})"
-
-# if [[ $UID -eq 0 ]]; then
-#     local user_host='%{$terminfo[bold]$fg[red]%}%n@%m %{$reset_color%}'
-#     local user_symbol='#'
-# else
-#     local user_host='%{$terminfo[bold]$fg[green]%}%n@%m %{$reset_color%}'
-#     local user_symbol='$'
-# fi
-
-# local current_dir='%{$terminfo[bold]$fg[blue]%}%~ %{$reset_color%}'
-# local git_branch='$(git_prompt_info)'
-# local rvm_ruby='$(ruby_prompt_info)'
-# local venv_prompt='$(virtualenv_prompt_info)'
-
-# ZSH_THEME_RVM_PROMPT_OPTIONS="i v g"
-
-# PROMPT="
-# ${user_host}${current_dir}${rvm_ruby}${git_branch}${venv_prompt}
-# %B${user_symbol}%b "
-# # RPROMPT="%B${return_code}%b"
-
-# ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[yellow]%}‹"
-# ZSH_THEME_GIT_PROMPT_SUFFIX="› %{$reset_color%}"
-
-# ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg[red]%}‹"
-# ZSH_THEME_RUBY_PROMPT_SUFFIX="› %{$reset_color%}"
-
-# ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="%{$fg[green]%}‹"
-# ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="› %{$reset_color%}"
-# ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
-# ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
-
-
 ###################
 # KUBECONFIG for multiople clusters
 
@@ -261,3 +189,5 @@ export FZF_DEFAULT_OPS="--extended"
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
+
+source /Users/johnstilia/.docker/init-zsh.sh || true # Added by Docker Desktop

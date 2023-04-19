@@ -73,6 +73,8 @@ alias -g CL='| wc -l'
 alias -g CC='| wc -m'
 alias -g CW='| wc -w'
 alias -g TB="| nc termbin.com 9999"
+alias -g TN='|  terminal-notifier -message " Task Finished" '
+
 
 
 ##### suffix aliases (mostly mapped to open which runs the gnome/kde default app)
