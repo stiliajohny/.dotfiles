@@ -1,32 +1,6 @@
 
 
 # ZSH Options
-# setopt PUSHD_SILENT          # Automatically remove duplicate entries from the directory stack
-# setopt CORRECT_ALL           # Perform spelling correction on commands during completion
-# setopt SPELLING              # Treat single-word simple commands without redirection as candidates for spelling correction
-# setopt COMPLETE_ALIASES      # Try to complete on the correct side of a cursor within a word
-# setopt GLOB_SUBST            # Recursively perform globbing on the results of filename generation and parameter expansion
-# setopt BRACE_EXPAND          # Enable brace expansion style {...} substitutions
-# setopt BANG_HIST             # Enable the '!' history expansion
-# setopt BANG_NOTIFS           # Enable the '!' and '^' history expansion in non-interactive mode (e.g., scripts)
-# setopt NULL_GLOB             # Don't report an error if a glob pattern has no matches
-# setopt RC_EXPAND_PARAM       # Expand environment variables in double-quoted strings
-# setopt PIPE_FAIL             # Make the shell exit if a command in a pipeline fails
-# setopt RESTRICTED            # Enable the shell to act as a restricted shell, limiting some features
-# setopt PRIVILEGED            # Enable the shell to run as a privileged shell, regardless of the UID
-# setopt ALLOW_LOGIN           # Allow the user to change the UID with the 'login' command
-# setopt XTRACE                # Enable command monitoring (printing the time for each command executed)
-# setopt PRINT_EXIT_VALUE      # Print the exit status of each command if not 0
-# setopt NO_DOT                # Prevent substitution of a single dot with the current directory
-# setopt UNSET                 # Make the shell exit if an undefined variable is used
-# setopt NO_HUP                # Don't print a warning message if the shell is running as a login shell
-# setopt NO_STRIP_POSTS        # Don't automatically remove a trailing newline from a command substitution
-# setopt HIST_REDUCE_BLANKS    # Allow the '!' character to immediately precede a history word designator
-# setopt HIST_NO_STORE         # Don't strip leading white space from the command history
-# setopt HIST_SAVE_NO_DUPS     # Save all commands on the history list, even those that are duplicates of the previous event
-# setopt INC_APPEND_HISTORY    # Always store the current command in the history file, even when the history list is not full
-# setopt NO_SHARE_HISTORY      # Don't share command history between all sessions
-# setopt NO_AUTO_PUSHD         # Don't automatically push the previous directory onto the directory stack before each cd
 setopt autocd               # change directory just by typing its name
 setopt correct              # auto correct mistakes
 setopt interactivecomments  # allow comments in interactive mode
