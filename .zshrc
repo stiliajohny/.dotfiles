@@ -1,12 +1,40 @@
+
+
 # ZSH Options
-setopt autocd              # change directory just by typing its name
-setopt correct             # auto correct mistakes
-setopt interactivecomments # allow comments in interactive mode
-setopt magicequalsubst     # enable filename expansion for arguments of the form ‘anything=expression’
-setopt nonomatch           # hide error message if there is no match for the pattern
-setopt notify              # report the status of background jobs immediately
-setopt numericglobsort     # sort filenames numerically when it makes sense
-setopt promptsubst         # enable command substitution in prompt
+# setopt PUSHD_SILENT          # Automatically remove duplicate entries from the directory stack
+# setopt CORRECT_ALL           # Perform spelling correction on commands during completion
+# setopt SPELLING              # Treat single-word simple commands without redirection as candidates for spelling correction
+# setopt COMPLETE_ALIASES      # Try to complete on the correct side of a cursor within a word
+# setopt GLOB_SUBST            # Recursively perform globbing on the results of filename generation and parameter expansion
+# setopt BRACE_EXPAND          # Enable brace expansion style {...} substitutions
+# setopt BANG_HIST             # Enable the '!' history expansion
+# setopt BANG_NOTIFS           # Enable the '!' and '^' history expansion in non-interactive mode (e.g., scripts)
+# setopt NULL_GLOB             # Don't report an error if a glob pattern has no matches
+# setopt RC_EXPAND_PARAM       # Expand environment variables in double-quoted strings
+# setopt PIPE_FAIL             # Make the shell exit if a command in a pipeline fails
+# setopt RESTRICTED            # Enable the shell to act as a restricted shell, limiting some features
+# setopt PRIVILEGED            # Enable the shell to run as a privileged shell, regardless of the UID
+# setopt ALLOW_LOGIN           # Allow the user to change the UID with the 'login' command
+# setopt XTRACE                # Enable command monitoring (printing the time for each command executed)
+# setopt PRINT_EXIT_VALUE      # Print the exit status of each command if not 0
+# setopt NO_DOT                # Prevent substitution of a single dot with the current directory
+# setopt UNSET                 # Make the shell exit if an undefined variable is used
+# setopt NO_HUP                # Don't print a warning message if the shell is running as a login shell
+# setopt NO_STRIP_POSTS        # Don't automatically remove a trailing newline from a command substitution
+# setopt HIST_REDUCE_BLANKS    # Allow the '!' character to immediately precede a history word designator
+# setopt HIST_NO_STORE         # Don't strip leading white space from the command history
+# setopt HIST_SAVE_NO_DUPS     # Save all commands on the history list, even those that are duplicates of the previous event
+# setopt INC_APPEND_HISTORY    # Always store the current command in the history file, even when the history list is not full
+# setopt NO_SHARE_HISTORY      # Don't share command history between all sessions
+# setopt NO_AUTO_PUSHD         # Don't automatically push the previous directory onto the directory stack before each cd
+setopt autocd               # change directory just by typing its name
+setopt correct              # auto correct mistakes
+setopt interactivecomments  # allow comments in interactive mode
+setopt magicequalsubst      # enable filename expansion for arguments of the form ‘anything=expression’
+setopt nonomatch            # hide error message if there is no match for the pattern
+setopt notify               # report the status of background jobs immediately
+setopt numericglobsort      # sort filenames numerically when it makes sense
+setopt promptsubst          # enable command substitution in prompt
 WORDCHARS=${WORDCHARS//\/} # Don't consider certain characters part of the word
 PROMPT_EOL_MARK=""         # hide EOL sign ('%')
 
@@ -190,5 +218,100 @@ source /Users/johnstilia/.docker/init-zsh.sh || true # Added by Docker Desktop
 # Customize prompt
 PROMPT_EOL_MARK=""
 setopt promptsubst
+
+
+# Custom prompt
+
+# kube context
+kube_context() {
+  if [[ -n "$(which kubectl)" ]]; then
+    local context="$(kubectl config current-context 2>/dev/null)"
+    local namespace="$(kubectl config view --minify --output 'jsonpath={..namespace}' 2>/dev/null)"
+    if [[ -n "${context}" ]]; then
+      if [[ -z "${namespace}" ]]; then
+        namespace="default"
+      fi
+      echo "${cyan}[${context}:${namespace}]${reset}"
+    fi
+  fi
+}
+
+
+# Virtual Environment
+if [[ -n "$VIRTUAL_ENV" ]]; then
+  local venv_name=$(basename $VIRTUAL_ENV)
+  local venv_prompt="(${venv_name}) "
+else
+  local venv_prompt=""
+fi
+
+aws_profile() {
+  if [[ -n "$AWS_PROFILE" ]]; then
+    echo "|AWS: ${yellow}${AWS_PROFILE}${reset}"
+  else
+    echo "|AWS: ${yellow}unknown${reset}"
+  fi
+}
+
+terraform_workspace() {
+  if [[ -d .terraform ]]; then
+    local workspace=$(terraform workspace show 2>/dev/null)
+    if [[ -n "${workspace}" ]]; then
+      echo "|Terraform: ${yellow}${workspace}${reset}"
+    else
+      echo "|Terraform: ${yellow}unknown${reset}"
+    fi
+  fi
+}
+
+# Custom funky theme
+funky_theme() {
+  # Set colors
+  local black="%F{black}"
+  local red="%F{red}"
+  local green="%F{green}"
+  local yellow="%F{yellow}"
+  local blue="%F{blue}"
+  local magenta="%F{magenta}"
+  local cyan="%F{cyan}"
+  local white="%F{white}"
+  local reset="%f"
+
+  # Prompt elements
+  local prompt_symbol="${green}➜${reset}"
+  local current_dir="${yellow}%1~${reset}"
+  local git_info="${magenta}\$(git_prompt_info)${reset}"
+  kubernetes_info="${cyan}\$(kube_ps1)${reset}"
+  aws_info="${green}\$(aws_prompt_info)${reset}"
+  local user_host="${green}%n@%m${reset}"
+
+  # Git prompt configuration
+  ZSH_THEME_GIT_PROMPT_PREFIX="("
+  ZSH_THEME_GIT_PROMPT_SUFFIX=")"
+  ZSH_THEME_GIT_PROMPT_DIRTY=" *"
+  ZSH_THEME_GIT_PROMPT_CLEAN=""
+
+  # Main prompt
+  PROMPT="${venv_prompt}${user_host} ${current_dir} ${git_info} ${blue}${reset} "
+  PROMPT+=$'\n'"$(kube_context)$(aws_profile)$(terraform_workspace) ${prompt_symbol} "
+
+
+  # Set up right prompt
+  RPROMPT="${cyan}%D{%H:%M}${reset}"
+
+  # Configure completion
+  zstyle ':completion:*' menu select
+  zstyle ':completion:*' group-name ''
+
+  # Configure colors for ls command (GNU coreutils)
+  if [[ "$(uname)" != "Darwin" ]]; then
+      eval $(dircolors -b)
+  fi
+}
+
+# Apply the funky_theme
+funky_theme
+
+
 
 # End of the organized ZSH config file
