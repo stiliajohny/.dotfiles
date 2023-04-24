@@ -80,3 +80,4 @@ VirtualBox VMs/
 bin
 .config/vifm/vifminfo.json
 .config/zsh/zcomdump
+.bash_history

@@ -28,6 +28,7 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$HOME/.gem/ruby/2.7.0/bin
 export PATH=$PATH:$HOME/.gem/ruby/3.0.0/bin
+export PATH=$PATH:$HOME/.gem/bin
 export PATH=/usr/local/sbin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.local/sbin:$PATH
