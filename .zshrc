@@ -220,10 +220,12 @@ else
 fi
 
 aws_profile() {
-  if [[ -n "$AWS_PROFILE" ]]; then
-    echo "|AWS: ${yellow}${AWS_PROFILE}${reset}"
-  else
+  if [ -z "${AWS_PROFILE}" ]; then
+    echo ""
+  elif [ -z "$(echo -e "${AWS_PROFILE}" | tr -d '[:space:]')" ]; then
     echo "|AWS: ${yellow}unknown${reset}"
+  else
+    echo "|AWS: ${yellow}${AWS_PROFILE}${reset}"
   fi
 }
 
@@ -255,8 +257,6 @@ funky_theme() {
   local prompt_symbol="${green}➜${reset}"
   local current_dir="${yellow}%1~${reset}"
   local git_info="${magenta}\$(git_prompt_info)${reset}"
-  kubernetes_info="${cyan}\$(kube_ps1)${reset}"
-  aws_info="${green}\$(aws_prompt_info)${reset}"
   local user_host="${green}%n@%m${reset}"
 
   # Git prompt configuration
@@ -264,11 +264,19 @@ funky_theme() {
   ZSH_THEME_GIT_PROMPT_SUFFIX=")"
   ZSH_THEME_GIT_PROMPT_DIRTY=" *"
   ZSH_THEME_GIT_PROMPT_CLEAN=""
+  ZSH_THEME_GIT_PROMPT_ADDED="${green}+"
+  ZSH_THEME_GIT_PROMPT_MODIFIED="${yellow}!"
+  ZSH_THEME_GIT_PROMPT_DELETED="${red}-"
+  ZSH_THEME_GIT_PROMPT_UNTRACKED="${cyan}?"
+  ZSH_THEME_GIT_PROMPT_STASHED="${magenta}⚑"
+  ZSH_THEME_GIT_PROMPT_AHEAD="${green}⇡"
+  ZSH_THEME_GIT_PROMPT_BEHIND="${green}⇣"
+  ZSH_THEME_GIT_PROMPT_DIVERGED="${green}⇕"
+
 
   # Main prompt
   PROMPT="${venv_prompt}${user_host} ${current_dir} ${git_info} ${blue}${reset} "
-  PROMPT+=$'\n'"$(kube_context)$(aws_profile)$(terraform_workspace) ${prompt_symbol} "
-
+  PROMPT+=$'\n'"%{%}$(kube_context)$(aws_profile)$(terraform_workspace) ${prompt_symbol} %{%}"
 
   # Set up right prompt
   RPROMPT="${cyan}%D{%H:%M}${reset}"
