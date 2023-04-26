@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+
+import dns.resolver
+from rich.table import Table
+from rich.console import Console
+import argparse
+
+record_types = ['A', 'AAAA', 'CNAME', 'MX', 'TXT', 'PTR', 'SRV', 'SPF', 'NAPTR', 'CAA', 'NS']
+
+color_map = {
+    "A": "cyan",
+    "AAAA": "magenta",
+    "CNAME": "cyan",
+    "MX": "magenta",
+    "TXT": "cyan",
+    "PTR": "magenta",
+    "SRV": "cyan",
+    "SPF": "magenta",
+    "NAPTR": "cyan",
+    "CAA": "magenta",
+    "NS": "cyan"
+}
+
+
+def dns_scan(domain, resolver=None):
+    res = dns.resolver.Resolver()
+    if resolver:
+        res.nameservers = [resolver]
+    dns_server = res.nameservers[0]
+    table = Table(title='DNS Records', show_header=True)
+
+    table.add_column("Record Type", width=12, style="dim", no_wrap=True, justify="right", ratio=10, overflow="fold",  header_style="bold")
+    table.add_column("Record")
+    table.add_row("DNS Resolver", dns_server, style="bold yellow")
+    for record_type in record_types:
+        try:
+            answers = res.resolve(domain, record_type)
+            for rdata in answers:
+                table.add_row(record_type, rdata.to_text(), style=f"bold {color_map[record_type]}")
+        except dns.resolver.NXDOMAIN:
+            table.add_row(record_type, f'No {record_type} records found for {domain}.', style=f"bold {color_map[record_type]}")
+        except dns.resolver.NoAnswer:
+            table.add_row(record_type, f'No {record_type} records found for {domain}.', style=f"bold {color_map[record_type]}")
+        except dns.resolver.NoNameservers:
+            table.add_row(record_type, f'No nameservers found for {domain}.', style=f"bold {color_map[record_type]}")
+        except dns.resolver.Timeout:
+            table.add_row(record_type, f'Timed out while querying {record_type} records for {domain}.', style=f"bold {color_map[record_type]}")
+    console = Console()
+    console.print(table)
+
+
+def args():
+    parser = argparse.ArgumentParser(description='DNS Scan')
+    parser.add_argument('-d', '--domain', help='Domain to scan', required=False, default='google.com')
+    parser.add_argument('-r', '--resolver', help='DNS Resolver to use', required=False, default=None)
+    args = parser.parse_args()
+    return args
+
+
+if __name__ == '__main__':
+    args = args()
+    dns_scan(args.domain, args.resolver)
