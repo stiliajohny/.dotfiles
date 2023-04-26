@@ -25,17 +25,19 @@ fi
 
 # Export environment variables
 # PATH settings
-export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH=$HOME/.local/bin:$PATH
-export PATH=$HOME/.local/sbin:$PATH
-export PATH=$HOME/.cargo/bin:$PATH
-export PATH=$HOME/Documents/flutter/flutter/bin:$PATH
-export PATH="${PATH}:${HOME}/.krew/bin"
-export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:$HOME/.gem/ruby/2.7.0/bin
-export PATH=$PATH:$HOME/.gem/ruby/3.0.0/bin
-export PATH=$PATH:$HOME/.gem/bin
-export PATH=/usr/local/sbin:$PATH
+export PATH="$PATH:$HOME/bin:/usr/local/bin"
+export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.local/sbin"
+export PATH="$PATH:$HOME/.cargo/bin:"
+export PATH="$PATH:$HOME/Documents/flutter/flutter/bin"
+export PATH="$PATH:$HOME/.krew/bin"
+export PATH="$PATH:$GOPATH/bin"
+export PATH="$PATH:$HOME/.gem/ruby/2.7.0/bin"
+export PATH="$PATH:$HOME/.gem/ruby/3.0.0/bin"
+export PATH="$PATH:$HOME/.gem/bin"
+export PATH="$PATH:/usr/local/sbin"
+export PATH="$PATH:$HOME/Library/Python/3.9/bin"
+export PATH="$PATH:/opt/homebrew/bin"
 
 # Java
 export JAVA_HOME=$(/usr/libexec/java_home)
