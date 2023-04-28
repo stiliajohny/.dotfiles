@@ -1,14 +1,22 @@
 
 
 # ZSH Options
-setopt autocd               # change directory just by typing its name
-setopt correct              # auto correct mistakes
-setopt interactivecomments  # allow comments in interactive mode
-setopt magicequalsubst      # enable filename expansion for arguments of the form ‘anything=expression’
-setopt nonomatch            # hide error message if there is no match for the pattern
-setopt notify               # report the status of background jobs immediately
-setopt numericglobsort      # sort filenames numerically when it makes sense
-setopt promptsubst          # enable command substitution in prompt
+# setopt AUTO_PUSHD           # push the old directory onto the directory stack after pushing the current directory when using cd
+# setopt autocd               # change directory just by typing its name
+# setopt COMPLETE_IN_WORD     # allow completion from within a word/phrase
+# setopt correct              # auto correct mistakes
+# setopt EXTENDED_GLOB        # enable extended globbing
+# setopt interactivecomments  # allow comments in interactive mode
+# setopt magicequalsubst      # enable filename expansion for arguments of the form ‘anything=expression’
+# setopt NO_BEEP              # disable bell
+# setopt no_clobber           # do not overwrite existing files with redirection
+# setopt nonomatch            # hide error message if there is no match for the pattern
+# setopt notify               # report the status of background jobs immediately
+# setopt numericglobsort      # sort filenames numerically when it makes sense
+# setopt promptsubst          # enable command substitution in prompt
+# setopt PUSHD_IGNORE_DUPS    # do not store duplicates in the stack
+# setopt share_history append_history extended_history hist_no_store hist_ignore_all_dups hist_ignore_space
+# setopt TRANSIENT_RPROMPT
 WORDCHARS=${WORDCHARS//\/} # Don't consider certain characters part of the word
 PROMPT_EOL_MARK=""         # hide EOL sign ('%')
 
@@ -77,11 +85,13 @@ export ZSH="$HOME/.config/oh-my-zsh"
 export FZF_BASE=/usr/bin/fzf
 export TIMER_FORMAT='[%d]'
 export CHROME_EXECUTABLE=/Applications/Arc.app/Contents/MacOS/Arc
+export UPDATE_ZSH_DAYS=1
+ZSH_CUSTOM_AUTOUPDATE_QUIET=true
+
 
 # Plugins
 plugins=(
-    wakatime
-    zsh-256color
+    autoupdate
     aws
     fzf
     git
@@ -103,15 +113,18 @@ plugins=(
     timer
     tmux
     virtualenv
+    virtualenv
     virtualenvwrapper
+    wakatime
     web-search
+    zsh-256color
     zsh-autosuggestions
     zsh-completions
     zsh-history-substring-search
     zsh-interactive-cd
 )
 
-ZSH_THEME="mh"
+# ZSH_THEME="mh"
 
 # Source files and configurations
 [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
@@ -143,16 +156,7 @@ else
 fi
 SAVEHIST=1000000
 HISTSIZE=1200000
-setopt share_history append_history extended_history hist_no_store hist_ignore_all_dups hist_ignore_space
-setopt AUTO_CD
-setopt EXTENDED_GLOB
-setopt NOMATCH
-setopt NO_BEEP
-setopt TRANSIENT_RPROMPT
-setopt COMPLETE_IN_WORD
-setopt AUTO_PUSHD
-setopt PUSHD_IGNORE_DUPS
-setopt no_clobber
+
 
 # Tmux
 if [ -z "$TMUX" ]; then
@@ -193,7 +197,6 @@ source /Users/johnstilia/.docker/init-zsh.sh || true # Added by Docker Desktop
 
 # Customize prompt
 PROMPT_EOL_MARK=""
-setopt promptsubst
 
 
 # Custom prompt
@@ -207,19 +210,12 @@ kube_context() {
       if [[ -z "${namespace}" ]]; then
         namespace="default"
       fi
-      echo "${cyan}[${context}:${namespace}]${reset}"
+      echo "${cyan}[${reset}${context}:${namespace}${cyan}]${reset}"
     fi
   fi
 }
 
 
-# Virtual Environment
-if [[ -n "$VIRTUAL_ENV" ]]; then
-  local venv_name=$(basename $VIRTUAL_ENV)
-  local venv_prompt="(${venv_name}) "
-else
-  local venv_prompt=""
-fi
 
 aws_profile() {
   if [ -z "${AWS_PROFILE}" ]; then
@@ -235,66 +231,85 @@ terraform_workspace() {
   if [[ -d .terraform ]]; then
     local workspace=$(terraform workspace show 2>/dev/null)
     if [[ -n "${workspace}" ]]; then
-      echo "|Terraform: ${yellow}${workspace}${reset}"
-    else
-      echo "|Terraform: ${yellow}unknown${reset}"
-    fi
+      echo "|${cyan}[${reset}Terraform: ${yellow}$(terraform workspace show 2>/dev/null)${cyan}]${reset}"
   fi
+}
+
+
+# Virtual Environment
+virtualenv_info() {
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        echo "|${cyan}[${reset}Python: ${yellow}$(python --version 2>&1 | cut -d " " -f 2)${reset} - ($(basename $VIRTUAL_ENV))${cyan}]${reset}"
+    fi
 }
 
 # Custom funky theme
-funky_theme() {
-  # Set colors
-  local black="%F{black}"
-  local red="%F{red}"
-  local green="%F{green}"
-  local yellow="%F{yellow}"
-  local blue="%F{blue}"
-  local magenta="%F{magenta}"
-  local cyan="%F{cyan}"
-  local white="%F{white}"
-  local reset="%f"
 
-  # Prompt elements
-  local prompt_symbol="${green}➜${reset}"
-  local current_dir="${yellow}%1~${reset}"
-  local git_info="${magenta}\$(git_prompt_info)${reset}"
-  local user_host="${green}%n@%m${reset}"
+# Set colors
+local black="%F{black}"
+local red="%F{red}"
+local green="%F{green}"
+local yellow="%F{yellow}"
+local blue="%F{blue}"
+local magenta="%F{magenta}"
+local cyan="%F{cyan}"
+local white="%F{white}"
+local reset="%f"
 
-  # Git prompt configuration
-  ZSH_THEME_GIT_PROMPT_PREFIX="("
-  ZSH_THEME_GIT_PROMPT_SUFFIX=")"
-  ZSH_THEME_GIT_PROMPT_DIRTY=" *"
-  ZSH_THEME_GIT_PROMPT_CLEAN=""
-  ZSH_THEME_GIT_PROMPT_ADDED="${green}+"
-  ZSH_THEME_GIT_PROMPT_MODIFIED="${yellow}!"
-  ZSH_THEME_GIT_PROMPT_DELETED="${red}-"
-  ZSH_THEME_GIT_PROMPT_UNTRACKED="${cyan}?"
-  ZSH_THEME_GIT_PROMPT_STASHED="${magenta}⚑"
-  ZSH_THEME_GIT_PROMPT_AHEAD="${green}⇡"
-  ZSH_THEME_GIT_PROMPT_BEHIND="${green}⇣"
-  ZSH_THEME_GIT_PROMPT_DIVERGED="${green}⇕"
+# Prompt elements
+local prompt_symbol="${green}➜${reset}"
+local current_dir="${yellow}%1~${reset}"
+local git_info="${magenta}\$(git_prompt_info)${reset}"
+local user_host="${green}%n@%m${reset}"
+
+# Git prompt configuration
+ZSH_THEME_GIT_PROMPT_PREFIX="("
+ZSH_THEME_GIT_PROMPT_SUFFIX=")"
+ZSH_THEME_GIT_PROMPT_DIRTY=" *"
+ZSH_THEME_GIT_PROMPT_CLEAN=""
+ZSH_THEME_GIT_PROMPT_ADDED="${green}+"
+ZSH_THEME_GIT_PROMPT_MODIFIED="${yellow}!"
+ZSH_THEME_GIT_PROMPT_DELETED="${red}-"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="${cyan}?"
+ZSH_THEME_GIT_PROMPT_STASHED="${magenta}⚑"
+ZSH_THEME_GIT_PROMPT_AHEAD="${green}⇡"
+ZSH_THEME_GIT_PROMPT_BEHIND="${green}⇣"
+ZSH_THEME_GIT_PROMPT_DIVERGED="${green}⇕"
+ZSH_THEME_RUBY_PROMPT_PREFIX=' using %F{red}'
+ZSH_THEME_RUBY_PROMPT_SUFFIX='%f'
+
+# ZSH_THEME_GIT_PROMPT_PREFIX=' on %F{magenta}'
+# ZSH_THEME_GIT_PROMPT_SUFFIX='%f'
+# ZSH_THEME_GIT_PROMPT_DIRTY='%F{green}!'
+# ZSH_THEME_GIT_PROMPT_UNTRACKED='%F{green}?'
+# ZSH_THEME_GIT_PROMPT_CLEAN=''
 
 
-  # Main prompt
-  PROMPT="${venv_prompt}${user_host} ${current_dir} ${git_info} ${blue}${reset} "
-  PROMPT+=$'\n'"%{%}$(kube_context)$(aws_profile)$(terraform_workspace) ${prompt_symbol} %{%}"
 
-  # Set up right prompt
-  RPROMPT="${cyan}%D{%H:%M}${reset}"
 
-  # Configure completion
-  zstyle ':completion:*' menu select
-  zstyle ':completion:*' group-name ''
+# Main prompt
+PROMPT='${user_host} ${current_dir} $(git_prompt_info) ${blue}${reset}
+$(kube_context)$(aws_profile)$(terraform_workspace)$(virtualenv_info) ${prompt_symbol} %{%}'
 
-  # Configure colors for ls command (GNU coreutils)
-  if [[ "$(uname)" != "Darwin" ]]; then
-      eval $(dircolors -b)
-  fi
-}
+# Set up right prompt
+RPROMPT="${cyan}%D{%H:%M}${reset}"
 
-# Apply the funky_theme
-funky_theme
+# Configure completion
+zstyle ':completion:*' menu select
+zstyle ':completion:*' group-name ''
+
+# Configure colors for ls command (GNU coreutils)
+if [[ "$(uname)" != "Darwin" ]]; then
+    eval $(dircolors -b)
+fi
+
+
+
+
+
+# PROMPT='%F{magenta}%n%f at %F{yellow}%m%f in %B%F{green}%~%f%b$(git_prompt_info)$(ruby_prompt_info)
+# # $(virtualenv_info) $(prompt_char) '
+
 
 
 
