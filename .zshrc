@@ -199,8 +199,6 @@ source /Users/johnstilia/.docker/init-zsh.sh || true # Added by Docker Desktop
 PROMPT_EOL_MARK=""
 
 
-# Custom prompt
-
 # kube context
 kube_context() {
   if [[ -n "$(which kubectl)" ]]; then
@@ -216,7 +214,6 @@ kube_context() {
 }
 
 
-
 aws_profile() {
   if [ -z "${AWS_PROFILE}" ]; then
     echo ""
@@ -227,11 +224,14 @@ aws_profile() {
   fi
 }
 
-terraform_workspace() {
+
+terraform_workspace(){
+  # if the .terraform folder does exist then we are in a terraform project
   if [[ -d .terraform ]]; then
-    local workspace=$(terraform workspace show 2>/dev/null)
-    if [[ -n "${workspace}" ]]; then
-      echo "|${cyan}[${reset}Terraform: ${yellow}$(terraform workspace show 2>/dev/null)${cyan}]${reset}"
+    # if the workspace is not default then we are in a terraform workspace
+    if [[ $(terraform workspace show) != "default" ]]; then
+      echo "|${cyan}[${reset}Terraform: ${yellow}$(terraform workspace show)${cyan}]${reset}"
+    fi
   fi
 }
 
@@ -278,18 +278,12 @@ ZSH_THEME_GIT_PROMPT_DIVERGED="${green}⇕"
 ZSH_THEME_RUBY_PROMPT_PREFIX=' using %F{red}'
 ZSH_THEME_RUBY_PROMPT_SUFFIX='%f'
 
-# ZSH_THEME_GIT_PROMPT_PREFIX=' on %F{magenta}'
-# ZSH_THEME_GIT_PROMPT_SUFFIX='%f'
-# ZSH_THEME_GIT_PROMPT_DIRTY='%F{green}!'
-# ZSH_THEME_GIT_PROMPT_UNTRACKED='%F{green}?'
-# ZSH_THEME_GIT_PROMPT_CLEAN=''
-
 
 
 
 # Main prompt
 PROMPT='${user_host} ${current_dir} $(git_prompt_info) ${blue}${reset}
-$(kube_context)$(aws_profile)$(terraform_workspace)$(virtualenv_info) ${prompt_symbol} %{%}'
+$(kube_context)$(aws_profile)$(virtualenv_info)$(terraform_workspace) ${prompt_symbol} %{%}'
 
 # Set up right prompt
 RPROMPT="${cyan}%D{%H:%M}${reset}"
