@@ -46,6 +46,7 @@ export PATH="$PATH:$HOME/.gem/bin"
 export PATH="$PATH:/usr/local/sbin"
 export PATH="$PATH:$HOME/Library/Python/3.9/bin"
 export PATH="$PATH:/opt/homebrew/bin"
+export PATH="$PATH:/opt/flutter/bin"
 
 # Java
 export JAVA_HOME=$(/usr/libexec/java_home)
@@ -84,7 +85,7 @@ export PAGER=""
 export ZSH="$HOME/.config/oh-my-zsh"
 export FZF_BASE=/usr/bin/fzf
 export TIMER_FORMAT='[%d]'
-export CHROME_EXECUTABLE=/Applications/Arc.app/Contents/MacOS/Arc
+# export CHROME_EXECUTABLE="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 export UPDATE_ZSH_DAYS=1
 ZSH_CUSTOM_AUTOUPDATE_QUIET=true
 
