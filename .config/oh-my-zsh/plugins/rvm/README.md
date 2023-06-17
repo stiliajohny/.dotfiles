@@ -23,6 +23,8 @@ plugins=(... rvm)
 | `rb26`       | `rvm use ruby-2.6`   |
 | `rb27`       | `rvm use ruby-2.7`   |
 | `rb30`       | `rvm use ruby-3.0`   |
+| `rb31`       | `rvm use ruby-3.1`   |
+| `rb32`       | `rvm use ruby-3.2`   |
 | `rvm-update` | `rvm get head`       |
 | `gems`       | `gem list`           |
 | `rvms`       | `rvm gemset`         |

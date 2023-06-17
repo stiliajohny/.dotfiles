@@ -48,6 +48,7 @@ export PATH="$PATH:$HOME/Library/Python/3.9/bin"
 export PATH="$PATH:/opt/homebrew/bin"
 export PATH="$PATH:/opt/flutter/bin"
 
+
 # Java
 export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH=$JAVA_HOME/bin:$PATH
@@ -85,9 +86,9 @@ export PAGER=""
 export ZSH="$HOME/.config/oh-my-zsh"
 export FZF_BASE=/usr/bin/fzf
 export TIMER_FORMAT='[%d]'
-# export CHROME_EXECUTABLE="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 export UPDATE_ZSH_DAYS=1
 ZSH_CUSTOM_AUTOUPDATE_QUIET=true
+export UPDATE_ZSH_DAYS=13
 
 
 # Plugins
@@ -113,16 +114,18 @@ plugins=(
     tig
     timer
     tmux
-    virtualenv
+    thefuck
     virtualenv
     virtualenvwrapper
-    wakatime
+    zsh-wakatime
     web-search
     zsh-256color
     zsh-autosuggestions
     zsh-completions
     zsh-history-substring-search
     zsh-interactive-cd
+    ohmyzsh-full-autoupdate
+    zsh-syntax-highlighting
 )
 
 # ZSH_THEME="mh"
@@ -138,6 +141,8 @@ plugins=(
 [ -f $XDG_CONFIG_HOME/zsh/vagrant.zsh ] && source  $XDG_CONFIG_HOME/zsh/vagrant.zsh
 [ -f $XDG_CONFIG_HOME/zsh/poetry.zsh ] && source  $XDG_CONFIG_HOME/zsh/poetry.zsh
 [ -f $XDG_CONFIG_HOME/zsh/terraform_prompt.zsh ] && source  $XDG_CONFIG_HOME/zsh/terraform_prompt.zsh
+# . "$HOME/.asdf/asdf.sh" if it exists load it make it onle liner as above
+[ -f "$HOME/.asdf/asdf.sh" ] && source "$HOME/.asdf/asdf.sh"
 
 # Plugin Config
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
@@ -299,13 +304,10 @@ if [[ "$(uname)" != "Darwin" ]]; then
 fi
 
 
-
-
-
-# PROMPT='%F{magenta}%n%f at %F{yellow}%m%f in %B%F{green}%~%f%b$(git_prompt_info)$(ruby_prompt_info)
-# # $(virtualenv_info) $(prompt_char) '
-
-
+# Download Znap, if it's not there yet.
+[[ -r ~/Documents/GitHub/znap/znap.zsh ]] ||
+    git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git ~/Documents/GitHub/znap
+source ~/Documents/GitHub/znap/znap.zsh  # Start Znap
 
 
 # End of the organized ZSH config file

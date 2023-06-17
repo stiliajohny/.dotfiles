@@ -13,6 +13,7 @@
         # hooksPath = ~/.config/git/hooks
         excludesfile = ~/.gitignore
         commitGraph = true
+	pager = diff-so-fancy | less --tabs=4 -RFX
 
 [credential]
         helper = cache --timeout=7200
@@ -36,7 +37,7 @@
         showBranch = true
         status = true
         transport = true
-        ui = true
+	ui = true
 
 [color "branch"]
         current = yellow reverse
@@ -54,26 +55,28 @@
         grafted = 4 bold
 
 [color "diff"]
-        commit = 3 bold
+	commit = yellow bold
         context = 15
         frag = 3 bold reverse
-        func = 166 bold reverse
+	func = 146 bold
         meta = 4 bold reverse
         newMoved = 14
         newMovedAlternative = 14
         oldMoved = 8
         oldMovedAlternative = 8
-        whitespace = 1 reverse
+	whitespace = red reverse
         frag = magenta bold
         meta = yellow bold
-        new = green bold
-        old = red bold
+	new = green bold
+	old = red bold
 
 [color "diff-highlight"]
-        oldHighlight = ul
+	oldHighlight = red bold 52
         oldReset = noul
-        newHighlight = ul
+	newHighlight = green bold 22
         newReset = noul
+	oldNormal = red bold
+	newNormal = green bold
 
 [color "interactive"]
         prompt = 4 bold
@@ -199,7 +202,7 @@
 
 [interactive]
         singlekey = true
-        diffFilter = "diff-highlight"
+	diffFilter = diff-so-fancy --patch
 
 [branch]
         autoSetupMerge = true
@@ -529,3 +532,27 @@
 
 [includeIf "gitdir:~/development/"]
         path = ~/development/.gitconfig
+[maintenance]
+	repo = /Users/johnstilia/Documents/GitHub/ImageDelta
+	repo = /Users/johnstilia/Documents/GitHub/LocationFlutterGetX
+	repo = /Users/johnstilia/Documents/GitHub/RouteRanger
+	repo = /Users/johnstilia/Documents/GitHub/Travelling-App
+	repo = /Users/johnstilia/Documents/GitHub/expo-react-training
+	repo = /Users/johnstilia/Documents/GitHub/golang-gs
+	repo = /Users/johnstilia/Documents/GitHub/hardware-gps-tracker
+	repo = /Users/johnstilia/Documents/GitHub/harteros.github.io
+	repo = /Users/johnstilia/Documents/GitHub/infra
+	repo = /Users/johnstilia/Documents/GitHub/localstack-demo
+	repo = /Users/johnstilia/Documents/GitHub/mac-dev-playbook
+	repo = /Users/johnstilia/Documents/GitHub/miniurl
+	repo = /Users/johnstilia/Documents/GitHub/monorepo-ansible-provisioning
+	repo = /Users/johnstilia/Documents/GitHub/pasteportal
+	repo = /Users/johnstilia/Documents/GitHub/personal-notes
+	repo = /Users/johnstilia/Documents/GitHub/picoclock
+	repo = /Users/johnstilia/Documents/GitHub/python-gridfusion
+	repo = /Users/johnstilia/Documents/GitHub/react-native-flip-card
+	repo = /Users/johnstilia/Documents/GitHub/soundwaves
+	repo = /Users/johnstilia/Documents/GitHub/stiliajohny.github.io
+	repo = /Users/johnstilia/Documents/GitHub/stiliajohny.krew
+	repo = /Users/johnstilia/Documents/GitHub/znap
+	repo = /Users/johnstilia/Documents/GitHub/react-gps-location-share/gps-location-share

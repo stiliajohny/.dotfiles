@@ -9,6 +9,7 @@ function fzf_setup_using_base_dir() {
       "${HOME}/.nix-profile/share/fzf"
       "${XDG_DATA_HOME:-$HOME/.local/share}/fzf"
       "/usr/local/opt/fzf"
+      "/opt/homebrew/opt/fzf"
       "/usr/share/fzf"
       "/usr/local/share/examples/fzf"
     )
@@ -59,8 +60,8 @@ function fzf_setup_using_base_dir() {
 
 
 function fzf_setup_using_debian() {
-  if (( ! $+commands[dpkg] )) || ! dpkg -s fzf &>/dev/null; then
-    # Either not a debian based distro, or no fzf installed
+  if (( ! $+commands[apt] && ! $+commands[apt-get] )); then
+    # Not a debian based distro 
     return 1
   fi
 
@@ -71,11 +72,19 @@ function fzf_setup_using_debian() {
 
   case $PREFIX in
     *com.termux*)
+      if [[ ! -f "${PREFIX}/bin/fzf" ]]; then
+        # fzf not installed
+        return 1
+      fi
       # Support Termux package
       completions="${PREFIX}/share/fzf/completion.zsh"
       key_bindings="${PREFIX}/share/fzf/key-bindings.zsh"
       ;;
     *)
+      if [[ ! -d /usr/share/doc/fzf/examples ]]; then
+        # fzf not installed
+        return 1
+      fi
       # Determine completion file path: first bullseye/sid, then buster/stretch
       completions="/usr/share/doc/fzf/examples/completion.zsh"
       [[ -f "$completions" ]] || completions="/usr/share/zsh/vendor-completions/_fzf"
@@ -173,6 +182,32 @@ function fzf_setup_using_cygwin() {
   return 0
 }
 
+function fzf_setup_using_macports() {
+  # If the command is not found, the package isn't installed
+  (( $+commands[fzf] )) || return 1
+
+  # The fzf-zsh-completion package installs the auto-completion in
+  local completions="/opt/local/share/fzf/shell/completion.zsh"
+  # The fzf-zsh-completion package installs the key-bindings file in
+  local key_bindings="/opt/local/share/fzf/shell/key-bindings.zsh"
+
+  if [[ ! -f "$completions" || ! -f "$key_bindings" ]]; then
+    return 1
+  fi
+
+  # Auto-completion
+  if [[ -o interactive && "$DISABLE_FZF_AUTO_COMPLETION" != "true" ]]; then
+    source "$completions" 2>/dev/null
+  fi
+
+  # Key bindings
+  if [[ "$DISABLE_FZF_KEY_BINDINGS" != "true" ]]; then
+    source "$key_bindings" 2>/dev/null
+  fi
+
+  return 0
+}
+
 # Indicate to user that fzf installation not found if nothing worked
 function fzf_setup_error() {
   cat >&2 <<'EOF'
@@ -185,16 +220,17 @@ fzf_setup_using_openbsd \
   || fzf_setup_using_debian \
   || fzf_setup_using_opensuse \
   || fzf_setup_using_cygwin \
+  || fzf_setup_using_macports \
   || fzf_setup_using_base_dir \
   || fzf_setup_error
 
 unset -f -m 'fzf_setup_*'
 
 if [[ -z "$FZF_DEFAULT_COMMAND" ]]; then
-  if (( $+commands[rg] )); then
-    export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/*"'
-  elif (( $+commands[fd] )); then
+  if (( $+commands[fd] )); then
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
+  elif (( $+commands[rg] )); then
+    export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/*"'
   elif (( $+commands[ag] )); then
     export FZF_DEFAULT_COMMAND='ag -l --hidden -g "" --ignore .git'
   fi

@@ -11,7 +11,7 @@ function omz {
 
   # Subcommand functions start with _ so that they don't
   # appear as completion entries when looking for `omz`
-  (( $+functions[_omz::$command] )) || {
+  (( ${+functions[_omz::$command]} )) || {
     _omz::help
     return 1
   }
@@ -105,7 +105,10 @@ function _omz {
   return 0
 }
 
-compdef _omz omz
+# If run from a script, do not set the completion function
+if (( ${+functions[compdef]} )); then
+  compdef _omz omz
+fi
 
 ## Utility functions
 
@@ -238,21 +241,21 @@ function _omz::plugin::disable {
 
   # Remove plugins substitution awk script
   local awk_subst_plugins="\
-  gsub(/\s+(${(j:|:)dis_plugins})/, \"\") # with spaces before
-  gsub(/(${(j:|:)dis_plugins})\s+/, \"\") # with spaces after
+  gsub(/[ \t]+(${(j:|:)dis_plugins})/, \"\") # with spaces before
+  gsub(/(${(j:|:)dis_plugins})[ \t]+/, \"\") # with spaces after
   gsub(/\((${(j:|:)dis_plugins})\)/, \"\") # without spaces (only plugin)
 "
   # Disable plugins awk script
   local awk_script="
 # if plugins=() is in oneline form, substitute disabled plugins and go to next line
-/^\s*plugins=\([^#]+\).*\$/ {
+/^[ \t]*plugins=\([^#]+\).*\$/ {
   $awk_subst_plugins
   print \$0
   next
 }
 
 # if plugins=() is in multiline form, enable multi flag and disable plugins if they're there
-/^\s*plugins=\(/ {
+/^[ \t]*plugins=\(/ {
   multi=1
   $awk_subst_plugins
   print \$0
@@ -277,9 +280,10 @@ multi == 1 && length(\$0) > 0 {
 "
 
   local zdot="${ZDOTDIR:-$HOME}"
-  awk "$awk_script" "$zdot/.zshrc" > "$zdot/.zshrc.new" \
-  && command mv -f "$zdot/.zshrc" "$zdot/.zshrc.bck" \
-  && command mv -f "$zdot/.zshrc.new" "$zdot/.zshrc"
+  local zshrc="${${:-"${zdot}/.zshrc"}:A}"
+  awk "$awk_script" "$zshrc" > "$zdot/.zshrc.new" \
+  && command cp -f "$zshrc" "$zdot/.zshrc.bck" \
+  && command mv -f "$zdot/.zshrc.new" "$zshrc"
 
   # Exit if the new .zshrc file wasn't created correctly
   [[ $? -eq 0 ]] || {
@@ -289,20 +293,17 @@ multi == 1 && length(\$0) > 0 {
   }
 
   # Exit if the new .zshrc file has syntax errors
-  if ! zsh -n "$zdot/.zshrc"; then
+  if ! command zsh -n "$zdot/.zshrc"; then
     _omz::log error "broken syntax in '"${zdot/#$HOME/\~}/.zshrc"'. Rolling back changes..."
-    command mv -f "$zdot/.zshrc" "$zdot/.zshrc.new"
-    command mv -f "$zdot/.zshrc.bck" "$zdot/.zshrc"
+    command mv -f "$zdot/.zshrc.bck" "$zshrc"
     return 1
   fi
 
   # Restart the zsh session if there were no errors
   _omz::log info "plugins disabled: ${(j:, :)dis_plugins}."
 
-  # Old zsh versions don't have ZSH_ARGZERO
-  local zsh="${ZSH_ARGZERO:-${functrace[-1]%:*}}"
-  # Check whether to run a login shell
-  [[ "$zsh" = -* || -o login ]] && exec -l "${zsh#-}" || exec "$zsh"
+  # Only reload zsh if run in an interactive session
+  [[ ! -o interactive ]] || _omz::reload
 }
 
 function _omz::plugin::enable {
@@ -329,14 +330,14 @@ function _omz::plugin::enable {
   # Enable plugins awk script
   local awk_script="
 # if plugins=() is in oneline form, substitute ) with new plugins and go to the next line
-/^\s*plugins=\([^#]+\).*\$/ {
+/^[ \t]*plugins=\([^#]+\).*\$/ {
   sub(/\)/, \" $add_plugins&\")
   print \$0
   next
 }
 
 # if plugins=() is in multiline form, enable multi flag
-/^\s*plugins=\(/ {
+/^[ \t]*plugins=\(/ {
   multi=1
 }
 
@@ -353,9 +354,10 @@ multi == 1 && /^[^#]*\)/ {
 "
 
   local zdot="${ZDOTDIR:-$HOME}"
-  awk "$awk_script" "$zdot/.zshrc" > "$zdot/.zshrc.new" \
-  && command mv -f "$zdot/.zshrc" "$zdot/.zshrc.bck" \
-  && command mv -f "$zdot/.zshrc.new" "$zdot/.zshrc"
+  local zshrc="${${:-"${zdot}/.zshrc"}:A}"
+  awk "$awk_script" "$zshrc" > "$zdot/.zshrc.new" \
+  && command cp -f "$zshrc" "$zdot/.zshrc.bck" \
+  && command mv -f "$zdot/.zshrc.new" "$zshrc"
 
   # Exit if the new .zshrc file wasn't created correctly
   [[ $? -eq 0 ]] || {
@@ -365,20 +367,17 @@ multi == 1 && /^[^#]*\)/ {
   }
 
   # Exit if the new .zshrc file has syntax errors
-  if ! zsh -n "$zdot/.zshrc"; then
+  if ! command zsh -n "$zdot/.zshrc"; then
     _omz::log error "broken syntax in '"${zdot/#$HOME/\~}/.zshrc"'. Rolling back changes..."
-    command mv -f "$zdot/.zshrc" "$zdot/.zshrc.new"
-    command mv -f "$zdot/.zshrc.bck" "$zdot/.zshrc"
+    command mv -f "$zdot/.zshrc.bck" "$zshrc"
     return 1
   fi
 
   # Restart the zsh session if there were no errors
   _omz::log info "plugins enabled: ${(j:, :)add_plugins}."
 
-  # Old zsh versions don't have ZSH_ARGZERO
-  local zsh="${ZSH_ARGZERO:-${functrace[-1]%:*}}"
-  # Check whether to run a login shell
-  [[ "$zsh" = -* || -o login ]] && exec -l "${zsh#-}" || exec "$zsh"
+  # Only reload zsh if run in an interactive session
+  [[ ! -o interactive ]] || _omz::reload
 }
 
 function _omz::plugin::info {
@@ -417,14 +416,14 @@ function _omz::plugin::list {
 
   if (( ${#custom_plugins} )); then
     print -P "%U%BCustom plugins%b%u:"
-    print -l ${(q-)custom_plugins} | column -x
+    print -lac ${(q-)custom_plugins}
   fi
 
   if (( ${#builtin_plugins} )); then
     (( ${#custom_plugins} )) && echo # add a line of separation
 
     print -P "%U%BBuilt-in plugins%b%u:"
-    print -l ${(q-)builtin_plugins} | column -x
+    print -lac ${(q-)builtin_plugins}
   fi
 }
 
@@ -574,12 +573,27 @@ function _omz::pr::test {
 
     # Rebase pull request branch against the current master
     _omz::log info "rebasing PR #$1..."
-    command git rebase master ohmyzsh/pull-$1 || {
-      command git rebase --abort &>/dev/null
-      _omz::log warn "could not rebase PR #$1 on top of master."
-      _omz::log warn "you might not see the latest stable changes."
-      _omz::log info "run \`zsh\` to test the changes."
-      return 1
+    local ret gpgsign
+    {
+      # Back up commit.gpgsign setting: use --local to get the current repository
+      # setting, not the global one. If --local is not a known option, it will
+      # exit with a 129 status code.
+      gpgsign=$(command git config --local commit.gpgsign 2>/dev/null) || ret=$?
+      [[ $ret -ne 129 ]] || gpgsign=$(command git config commit.gpgsign 2>/dev/null)
+      command git config commit.gpgsign false
+
+      command git rebase master ohmyzsh/pull-$1 || {
+        command git rebase --abort &>/dev/null
+        _omz::log warn "could not rebase PR #$1 on top of master."
+        _omz::log warn "you might not see the latest stable changes."
+        _omz::log info "run \`zsh\` to test the changes."
+        return 1
+      }
+    } always {
+      case "$gpgsign" in
+      "") command git config --unset commit.gpgsign ;;
+      *) command git config commit.gpgsign "$gpgsign" ;;
+      esac
     }
 
     _omz::log info "fetch of PR #${1} successful."
@@ -660,13 +674,13 @@ function _omz::theme::list {
   # Print custom themes if there are any
   if (( ${#custom_themes} )); then
     print -P "%U%BCustom themes%b%u:"
-    print -l ${(q-)custom_themes} | column -x
+    print -lac ${(q-)custom_themes}
     echo
   fi
 
   # Print built-in themes
   print -P "%U%BBuilt-in themes%b%u:"
-  print -l ${(q-)builtin_themes} | column -x
+  print -lac ${(q-)builtin_themes}
 }
 
 function _omz::theme::set {
@@ -685,9 +699,9 @@ function _omz::theme::set {
 
   # Enable theme in .zshrc
   local awk_script='
-!set && /^\s*ZSH_THEME=[^#]+.*$/ {
+!set && /^[ \t]*ZSH_THEME=[^#]+.*$/ {
   set=1
-  sub(/^\s*ZSH_THEME=[^#]+.*$/, "ZSH_THEME=\"'$1'\" # set by `omz`")
+  sub(/^[ \t]*ZSH_THEME=[^#]+.*$/, "ZSH_THEME=\"'$1'\" # set by `omz`")
   print $0
   next
 }
@@ -701,7 +715,8 @@ END {
 '
 
   local zdot="${ZDOTDIR:-$HOME}"
-  awk "$awk_script" "$zdot/.zshrc" > "$zdot/.zshrc.new" \
+  local zshrc="${${:-"${zdot}/.zshrc"}:A}"
+  awk "$awk_script" "$zshrc" > "$zdot/.zshrc.new" \
   || {
     # Prepend ZSH_THEME= line to .zshrc if it doesn't exist
     cat <<EOF
@@ -710,8 +725,8 @@ ZSH_THEME="$1" # set by \`omz\`
 EOF
     cat "$zdot/.zshrc"
   } > "$zdot/.zshrc.new" \
-  && command mv -f "$zdot/.zshrc" "$zdot/.zshrc.bck" \
-  && command mv -f "$zdot/.zshrc.new" "$zdot/.zshrc"
+  && command cp -f "$zshrc" "$zdot/.zshrc.bck" \
+  && command mv -f "$zdot/.zshrc.new" "$zshrc"
 
   # Exit if the new .zshrc file wasn't created correctly
   [[ $? -eq 0 ]] || {
@@ -721,20 +736,17 @@ EOF
   }
 
   # Exit if the new .zshrc file has syntax errors
-  if ! zsh -n "$zdot/.zshrc"; then
+  if ! command zsh -n "$zdot/.zshrc"; then
     _omz::log error "broken syntax in '"${zdot/#$HOME/\~}/.zshrc"'. Rolling back changes..."
-    command mv -f "$zdot/.zshrc" "$zdot/.zshrc.new"
-    command mv -f "$zdot/.zshrc.bck" "$zdot/.zshrc"
+    command mv -f "$zdot/.zshrc.bck" "$zshrc"
     return 1
   fi
 
   # Restart the zsh session if there were no errors
   _omz::log info "'$1' theme set correctly."
 
-  # Old zsh versions don't have ZSH_ARGZERO
-  local zsh="${ZSH_ARGZERO:-${functrace[-1]%:*}}"
-  # Check whether to run a login shell
-  [[ "$zsh" = -* || -o login ]] && exec -l "${zsh#-}" || exec "$zsh"
+  # Only reload zsh if run in an interactive session
+  [[ ! -o interactive ]] || _omz::reload
 }
 
 function _omz::theme::use {
@@ -764,10 +776,11 @@ function _omz::update {
   local last_commit=$(builtin cd -q "$ZSH"; git rev-parse HEAD)
 
   # Run update script
+  zstyle -s ':omz:update' verbose verbose_mode || verbose_mode=default
   if [[ "$1" != --unattended ]]; then
-    ZSH="$ZSH" zsh -f "$ZSH/tools/upgrade.sh" --interactive || return $?
+    ZSH="$ZSH" command zsh -f "$ZSH/tools/upgrade.sh" -i -v $verbose_mode || return $?
   else
-    ZSH="$ZSH" zsh -f "$ZSH/tools/upgrade.sh" || return $?
+    ZSH="$ZSH" command zsh -f "$ZSH/tools/upgrade.sh" -v $verbose_mode || return $?
   fi
 
   # Update last updated file
