@@ -33,20 +33,20 @@ fi
 
 # Export environment variables
 # PATH settings
-export PATH="$PATH:$HOME/bin:/usr/local/bin"
-export PATH="$PATH:$HOME/.local/bin"
-export PATH="$PATH:$HOME/.local/sbin"
-export PATH="$PATH:$HOME/.cargo/bin:"
-export PATH="$PATH:$HOME/Documents/flutter/flutter/bin"
-export PATH="$PATH:$HOME/.krew/bin"
-export PATH="$PATH:$GOPATH/bin"
-export PATH="$PATH:$HOME/.gem/ruby/2.7.0/bin"
-export PATH="$PATH:$HOME/.gem/ruby/3.0.0/bin"
-export PATH="$PATH:$HOME/.gem/bin"
-export PATH="$PATH:/usr/local/sbin"
-export PATH="$PATH:$HOME/Library/Python/3.9/bin"
-export PATH="$PATH:/opt/homebrew/bin"
-export PATH="$PATH:/opt/flutter/bin"
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/sbin:$PATH"
+export PATH="$HOME/.cargo/bin::$PATH"
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"
+export PATH="$HOME/.krew/bin:$PATH"
+export PATH="$GOPATH/bin:$PATH"
+export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
+export PATH="$HOME/.gem/ruby/3.0.0/bin:$PATH"
+export PATH="$HOME/.gem/bin:$PATH"
 
 
 # Java
@@ -165,7 +165,7 @@ HISTSIZE=1200000
 
 
 # Tmux
-if [ -z "$TMUX" ]; then
+if [ -z "$TMUX" ] && [ "$TERM_PROGRAM" != "vscode" ]; then
     tmux attach -t default || tmux new -s default
 fi
 
@@ -283,8 +283,6 @@ ZSH_THEME_GIT_PROMPT_BEHIND="${green}⇣"
 ZSH_THEME_GIT_PROMPT_DIVERGED="${green}⇕"
 ZSH_THEME_RUBY_PROMPT_PREFIX=' using %F{red}'
 ZSH_THEME_RUBY_PROMPT_SUFFIX='%f'
-
-
 
 
 # Main prompt
