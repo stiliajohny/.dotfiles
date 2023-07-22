@@ -1,22 +1,7 @@
 
 
 # ZSH Options
-# setopt AUTO_PUSHD           # push the old directory onto the directory stack after pushing the current directory when using cd
-# setopt autocd               # change directory just by typing its name
-# setopt COMPLETE_IN_WORD     # allow completion from within a word/phrase
-# setopt correct              # auto correct mistakes
-# setopt EXTENDED_GLOB        # enable extended globbing
-# setopt interactivecomments  # allow comments in interactive mode
-# setopt magicequalsubst      # enable filename expansion for arguments of the form ‘anything=expression’
-# setopt NO_BEEP              # disable bell
-# setopt no_clobber           # do not overwrite existing files with redirection
-# setopt nonomatch            # hide error message if there is no match for the pattern
-# setopt notify               # report the status of background jobs immediately
-# setopt numericglobsort      # sort filenames numerically when it makes sense
-# setopt promptsubst          # enable command substitution in prompt
-# setopt PUSHD_IGNORE_DUPS    # do not store duplicates in the stack
-# setopt share_history append_history extended_history hist_no_store hist_ignore_all_dups hist_ignore_space
-# setopt TRANSIENT_RPROMPT
+
 WORDCHARS=${WORDCHARS//\/} # Don't consider certain characters part of the word
 PROMPT_EOL_MARK=""         # hide EOL sign ('%')
 
@@ -87,62 +72,112 @@ export ZSH="$HOME/.config/oh-my-zsh"
 export FZF_BASE=/usr/bin/fzf
 export TIMER_FORMAT='[%d]'
 export UPDATE_ZSH_DAYS=1
-ZSH_CUSTOM_AUTOUPDATE_QUIET=true
+export ZSH_CUSTOM_AUTOUPDATE_QUIET=true
 export UPDATE_ZSH_DAYS=13
+export FZF_DEFAULT_OPS="--extended"
 
+
+# Magic Enter
+# defaults
+MAGIC_ENTER_GIT_COMMAND='git status -u .'
+MAGIC_ENTER_OTHER_COMMAND='ls -lh .'
+
+#  TMUX Options for zsh tmux plugin
+ZSH_TMUX_ITERM2=true
 
 # Plugins
 plugins=(
+    adb
+    alias-finder
+    aliases
+    ansible
+    asdf
     autoupdate
     aws
+    brew
+    catimg
+    colored-man-pages
+    colorize
+    command-not-found
+    common-aliases
     fzf
+    gem
     git
+    git-auto-fetch
+    git-extras
     git-prompt
+    gitfast
     github
     gitignore
     helm
+    history
     httpie
+    kubectl
     lol
+    macos
+    magic-enter
+    mongocli
+    nmap
+    node
+    npm
+    nvm
+    ohmyzsh-full-autoupdate
     pep8
     pip
+    poetry
     pyenv
+    pyenv
+    pylint
     python
+    safe-paste
+    screen
+    ssh-agent
     sudo
     systemd
+    taskwarrior
     terraform
+    terraform
+    thefuck
+    themes
     themes
     tig
+    tig
+    timer
     timer
     tmux
-    thefuck
+    virtualenv
     virtualenv
     virtualenvwrapper
-    zsh-wakatime
+    virtualenvwrapper
+    vscode
     web-search
     zsh-256color
     zsh-autosuggestions
     zsh-completions
     zsh-history-substring-search
     zsh-interactive-cd
-    ohmyzsh-full-autoupdate
     zsh-syntax-highlighting
+    zsh-wakatime
 )
 
 # ZSH_THEME="mh"
 
 # Source files and configurations
-[ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
+[ -f "$ZSH/oh-my-zsh.sh" ] && source $ZSH/oh-my-zsh.sh
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
-[ -f $XDG_CONFIG_HOME/zsh/aliases.zsh ] && source $XDG_CONFIG_HOME/zsh/aliases.zsh
-[ -f $XDG_CONFIG_HOME/zsh/completion.zsh ] && source $XDG_CONFIG_HOME/zsh/completion.zsh
-[ -f $XDG_CONFIG_HOME/zsh/functions.zsh ] && source $XDG_CONFIG_HOME/zsh/functions.zsh
-[ -f $XDG_CONFIG_HOME/zsh/kube-config.zsh ] && source  $XDG_CONFIG_HOME/zsh/kube-config.zsh
-[ -f $XDG_CONFIG_HOME/zsh/minikube.zsh ] && source $XDG_CONFIG_HOME/zsh/minikube.zsh
-[ -f $XDG_CONFIG_HOME/zsh/vagrant.zsh ] && source  $XDG_CONFIG_HOME/zsh/vagrant.zsh
-[ -f $XDG_CONFIG_HOME/zsh/poetry.zsh ] && source  $XDG_CONFIG_HOME/zsh/poetry.zsh
-[ -f $XDG_CONFIG_HOME/zsh/terraform_prompt.zsh ] && source  $XDG_CONFIG_HOME/zsh/terraform_prompt.zsh
-# . "$HOME/.asdf/asdf.sh" if it exists load it make it onle liner as above
+[ -f "$XDG_CONFIG_HOME/zsh/aliases.zsh" ] && source $XDG_CONFIG_HOME/zsh/aliases.zsh
+[ -f "$XDG_CONFIG_HOME/zsh/completion.zsh" ] && source $XDG_CONFIG_HOME/zsh/completion.zsh
+[ -f "$XDG_CONFIG_HOME/zsh/functions.zsh" ] && source $XDG_CONFIG_HOME/zsh/functions.zsh
+[ -f "$XDG_CONFIG_HOME/zsh/kube-config.zsh" ] && source  $XDG_CONFIG_HOME/zsh/kube-config.zsh
+[ -f "$XDG_CONFIG_HOME/zsh/minikube.zsh" ] && source $XDG_CONFIG_HOME/zsh/minikube.zsh
+[ -f "$XDG_CONFIG_HOME/zsh/vagrant.zsh" ] && source  $XDG_CONFIG_HOME/zsh/vagrant.zsh
+[ -f "$XDG_CONFIG_HOME/zsh/poetry.zsh" ] && source  $XDG_CONFIG_HOME/zsh/poetry.zsh
+[ -f "$XDG_CONFIG_HOME/zsh/terraform_prompt.zsh" ] && source  $XDG_CONFIG_HOME/zsh/terraform_prompt.zsh
 [ -f "$HOME/.asdf/asdf.sh" ] && source "$HOME/.asdf/asdf.sh"
+[ -f "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh" ] && source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
+[ -f  $HOME/.config/zsh/.fzf.zsh ] && source $HOME/.config/zsh/.fzf.zsh # TODO move it to the source section
+[ -f ~/.docker/init-zsh.sh ] && source ~/.docker/init-zsh.sh || true
+
 
 # Plugin Config
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
@@ -190,19 +225,14 @@ do
 done
 IFS="$OIFS"
 
-export FZF_DEFAULT_OPS="--extended"
-[ -f  $HOME/.config/zsh/.fzf.zsh ] && source $HOME/.config/zsh/.fzf.zsh
 
 # Pyenv initialization
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
-# Docker Desktop initialization
-source /Users/johnstilia/.docker/init-zsh.sh || true # Added by Docker Desktop
 
-# Customize prompt
-PROMPT_EOL_MARK=""
+
 
 
 # kube context
@@ -219,7 +249,6 @@ kube_context() {
   fi
 }
 
-
 aws_profile() {
   if [ -z "${AWS_PROFILE}" ]; then
     echo ""
@@ -230,7 +259,6 @@ aws_profile() {
   fi
 }
 
-
 terraform_workspace(){
   # if the .terraform folder does exist then we are in a terraform project
   if [[ -d .terraform ]]; then
@@ -240,7 +268,6 @@ terraform_workspace(){
     fi
   fi
 }
-
 
 # Virtual Environment
 virtualenv_info() {
@@ -284,10 +311,35 @@ ZSH_THEME_GIT_PROMPT_DIVERGED="${green}⇕"
 ZSH_THEME_RUBY_PROMPT_PREFIX=' using %F{red}'
 ZSH_THEME_RUBY_PROMPT_SUFFIX='%f'
 
+# KUBE-PS1 configuration
+KUBE_PS1_BINARY="kubectl"
+KUBE_PS1_NS_ENABLE=true
+KUBE_PS1_PREFIX="("
+KUBE_PS1_SYMBOL_ENABLE=true
+KUBE_PS1_SYMBOL_PADDING=true
+KUBE_PS1_SYMBOL_DEFAULT="⎈ "
+KUBE_PS1_SYMBOL_USE_IMG=true
+KUBE_PS1_SEPARATOR="|"
+KUBE_PS1_DIVIDER=":"
+KUBE_PS1_SUFFIX=")"
+KUBE_PS1_SEPARATOR=''
+# KUBE_PS1_PREFIX_COLOR="${yellow}"
+# KUBE_PS1_SYMBOL_COLOR="${magenta}"
+# KUBE_PS1_CTX_COLOR="${magenta}"
+# KUBE_PS1_SUFFIX_COLOR="${yellow}"
+# KUBE_PS1_NS_COLOR="${magenta}"
+# KUBE_PS1_BG_COLOR="${magenta}"
+
+# TF-Prompt configuration
+ZSH_THEME_TF_PROMPT_PREFIX="%{$fg[white]%}"
+ZSH_THEME_TF_PROMPT_SUFFIX="%{$reset_color%}"
+#  can use $(tf_prompt_info) as PROMPT entry
 
 # Main prompt
+PROMPT_EOL_MARK=""
 PROMPT='${user_host} ${current_dir} $(git_prompt_info) ${blue}${reset}
-$(kube_context)$(aws_profile)$(virtualenv_info)$(terraform_workspace) ${prompt_symbol} %{%}'
+$(kube_ps1)$(aws_profile)$(virtualenv_info)$(terraform_workspace) ${prompt_symbol} %{%}'
+
 
 # Set up right prompt
 RPROMPT="${cyan}%D{%H:%M}${reset}"
@@ -304,8 +356,36 @@ fi
 
 # Download Znap, if it's not there yet.
 [[ -r ~/Documents/GitHub/znap/znap.zsh ]] ||
-    git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git ~/Documents/GitHub/znap
+    git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git ~/Documents/GitHub/znap; chmod  +x ~/Documents/GitHub/znap/znap.zsh
 source ~/Documents/GitHub/znap/znap.zsh  # Start Znap
 
 
 # End of the organized ZSH config file
+
+
+## autocomplete
+if [[ ! -o interactive ]]; then
+    return
+fi
+
+compctl -K _jina jina
+
+_jina() {
+  local words completions
+  read -cA words
+
+  if [ "${#words}" -eq 2 ]; then
+    completions="$(jina commands)"
+  else
+    completions="$(jina completions ${words[2,-2]})"
+  fi
+
+  reply=(${(ps:
+:)completions})
+}
+
+# session-wise fix
+ulimit -n 4096
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"

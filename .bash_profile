@@ -19,3 +19,5 @@ _awsume() {
 complete -F _awsume awsume
 
 source /Users/johnstilia/.docker/init-bash.sh || true # Added by Docker Desktop
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
