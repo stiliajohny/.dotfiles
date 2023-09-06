@@ -532,27 +532,4 @@
 
 [includeIf "gitdir:~/development/"]
         path = ~/development/.gitconfig
-[maintenance]
-	repo = /Users/johnstilia/Documents/GitHub/ImageDelta
-	repo = /Users/johnstilia/Documents/GitHub/LocationFlutterGetX
-	repo = /Users/johnstilia/Documents/GitHub/RouteRanger
-	repo = /Users/johnstilia/Documents/GitHub/Travelling-App
-	repo = /Users/johnstilia/Documents/GitHub/expo-react-training
-	repo = /Users/johnstilia/Documents/GitHub/golang-gs
-	repo = /Users/johnstilia/Documents/GitHub/hardware-gps-tracker
-	repo = /Users/johnstilia/Documents/GitHub/harteros.github.io
-	repo = /Users/johnstilia/Documents/GitHub/infra
-	repo = /Users/johnstilia/Documents/GitHub/localstack-demo
-	repo = /Users/johnstilia/Documents/GitHub/mac-dev-playbook
-	repo = /Users/johnstilia/Documents/GitHub/miniurl
-	repo = /Users/johnstilia/Documents/GitHub/monorepo-ansible-provisioning
-	repo = /Users/johnstilia/Documents/GitHub/pasteportal
-	repo = /Users/johnstilia/Documents/GitHub/personal-notes
-	repo = /Users/johnstilia/Documents/GitHub/picoclock
-	repo = /Users/johnstilia/Documents/GitHub/python-gridfusion
-	repo = /Users/johnstilia/Documents/GitHub/react-native-flip-card
-	repo = /Users/johnstilia/Documents/GitHub/soundwaves
-	repo = /Users/johnstilia/Documents/GitHub/stiliajohny.github.io
-	repo = /Users/johnstilia/Documents/GitHub/stiliajohny.krew
-	repo = /Users/johnstilia/Documents/GitHub/znap
-	repo = /Users/johnstilia/Documents/GitHub/react-gps-location-share/gps-location-share
+
