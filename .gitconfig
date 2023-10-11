@@ -1,11 +1,24 @@
+;  Core Configuration
+
+[protocol]
+        version = 2
 
 [user]
         email = stilia.johny@gmail.com
         name = John Stilia
-        # signingkey = 6B43560EE299AA30
+        signingkey = 3EC5B74B3C23D18BFEF0BCC46B43560EE299AA30
 
 [includeIf "gitdir:~/work/"]
         path = ~/work/.gitconfig
+
+[include]
+        path = .gitconfig.local
+
+[includeIf "gitdir:~/projects/"]
+        path = ~/projects/.gitconfig
+
+[includeIf "gitdir:~/development/"]
+        path = ~/development/.gitconfig
 
 [core]
         editor = code
@@ -22,7 +35,7 @@
         defaultBranch = master
 
 [commit]
-        gpgsign = false
+	gpgsign = true
         status = true
 
 [color]
@@ -39,73 +52,8 @@
         transport = true
 	ui = true
 
-[color "branch"]
-        current = yellow reverse
-        upstream = 208
-        plain = 15
-        local = yellow
-        remote = green
 
-[color "decorate"]
-        branch = 2 bold
-        remoteBranch = 1 bold
-        tag = 3 bold
-        stash = 5 bold
-        HEAD = 6 bold
-        grafted = 4 bold
-
-[color "diff"]
-	commit = yellow bold
-        context = 15
-        frag = 3 bold reverse
-	func = 146 bold
-        meta = 4 bold reverse
-        newMoved = 14
-        newMovedAlternative = 14
-        oldMoved = 8
-        oldMovedAlternative = 8
-	whitespace = red reverse
-        frag = magenta bold
-        meta = yellow bold
-	new = green bold
-	old = red bold
-
-[color "diff-highlight"]
-	oldHighlight = red bold 52
-        oldReset = noul
-	newHighlight = green bold 22
-        newReset = noul
-	oldNormal = red bold
-	newNormal = green bold
-
-[color "interactive"]
-        prompt = 4 bold
-        header = 15 bold
-        help = 15
-        error = 1
-
-[color "push"]
-        error = 1 bold
-
-[color "transport"]
-        rejected = 1 bold
-
-[color "remote"]
-        hint = 5 bold
-        warning = 3 bold
-        success = 2 bold
-        error = 1 bold
-
-[color "status"]
-        header = 15 bold
-        added = yellow bold
-        changed = green bold
-        untracked = 9 bold
-        branch = 2 bold
-        nobranch = 3 bold
-        localBranch = 2 bold
-        remoteBranch = 1 bold
-        unmerged = 9 bold reverse
+; URL Aliases
 
 [url "git@github.com:"]
         insteadOf = @gh:
@@ -129,7 +77,8 @@
         insteadOf = bb://
 
 [url "https://aur.archlinux.org/"]
-        insteadOf = aur://
+        i
+        nsteadOf = aur://
 
 [diff]
         algorithm = myers
@@ -224,22 +173,14 @@
         showRoot = true
         mailmap = true
 
-#[pager]
-#        log = "diff-highlight | less"
-#        show = "diff-highlight | less"
-#        diff = "diff-highlight | less"
-
 [rerere]
         enabled = true
-
-[protocol]
-        version = 2
 
 [column]
         ui = auto,column
 
 [web]
-        browser = chromium
+        browser = chrome
 
 [advice]
         pushUpdateRejected = false
@@ -446,7 +387,7 @@
 
         # open GitHub repository in browser
         #    git open [<remote>]
-        open = "!f() { URL=$(git config remote.${1:-origin}.url); xdg-open \"${URL%%.git}\"; }; f"
+        open = "!f() { URL=$(git config remote.${1:-origin}.url); open \"${URL%%.git}\"; }; f"
 
         # set up remotes for fork
         #    git fork [<old-remote> [<new-remote>]]
@@ -524,12 +465,72 @@
         untracked = cyan
 
 
-[include]
-        path = .gitconfig.local
+; Colors
 
-[includeIf "gitdir:~/projects/"]
-        path = ~/projects/.gitconfig
+[color "branch"]
+        current = yellow reverse
+        upstream = 208
+        plain = 15
+        local = yellow
+        remote = green
 
-[includeIf "gitdir:~/development/"]
-        path = ~/development/.gitconfig
+[color "decorate"]
+        branch = 2 bold
+        remoteBranch = 1 bold
+        tag = 3 bold
+        stash = 5 bold
+        HEAD = 6 bold
+        grafted = 4 bold
 
+[color "diff"]
+	commit = yellow bold
+        context = 15
+        frag = 3 bold reverse
+	func = 146 bold
+        meta = 4 bold reverse
+        newMoved = 14
+        newMovedAlternative = 14
+        oldMoved = 8
+        oldMovedAlternative = 8
+	whitespace = red reverse
+        frag = magenta bold
+        meta = yellow bold
+	new = green bold
+	old = red bold
+
+[color "diff-highlight"]
+	oldHighlight = red bold 52
+        oldReset = noul
+	newHighlight = green bold 22
+        newReset = noul
+	oldNormal = red bold
+	newNormal = green bold
+
+[color "interactive"]
+        prompt = 4 bold
+        header = 15 bold
+        help = 15
+        error = 1
+
+[color "push"]
+        error = 1 bold
+
+[color "transport"]
+        rejected = 1 bold
+
+[color "remote"]
+        hint = 5 bold
+        warning = 3 bold
+        success = 2 bold
+        error = 1 bold
+
+[color "status"]
+        header = 15 bold
+        added = yellow bold
+        changed = green bold
+        untracked = 9 bold
+        branch = 2 bold
+        nobranch = 3 bold
+        localBranch = 2 bold
+        remoteBranch = 1 bold
+        unmerged = 9 bold reverse
