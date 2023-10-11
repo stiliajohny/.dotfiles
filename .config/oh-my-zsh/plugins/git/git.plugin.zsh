@@ -113,11 +113,17 @@ alias gapt='git apply --3way'
 alias gbs='git bisect'
 alias gbsb='git bisect bad'
 alias gbsg='git bisect good'
+<<<<<<< Updated upstream
 alias gbsn='git bisect new'
 alias gbso='git bisect old'
 alias gbsr='git bisect reset'
 alias gbss='git bisect start'
 alias gbl='git blame -w'
+=======
+alias gbsr='git bisect reset'
+alias gbss='git bisect start'
+alias gbl='git blame -b -w'
+>>>>>>> Stashed changes
 alias gb='git branch'
 alias gba='git branch --all'
 alias gbd='git branch --delete'
@@ -125,7 +131,10 @@ alias gbD='git branch --delete --force'
 alias gbda='git branch --no-color --merged | command grep -vE "^([+*]|\s*($(git_main_branch)|$(git_develop_branch))\s*$)" | command xargs git branch --delete 2>/dev/null'
 alias gbgd='LANG=C git branch --no-color -vv | grep ": gone\]" | awk '"'"'{print $1}'"'"' | xargs git branch -d'
 alias gbgD='LANG=C git branch --no-color -vv | grep ": gone\]" | awk '"'"'{print $1}'"'"' | xargs git branch -D'
+<<<<<<< Updated upstream
 alias gbm='git branch --move'
+=======
+>>>>>>> Stashed changes
 alias gbnm='git branch --no-merged'
 alias gbr='git branch --remote'
 alias ggsup='git branch --set-upstream-to=origin/$(git_current_branch)'
@@ -310,8 +319,11 @@ alias grup='git remote update'
 alias grh='git reset'
 alias gru='git reset --'
 alias grhh='git reset --hard'
+<<<<<<< Updated upstream
 alias grhk='git reset --keep'
 alias grhs='git reset --soft'
+=======
+>>>>>>> Stashed changes
 alias gpristine='git reset --hard && git clean --force -dfx'
 alias groh='git reset origin/$(git_current_branch) --hard'
 alias grs='git restore'
@@ -334,7 +346,11 @@ alias gstp='git stash pop'
 is-at-least 2.13 "$git_version" \
   && alias gsta='git stash push' \
   || alias gsta='git stash save'
+<<<<<<< Updated upstream
 alias gsts='git stash show'
+=======
+alias gsts='git stash show --text'
+>>>>>>> Stashed changes
 alias gst='git status'
 alias gss='git status --short'
 alias gsb='git status --short --branch'
@@ -347,7 +363,10 @@ alias gsw='git switch'
 alias gswc='git switch --create'
 alias gswd='git switch $(git_develop_branch)'
 alias gswm='git switch $(git_main_branch)'
+<<<<<<< Updated upstream
 alias gta='git tag --annotate'
+=======
+>>>>>>> Stashed changes
 alias gts='git tag --sign'
 alias gtv='git tag | sort -V'
 alias gignore='git update-index --assume-unchanged'

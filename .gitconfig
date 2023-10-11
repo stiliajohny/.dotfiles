@@ -21,7 +21,7 @@
         path = ~/development/.gitconfig
 
 [core]
-        editor = code
+        editor = vim
         whitespace = fix,trailing-space,cr-at-eol
         # hooksPath = ~/.config/git/hooks
         excludesfile = ~/.gitignore
@@ -80,23 +80,31 @@
         i
         nsteadOf = aur://
 
+# [diff]
+#         algorithm = myers
+#         tool = vimdiff
+#         colorMoved = default
+#         renames = copy
+#         mnemonicPrefix = true
+#         wsErrorHighlight = all
+#         statGraphWidth = 40
+
+# [diff "bin"]
+#         textconv = hexdump -v -C
+
+# [difftool]
+#         prompt = true
+
+# [difftool "vimdiff"]
+#         cmd = vim -d "$LOCAL" "$REMOTE"
+
+
 [diff]
-        algorithm = myers
-        tool = vimdiff
-        colorMoved = default
-        renames = copy
-        mnemonicPrefix = true
-        wsErrorHighlight = all
-        statGraphWidth = 40
+    tool = vscode
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE
 
-[diff "bin"]
-        textconv = hexdump -v -C
 
-[difftool]
-        prompt = true
-
-[difftool "vimdiff"]
-        cmd = vim -d "$LOCAL" "$REMOTE"
 
 [merge]
         ff = false
@@ -446,12 +454,6 @@
 [svn]
         rmdir = true
 
-[filter "lfs"]
-        clean = git-lfs clean -- %f
-        smudge = git-lfs smudge -- %f
-        required = true
-        process = git-lfs filter-process
-
 [http]
         sslVerify = true
 
@@ -534,3 +536,9 @@
         localBranch = 2 bold
         remoteBranch = 1 bold
         unmerged = 9 bold reverse
+
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f

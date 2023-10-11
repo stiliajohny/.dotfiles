@@ -209,3 +209,20 @@ function docker-get-all-ip() {
 function docker-update-all() {
     docker images --format "{{.Repository}}:{{.Tag}}" | grep ':latest' | xargs -L1 docker pull
 }
+
+
+function yt-mp3 () {
+    youtube-dl --ignore-errors -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 -o '%(title)s.%(ext)s' "$1"
+}
+
+function yt-mp3p () {
+    youtube-dl --ignore-errors --sleep-interval 30 -i -f bestaudio --extract-audio --audio-format mp3 --audio-quality 0 -o '%(playlist)s/%(playlist_index)s - %(title)s.%(ext)s' "$1"
+}
+
+function  yt-dlv () {
+    youtube-dl --ignore-errors -o '%(title)s.%(ext)s' "$1"
+}
+
+function  yt-dlp () {
+    youtube-dl --yes-playlist --ignore-errors --sleep-interval 30 -o '%(playlist)s/%(title)s.%(ext)s' "$1"
+}
