@@ -159,13 +159,10 @@ alias b2z='bzip2 -z'
 
 
 alias bigdir="du -hsx * | sort -rh | head -10"
-alias cgit='cd ~/Documents/GitHub/ && mgitstatus'
+alias cgit='cd ~/Documents/Projects/ && mgitstatus'
 
 alias k=kubectl
 alias test-passed='if [ "$?" -eq "0" ]; then lolcat ~/.config/zsh/tp -a -s 40 -d 2; fi;'
-
-alias eksctl-sky='https_proxy=socks5://localhost:8888 kubectl'
-alias ekshelm-sky='https_proxy=socks5://localhost:8888 helm'
 
 
 
