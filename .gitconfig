@@ -544,3 +544,19 @@
 	smudge = git-lfs smudge -- %f
 [gpg]
 	program = /usr/local/bin/gpg
+[maintenance]
+	repo = /Users/johnstilia/Documents/Projects/aws-infra
+	repo = /Users/johnstilia/Documents/Projects/flux-localhost
+	repo = /Users/johnstilia/Documents/Projects/hardware-gps-tracker
+	repo = /Users/johnstilia/Documents/Projects/infra
+	repo = /Users/johnstilia/Documents/Projects/latex-my-cv
+	repo = /Users/johnstilia/Documents/Projects/liberide
+	repo = /Users/johnstilia/Documents/Projects/mac-dev-playbook
+	repo = /Users/johnstilia/Documents/Projects/miniurl
+	repo = /Users/johnstilia/Documents/Projects/monorepo-ansible-provisioning
+	repo = /Users/johnstilia/Documents/Projects/pasteportal
+	repo = /Users/johnstilia/Documents/Projects/personal-notes
+	repo = /Users/johnstilia/Documents/Projects/python-gridfusion
+	repo = /Users/johnstilia/Documents/Projects/soundwaves
+	repo = /Users/johnstilia/Documents/Projects/stiliajohny.github.io
+	repo = /Users/johnstilia/Documents/Projects/znap

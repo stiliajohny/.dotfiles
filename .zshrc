@@ -1,5 +1,5 @@
-
-
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 # ZSH Options
 
 WORDCHARS=${WORDCHARS//\/} # Don't consider certain characters part of the word
@@ -9,12 +9,6 @@ PROMPT_EOL_MARK=""         # hide EOL sign ('%')
 autoload -Uz compinit
 compinit -d ~/.cache/zcompdump
 
-# Set terminal type
-if [ -e /usr/share/terminfo/x/xterm-256color ]; then
-        export TERM='xterm-256color'
-else
-        export TERM='xterm-color'
-fi
 
 # Export environment variables
 # PATH settings
@@ -28,10 +22,9 @@ export PATH="$HOME/.local/sbin:$PATH"
 export PATH="$HOME/.cargo/bin::$PATH"
 export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 export PATH="$HOME/.krew/bin:$PATH"
-export PATH="$GOPATH/bin:$PATH"
-export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
-export PATH="$HOME/.gem/ruby/3.0.0/bin:$PATH"
-export PATH="$HOME/.gem/bin:$PATH"
+
+
+export PATH="$HOME/.fig/bin:$PATH"
 
 
 # Java
@@ -40,6 +33,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 # Go
 export GOPATH=$HOME/go
+export PATH="$GOPATH/bin:$PATH"
 
 # Python
 export PYENV_ROOT="$HOME/.pyenv"
@@ -59,6 +53,9 @@ export XSERVERRC="$XDG_CONFIG_HOME"/X11/xserverrc
 
 # Ruby
 export GEM_HOME=$HOME/.gem
+export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
+export PATH="$HOME/.gem/ruby/3.0.0/bin:$PATH"
+export PATH="$HOME/.gem/bin:$PATH"
 
 # Poetry
 export PATH="$HOME/.poetry/bin:$PATH"
@@ -75,6 +72,7 @@ export UPDATE_ZSH_DAYS=1
 export ZSH_CUSTOM_AUTOUPDATE_QUIET=true
 export UPDATE_ZSH_DAYS=13
 export FZF_DEFAULT_OPS="--extended"
+export EDITOR="vim"
 
 
 # Magic Enter
@@ -233,117 +231,6 @@ fi
 
 
 
-
-
-# kube context
-kube_context() {
-  if [[ -n "$(which kubectl)" ]]; then
-    local context="$(kubectl config current-context 2>/dev/null)"
-    local namespace="$(kubectl config view --minify --output 'jsonpath={..namespace}' 2>/dev/null)"
-    if [[ -n "${context}" ]]; then
-      if [[ -z "${namespace}" ]]; then
-        namespace="default"
-      fi
-      echo "${cyan}[${reset}${context}:${namespace}${cyan}]${reset}"
-    fi
-  fi
-}
-
-aws_profile() {
-  if [ -z "${AWS_PROFILE}" ]; then
-    echo ""
-  elif [ -z "$(echo -e "${AWS_PROFILE}" | tr -d '[:space:]')" ]; then
-    echo "|AWS: ${yellow}unknown${reset}"
-  else
-    echo "|AWS: ${yellow}${AWS_PROFILE}${reset}"
-  fi
-}
-
-terraform_workspace(){
-  # if the .terraform folder does exist then we are in a terraform project
-  if [[ -d .terraform ]]; then
-    # if the workspace is not default then we are in a terraform workspace
-    if [[ $(terraform workspace show) != "default" ]]; then
-      echo "|${cyan}[${reset}Terraform: ${yellow}$(terraform workspace show)${cyan}]${reset}"
-    fi
-  fi
-}
-
-# Virtual Environment
-virtualenv_info() {
-    if [[ -n "$VIRTUAL_ENV" ]]; then
-        echo "|${cyan}[${reset}Python: ${yellow}$(python --version 2>&1 | cut -d " " -f 2)${reset} - ($(basename $VIRTUAL_ENV))${cyan}]${reset}"
-    fi
-}
-
-# Custom funky theme
-
-# Set colors
-local black="%F{black}"
-local red="%F{red}"
-local green="%F{green}"
-local yellow="%F{yellow}"
-local blue="%F{blue}"
-local magenta="%F{magenta}"
-local cyan="%F{cyan}"
-local white="%F{white}"
-local reset="%f"
-
-# Prompt elements
-local prompt_symbol="${green}➜${reset}"
-local current_dir="${yellow}%1~${reset}"
-local git_info="${magenta}\$(git_prompt_info)${reset}"
-local user_host="${green}%n@%m${reset}"
-
-# Git prompt configuration
-ZSH_THEME_GIT_PROMPT_PREFIX="("
-ZSH_THEME_GIT_PROMPT_SUFFIX=")"
-ZSH_THEME_GIT_PROMPT_DIRTY=" *"
-ZSH_THEME_GIT_PROMPT_CLEAN=""
-ZSH_THEME_GIT_PROMPT_ADDED="${green}+"
-ZSH_THEME_GIT_PROMPT_MODIFIED="${yellow}!"
-ZSH_THEME_GIT_PROMPT_DELETED="${red}-"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="${cyan}?"
-ZSH_THEME_GIT_PROMPT_STASHED="${magenta}⚑"
-ZSH_THEME_GIT_PROMPT_AHEAD="${green}⇡"
-ZSH_THEME_GIT_PROMPT_BEHIND="${green}⇣"
-ZSH_THEME_GIT_PROMPT_DIVERGED="${green}⇕"
-ZSH_THEME_RUBY_PROMPT_PREFIX=' using %F{red}'
-ZSH_THEME_RUBY_PROMPT_SUFFIX='%f'
-
-# KUBE-PS1 configuration
-KUBE_PS1_BINARY="kubectl"
-KUBE_PS1_NS_ENABLE=true
-KUBE_PS1_PREFIX="("
-KUBE_PS1_SYMBOL_ENABLE=true
-KUBE_PS1_SYMBOL_PADDING=true
-KUBE_PS1_SYMBOL_DEFAULT="⎈ "
-KUBE_PS1_SYMBOL_USE_IMG=true
-KUBE_PS1_SEPARATOR="|"
-KUBE_PS1_DIVIDER=":"
-KUBE_PS1_SUFFIX=")"
-KUBE_PS1_SEPARATOR=''
-# KUBE_PS1_PREFIX_COLOR="${yellow}"
-# KUBE_PS1_SYMBOL_COLOR="${magenta}"
-# KUBE_PS1_CTX_COLOR="${magenta}"
-# KUBE_PS1_SUFFIX_COLOR="${yellow}"
-# KUBE_PS1_NS_COLOR="${magenta}"
-# KUBE_PS1_BG_COLOR="${magenta}"
-
-# TF-Prompt configuration
-ZSH_THEME_TF_PROMPT_PREFIX="%{$fg[white]%}"
-ZSH_THEME_TF_PROMPT_SUFFIX="%{$reset_color%}"
-#  can use $(tf_prompt_info) as PROMPT entry
-
-# Main prompt
-PROMPT_EOL_MARK=""
-PROMPT='${user_host} ${current_dir} $(git_prompt_info) ${blue}${reset}
-$(kube_ps1)$(aws_profile)$(virtualenv_info)$(terraform_workspace) ${prompt_symbol} %{%}'
-
-
-# Set up right prompt
-RPROMPT="${cyan}%D{%H:%M}${reset}"
-
 # Configure completion
 zstyle ':completion:*' menu select
 zstyle ':completion:*' group-name ''
@@ -352,13 +239,6 @@ zstyle ':completion:*' group-name ''
 if [[ "$(uname)" != "Darwin" ]]; then
     eval $(dircolors -b)
 fi
-
-
-# Download Znap, if it's not there yet.
-[[ -r ~/Documents/GitHub/znap/znap.zsh ]] ||
-    git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git ~/Documents/GitHub/znap; chmod  +x ~/Documents/GitHub/znap/znap.zsh
-source ~/Documents/GitHub/znap/znap.zsh  # Start Znap
-
 
 # End of the organized ZSH config file
 
@@ -389,3 +269,6 @@ ulimit -n 4096
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
