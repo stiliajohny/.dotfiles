@@ -20,7 +20,6 @@ export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/sbin:$PATH"
 export PATH="$HOME/.cargo/bin::$PATH"
-export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 export PATH="$HOME/.krew/bin:$PATH"
 
 
@@ -36,9 +35,10 @@ export GOPATH=$HOME/go
 export PATH="$GOPATH/bin:$PATH"
 
 # Python
-export PYENV_ROOT="$HOME/.pyenv"
+export PYENV_ROOT="/opt/homebrew/opt/pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
+
 
 # XDG Base Directory Specification
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -57,8 +57,8 @@ export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
 export PATH="$HOME/.gem/ruby/3.0.0/bin:$PATH"
 export PATH="$HOME/.gem/bin:$PATH"
 
-# Poetry
-export PATH="$HOME/.poetry/bin:$PATH"
+# # Poetry
+# export PATH="$HOME/.poetry/bin:$PATH"
 
 # Miscellaneous
 mkdir -p $ZSH_CACHE
@@ -122,7 +122,7 @@ plugins=(
     ohmyzsh-full-autoupdate
     pep8
     pip
-    poetry
+    # poetry
     pyenv
     pyenv
     pylint
@@ -169,7 +169,7 @@ plugins=(
 [ -f "$XDG_CONFIG_HOME/zsh/kube-config.zsh" ] && source  $XDG_CONFIG_HOME/zsh/kube-config.zsh
 [ -f "$XDG_CONFIG_HOME/zsh/minikube.zsh" ] && source $XDG_CONFIG_HOME/zsh/minikube.zsh
 [ -f "$XDG_CONFIG_HOME/zsh/vagrant.zsh" ] && source  $XDG_CONFIG_HOME/zsh/vagrant.zsh
-[ -f "$XDG_CONFIG_HOME/zsh/poetry.zsh" ] && source  $XDG_CONFIG_HOME/zsh/poetry.zsh
+# [ -f "$XDG_CONFIG_HOME/zsh/poetry.zsh" ] && source  $XDG_CONFIG_HOME/zsh/poetry.zsh
 [ -f "$XDG_CONFIG_HOME/zsh/terraform_prompt.zsh" ] && source  $XDG_CONFIG_HOME/zsh/terraform_prompt.zsh
 [ -f "$HOME/.asdf/asdf.sh" ] && source "$HOME/.asdf/asdf.sh"
 [ -f "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh" ] && source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
@@ -180,7 +180,7 @@ plugins=(
 # Plugin Config
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
 DISABLE_MAGIC_FUNCTIONS=true
-ZSH_POETRY_AUTO_ACTIVATE=1
+ZSH_POETRY_AUTO_ACTIVATE=0
 ZSH_POETRY_AUTO_DEACTIVATE=1
 SHOW_AWS_PROMPT=true
 ZSH_THEME_AWS_PREFIX="AWS: "
@@ -270,5 +270,55 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/johnstilia/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+
+
+# JINA_CLI_BEGIN
+
+## autocomplete
+if [[ ! -o interactive ]]; then
+    return
+fi
+
+compctl -K _jina jina
+
+_jina() {
+  local words completions
+  read -cA words
+
+  if [ "${#words}" -eq 2 ]; then
+    completions="$(jina commands)"
+  else
+    completions="$(jina completions ${words[2,-2]})"
+  fi
+
+  reply=(${(ps:
+:)completions})
+}
+
+# session-wise fix
+ulimit -n 4096
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+# JINA_CLI_END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -6,7 +6,7 @@
 [user]
         email = stilia.johny@gmail.com
         name = John Stilia
-        signingkey = 3EC5B74B3C23D18BFEF0BCC46B43560EE299AA30
+        # signingkey = 3EC5B74B3C23D18BFEF0BCC46B43560EE299AA30
 
 [includeIf "gitdir:~/work/"]
         path = ~/work/.gitconfig
@@ -35,7 +35,7 @@
         defaultBranch = master
 
 [commit]
-	gpgsign = true
+	# gpgsign = true
         status = true
 
 [color]
@@ -188,7 +188,7 @@
         ui = auto,column
 
 [web]
-        browser = chrome
+	browser = ch
 
 [advice]
         pushUpdateRejected = false
@@ -560,3 +560,5 @@
 	repo = /Users/johnstilia/Documents/Projects/soundwaves
 	repo = /Users/johnstilia/Documents/Projects/stiliajohny.github.io
 	repo = /Users/johnstilia/Documents/Projects/znap
+[browser "ch"]
+	cmd = open -a Google Chrome.app
