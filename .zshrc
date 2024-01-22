@@ -1,3 +1,5 @@
+# CodeWhisperer pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.pre.zsh"
 WORDCHARS=${WORDCHARS//\/} # Don't consider certain characters part of the word
 PROMPT_EOL_MARK=""         # hide EOL sign ('%')
 
@@ -115,22 +117,11 @@ clone_if_not_exists "https://github.com/zsh-users/zsh-syntax-highlighting.git" "
 clone_if_not_exists "https://github.com/wbingli/zsh-wakatime.git" "$ZSH_CUSTOM/plugins/zsh-wakatime"
 
 
-# Source files and configurations
-source_if_exists "$ZSH_CONFIG/aliases.zsh"
-source_if_exists "$ZSH_CONFIG/completion.zsh"
-source_if_exists "$ZSH_CONFIG/functions.zsh"
-source_if_exists "$ZSH_CONFIG/kube-config.zsh"
-source_if_exists "$ZSH_CONFIG/minikube.zsh"
-source_if_exists "$ZSH_CONFIG/poetry.zsh"
-source_if_exists "$ZSH_CONFIG/terraform_prompt.zsh"
-source_if_exists "$ZSH_CONFIG/kube-ps1.sh"
-
-
 #  Various Configs
-ZSH_THEME="robbyrussell"
+ZSH_THEME="half-life"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=60'
 DISABLE_MAGIC_FUNCTIONS=true
-ZSH_POETRY_AUTO_ACTIVATE=0
+ZSH_POETRY_AUTO_ACTIVATE=1
 ZSH_POETRY_AUTO_DEACTIVATE=1
 SHOW_AWS_PROMPT=true
 ZSH_THEME_AWS_PREFIX="AWS: "
@@ -189,7 +180,6 @@ plugins=(
     colored-man-pages
     colorize
     command-not-found
-    common-aliases
     fzf
     gem
     git
@@ -226,7 +216,6 @@ plugins=(
     systemd
     taskwarrior
     terraform
-    terraform
     thefuck
     themes
     tig
@@ -244,5 +233,18 @@ plugins=(
     zsh-wakatime
 )
 
+# Source files and configurations
+source_if_exists "$ZSH_CONFIG/aliases.zsh"
+source_if_exists "$ZSH_CONFIG/completion.zsh"
+source_if_exists "$ZSH_CONFIG/functions.zsh"
+source_if_exists "$ZSH_CONFIG/kube-config.zsh"
+source_if_exists "$ZSH_CONFIG/minikube.zsh"
+source_if_exists "$ZSH_CONFIG/poetry.zsh"
+source_if_exists "$ZSH_CONFIG/terraform_prompt.zsh"
+source_if_exists "$ZSH_CONFIG/kube-ps1.sh"
+
 source $ZSH/oh-my-zsh.sh
 
+
+# CodeWhisperer post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.post.zsh"
