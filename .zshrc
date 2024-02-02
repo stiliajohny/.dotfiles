@@ -129,9 +129,9 @@ ZSH_THEME_AWS_PREFIX="AWS: "
 
 # History Settings
 if (( ! EUID )); then
-    HISTFILE=$XDG_CONFIG_HOME/zsh/zsh_history
+    HISTFILE=$XDG_CONFIG_HOME/zsh-adds/zsh_history
 else
-    HISTFILE=$XDG_CONFIG_HOME/zsh/zsh_history
+    HISTFILE=$XDG_CONFIG_HOME/zsh-adds/zsh_history
 fi
 SAVEHIST=1000000
 HISTSIZE=1200000

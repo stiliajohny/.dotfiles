@@ -70,6 +70,7 @@ plugins=(... git)
 | `gca!`                 | `git commit --verbose --all --amend`                                                                                            |
 | `gcan!`                | `git commit --verbose --all --no-edit --amend`                                                                                  |
 | `gcans!`               | `git commit --verbose --all --signoff --no-edit --amend`                                                                        |
+| `gcann!`               | `git commit --verbose --all --date=now --no-edit --amend`                                                                       |
 | `gc!`                  | `git commit --verbose --amend`                                                                                                  |
 | `gcn!`                 | `git commit --verbose --no-edit --amend`                                                                                        |
 | `gcs`                  | `git commit -S`                                                                                                                 |
@@ -163,7 +164,7 @@ plugins=(... git)
 | `grhh`                 | `git reset --hard`                                                                                                              |
 | `grhk`                 | `git reset --keep`                                                                                                              |
 | `grhs`                 | `git reset --soft`                                                                                                              |
-| `gpristine`            | `git reset --hard && git clean -dffx`                                                                                           |
+| `gpristine`            | `git reset --hard && git clean --force -dfx`                                                                                    |
 | `groh`                 | `git reset origin/$(git_current_branch) --hard`                                                                                 |
 | `grs`                  | `git restore`                                                                                                                   |
 | `grss`                 | `git restore --source`                                                                                                          |

@@ -537,11 +537,6 @@
         remoteBranch = 1 bold
         unmerged = 9 bold reverse
 
-[filter "lfs"]
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
 [gpg]
 	program = /usr/local/bin/gpg
 [maintenance]
