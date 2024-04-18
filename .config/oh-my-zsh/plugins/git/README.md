@@ -111,6 +111,7 @@ plugins=(... git)
 | `gfg`                  | `git ls-files \| grep`                                                                                                          |
 | `gm`                   | `git merge`                                                                                                                     |
 | `gma`                  | `git merge --abort`                                                                                                             |
+| `gmc`                  | `git merge --continue`                                                                                                             |
 | `gms`                  | `git merge --squash`                                                                                                            |
 | `gmom`                 | `git merge origin/$(git_main_branch)`                                                                                           |
 | `gmum`                 | `git merge upstream/$(git_main_branch)`                                                                                         |
@@ -152,6 +153,7 @@ plugins=(... git)
 | `grbd`                 | `git rebase $(git_develop_branch)`                                                                                              |
 | `grbm`                 | `git rebase $(git_main_branch)`                                                                                                 |
 | `grbom`                | `git rebase origin/$(git_main_branch)`                                                                                          |
+| `grf`                  | `git reflog`                                                                                                                    |
 | `gr`                   | `git remote`                                                                                                                    |
 | `grv`                  | `git remote --verbose`                                                                                                          |
 | `gra`                  | `git remote add`                                                                                                                |
@@ -165,6 +167,7 @@ plugins=(... git)
 | `grhk`                 | `git reset --keep`                                                                                                              |
 | `grhs`                 | `git reset --soft`                                                                                                              |
 | `gpristine`            | `git reset --hard && git clean --force -dfx`                                                                                    |
+| `gwipe`                | `git reset --hard && git clean --force -df`                                                                                     |
 | `groh`                 | `git reset origin/$(git_current_branch) --hard`                                                                                 |
 | `grs`                  | `git restore`                                                                                                                   |
 | `grss`                 | `git restore --source`                                                                                                          |
