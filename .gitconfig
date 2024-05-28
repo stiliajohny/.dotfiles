@@ -8,7 +8,7 @@
         name = John Stilia
         # signingkey = 3EC5B74B3C23D18BFEF0BCC46B43560EE299AA30
 
-[includeIf "gitdir:~/work/"]
+[includeIf "gitdir:~/Documents/Projects/BIS/"]
         path = ~/work/.gitconfig
 
 [include]

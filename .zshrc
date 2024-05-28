@@ -125,6 +125,7 @@ ZSH_POETRY_AUTO_ACTIVATE=1
 ZSH_POETRY_AUTO_DEACTIVATE=1
 SHOW_AWS_PROMPT=true
 ZSH_THEME_AWS_PREFIX="AWS: "
+ZSH_NVM_AUTOLOAD=true
 
 
 # History Settings
@@ -242,9 +243,13 @@ source_if_exists "$ZSH_CONFIG/minikube.zsh"
 source_if_exists "$ZSH_CONFIG/poetry.zsh"
 source_if_exists "$ZSH_CONFIG/terraform_prompt.zsh"
 source_if_exists "$ZSH_CONFIG/kube-ps1.sh"
+source_if_exists $HOME/.cargo/env
 
 source $ZSH/oh-my-zsh.sh
 
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
 
 # CodeWhisperer post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.post.zsh"
