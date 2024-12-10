@@ -78,13 +78,13 @@ ZSH_TMUX_ITERM2=true
 clone_if_not_exists() {
     local repo_url="$1"
     local target_dir="$2"
-    
+
     # Extract the name of the repository from the URL
     local repo_name=$(basename -s .git "$repo_url")
-    
+
     # Full path to the target directory
     local full_path="$target_dir"
-    
+
     # Check if the directory already exists
     if [ -d "$full_path" ]; then
     else
@@ -96,7 +96,7 @@ clone_if_not_exists() {
 
 source_if_exists() {
     local file_path="$1"
-    
+
     # Check if the file exists and is not empty
     if [ -f "$file_path" ]; then
         source "$file_path"
@@ -137,6 +137,9 @@ fi
 SAVEHIST=1000000
 HISTSIZE=1200000
 
+HISTORIKEEPER_PRINT_DETAILS=false
+HISTORIKEEPER_LOGTOPOSTGRES=true
+
 # Tmux
 if [ -z "$TMUX" ] && [ "$TERM_PROGRAM" != "vscode" ]; then
     tmux attach -t default || tmux new -s default
@@ -169,15 +172,17 @@ fi
 
 
 plugins=(
-    adb
-    alias-finder
+    # adb
+    # alias-fnder
+    # brew
+    # catimg
+    historykeeper
+    # kube-ps1
     aliases
     ansible
     asdf
     autoupdate
     aws
-    brew
-    catimg
     colored-man-pages
     colorize
     command-not-found
@@ -242,7 +247,7 @@ source_if_exists "$ZSH_CONFIG/kube-config.zsh"
 source_if_exists "$ZSH_CONFIG/minikube.zsh"
 source_if_exists "$ZSH_CONFIG/poetry.zsh"
 source_if_exists "$ZSH_CONFIG/terraform_prompt.zsh"
-source_if_exists "$ZSH_CONFIG/kube-ps1.sh"
+# source_if_exists "$ZSH_CONFIG/kube-ps1.sh"
 source_if_exists $HOME/.cargo/env
 
 source $ZSH/oh-my-zsh.sh
@@ -251,5 +256,4 @@ source $ZSH/oh-my-zsh.sh
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
-# CodeWhisperer post block. Keep at the bottom of this file.
-[[ -f "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.post.zsh"
+# PROMPT='$(kube_ps1)'$PROMPT # or RPROMPT='$(kube_ps1)'
