@@ -15,7 +15,6 @@ alias aedit=" $EDITOR $ZSH_CONFIG/aliases.zsh; source $ZSH_CONFIG/aliases.zsh"
 alias fedit=" $EDITOR $ZSH_CONFIG/functions.zsh; source $ZSH_CONFIG/functions.zsh"
 alias pedit=" $EDITOR $ZSH_CONFIG/private.zsh; source $ZSH_CONFIG/private.zsh"
 alias viedit=" $EDITOR $HOME/.vim/vimrc"
-alias rm='mv $ ~/.Trash '
 
 #alias man="unset PAGER; man"
 alias grep='grep --color=auto'
