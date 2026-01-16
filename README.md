@@ -1,4 +1,4 @@
-# dotfiles ❤ ~/</h1
+# dotfiles ❤ ~/
 
 ![](.config/wallpaper/screenshot/screen.png)
 
