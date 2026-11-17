@@ -27,7 +27,7 @@ function centos_test_docker() {
     XAUTH=$(mktemp /tmp/dockergui_tmp.XXXX.xauth)
 
     xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f $XAUTH nmerge -
-    chmod 666 $XAUTH
+    chmod 600 "$XAUTH"
     #chown -Rh  root $XAUTH
     mkdir -p $HOME/docker-shared
 
@@ -48,7 +48,7 @@ function kali_test_docker() {
     XAUTH=$(mktemp /tmp/dockergui_tmp.XXXX.xauth)
 
     xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f $XAUTH nmerge -
-    chmod 666 $XAUTH
+    chmod 600 "$XAUTH"
     #chown -Rh  root $XAUTH
     mkdir -p $HOME/docker-shared
 
@@ -70,15 +70,44 @@ function acp() {
   git push
 }
 function usesamlauth() {
-  local _args
-  local _cmd
-  _cmd="samlauth $*"
-  CREDS="$( samlauth $* )"
-  if [ $? -eq 0 ]; then
-    eval "${CREDS}"
-  else
+  local output line assignment key value required_key
+  local -A credentials
+
+  if ! output="$(command samlauth "$@")"; then
     echo "Error assuming auth with saml" >&2
+    return 1
   fi
+
+  while IFS= read -r line; do
+    assignment="${line#export }"
+    [[ "$assignment" == *=* ]] || continue
+
+    key="${assignment%%=*}"
+    value="${assignment#*=}"
+    value="${value%;}"
+
+    case "$key" in
+      AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY|AWS_SESSION_TOKEN)
+        if [[ "$value" == \"*\" || "$value" == \'*\' ]]; then
+          value="${value[2,-2]}"
+        fi
+        credentials[$key]="$value"
+        ;;
+    esac
+  done <<< "$output"
+
+  for required_key in AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN; do
+    if [[ ! -v "credentials[$required_key]" ]]; then
+      echo "samlauth did not return $required_key; credentials were not changed" >&2
+      return 1
+    fi
+  done
+
+  export AWS_ACCESS_KEY_ID="${credentials[AWS_ACCESS_KEY_ID]}"
+  export AWS_SECRET_ACCESS_KEY="${credentials[AWS_SECRET_ACCESS_KEY]}"
+  export AWS_SESSION_TOKEN="${credentials[AWS_SESSION_TOKEN]}"
+  export AWS_SECRET_KEY="$AWS_SECRET_ACCESS_KEY"
+  echo "AWS credentials loaded"
 }
 memtop() {
     ps -eorss,args | sort -nr | pr -TW$COLUMNS | head
@@ -344,9 +373,17 @@ function upgrade-everything()
   echo "└──────────────────────────────────────────────────────────────────────────┘"
 }
 
-# testcolors
-alias testcolors1="curl -s https://gist.githubusercontent.com/WoLpH/8b6f697ecc06318004728b8c0127d9b3/raw/colortest.py | python3 "
-alias testcolors2="for code ({000..255}) print -P -- "$code: %F{$code}This is how your text would look like%f""
+# Test all 256 terminal colors locally; do not execute downloaded code.
+testcolors1() {
+  local code
+  for code in {0..255}; do
+    print -P -- "$code: %F{$code}This is how your text would look%f"
+  done
+}
+
+testcolors2() {
+  testcolors1
+}
 
 function commands() {
   echo "\033[0;91m ============== ALL COMMANDS AVAILABLE =============="
@@ -381,7 +418,7 @@ _KUBECONFIG_SUPERVIOR_USERNAME="first.last"
 
 ksphere() {
     if [[ "$KUBECONFIG" =~ \-supervisor.yml$ ]]; then 
-        kubectl config set-credentials $_KUBECONFIG_SUPERVIOR_USERNAME --token=$(curl -s -H 'User-Agent: kube-plugin-vsphere bld 20919387 - cln 10649850' --user $_KUBECONFIG_SUPERVIOR_USERNAME -k --basic -X POST "https:$(kubectl config view | yq .clusters[0].cluster.server | cut -d: -f2)/wcp/login" | jq .session_id -r)
+        kubectl config set-credentials "$_KUBECONFIG_SUPERVIOR_USERNAME" --token="$(curl --fail --silent --show-error -H 'User-Agent: kube-plugin-vsphere bld 20919387 - cln 10649850' --user "$_KUBECONFIG_SUPERVIOR_USERNAME" --basic -X POST "https:$(kubectl config view | yq .clusters[0].cluster.server | cut -d: -f2)/wcp/login" | jq -er .session_id)"
     fi
 }
 

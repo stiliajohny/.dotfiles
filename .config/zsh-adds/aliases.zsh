@@ -25,23 +25,42 @@ alias SimpleServer='firefox http://localhost:8000; python3 -m http.server'
 
 ##### standard aliases (start with a space to be ignored in history)
 alias cls="clear"
-alias ls=' exa --group-directories-first'
-alias v="clear; exa -lbhHigUmuSa@ --time-style=long-iso --git --color-scale "
-alias l="v"
-alias ls='exa'                                                          # ls
-alias l='exa -lbF --git'                                                # list, size, type, git
-alias ll='exa -lbGF --git'                                             # long list
-alias llm='exa -lbGd --git --sort=modified'                            # long list, modified date sort
-alias la='exa -lbhHigUmuSa --time-style=long-iso --git --color-scale'  # all list
-alias lx='exa -lbhHigUmuSa@ --time-style=long-iso --git --color-scale' # all + extended list
-
-# specialty views
-alias lS='exa -1'                                                              # one column, just names
-alias lt='exa --tree --level=2'                                         # tree
+if (( $+commands[eza] )); then
+    alias ls='eza --group-directories-first'
+    alias v='clear; eza -lbhHigUmuSa@ --time-style=long-iso --git --color-scale'
+    alias l='eza -lbF --git'
+    alias ll='eza -lbGF --git'
+    alias llm='eza -lbGd --git --sort=modified'
+    alias la='eza -lbhHigUmuSa --time-style=long-iso --git --color-scale'
+    alias lx='eza -lbhHigUmuSa@ --time-style=long-iso --git --color-scale'
+    alias lS='eza -1'
+    alias lt='eza --tree --level=2'
+elif (( $+commands[exa] )); then
+    alias ls='exa --group-directories-first'
+    alias v='clear; exa -lbhHigUmuSa@ --time-style=long-iso --git --color-scale'
+    alias l='exa -lbF --git'
+    alias ll='exa -lbGF --git'
+    alias llm='exa -lbGd --git --sort=modified'
+    alias la='exa -lbhHigUmuSa --time-style=long-iso --git --color-scale'
+    alias lx='exa -lbhHigUmuSa@ --time-style=long-iso --git --color-scale'
+    alias lS='exa -1'
+    alias lt='exa --tree --level=2'
+else
+    alias ls='ls -G'
+    alias v='clear; ls -lAh'
+    alias l='ls -l'
+    alias ll='ls -l'
+    alias llm='ls -lt'
+    alias la='ls -lAh'
+    alias lx='ls -lAh'
+    alias lS='ls -1'
+    alias lt='find . -maxdepth 2 -print'
+fi
 
 
 alias p='ps aux | grep'
 alias g='git'
+alias lg='lazygit'
 alias d=' dirs -v'
 alias ka="killall"
 
@@ -98,8 +117,30 @@ alias gph="git push "
 alias git-pull-all="ls | xargs -P10 -I{} git -C {} pull"
 alias git-status-all="ls | xargs -P10 -I{} git -C {} status"
 alias git-add-all="ls | xargs -P10 -I{} git -C {} add ."
-alias git-reset-all-hard="ls | xargs -P10 -I{} git -C {} reset --hard"
-alias git-reset-all-soft="ls | xargs -P10 -I{} git -C {} reset --soft"
+_confirm_destructive() {
+    local answer
+    print -n -- "$1 [y/N] "
+    read -r answer
+    [[ "$answer" == [yY] || "$answer" == [yY][eE][sS] ]]
+}
+
+git-reset-all-hard() {
+    _confirm_destructive "Reset every child Git repository with --hard?" || return 1
+    local repo
+    for repo in *(/N); do
+        git -C "$repo" rev-parse --is-inside-work-tree >/dev/null 2>&1 &&
+            git -C "$repo" reset --hard
+    done
+}
+
+git-reset-all-soft() {
+    _confirm_destructive "Reset every child Git repository with --soft?" || return 1
+    local repo
+    for repo in *(/N); do
+        git -C "$repo" rev-parse --is-inside-work-tree >/dev/null 2>&1 &&
+            git -C "$repo" reset --soft
+    done
+}
 
 alias dk='docker'
 alias dki='docker images'
@@ -107,8 +148,19 @@ alias dks='docker service'
 alias dkrm='docker rm'
 alias dkl='docker logs'
 alias dklf='docker logs -f'
-alias dkflush='docker rm `docker ps --no-trunc -aq`'
-alias dkflush2='docker rmi $(docker images --filter "dangling=true" -q --no-trunc)'
+dkflush() {
+    _confirm_destructive "Remove all Docker containers?" || return 1
+    local -a containers
+    containers=("${(@f)$(docker ps --no-trunc -aq)}")
+    (( ${#containers} )) && docker rm -- "${containers[@]}"
+}
+
+dkflush2() {
+    _confirm_destructive "Remove all dangling Docker images?" || return 1
+    local -a images
+    images=("${(@f)$(docker images --filter 'dangling=true' -q --no-trunc)}")
+    (( ${#images} )) && docker rmi -- "${images[@]}"
+}
 alias dkt='docker stats --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.NetIO}}"'
 alias dkps="docker ps --format '{{.ID}} ~ {{.Names}} ~ {{.Status}} ~ {{.Image}}'"
 
@@ -127,14 +179,20 @@ alias crwt='docker-compose run --rm watchtest'
 alias cps='docker-compose ps'
 alias clogs='docker-compose logs'
 
-alias docker-destroy-all='docker system prune -a -f && docker network prune -f && docker volume prune -f && docker container prune -f '
+docker-destroy-all() {
+    _confirm_destructive "Prune Docker images, networks, volumes, and containers?" || return 1
+    docker system prune -a -f &&
+        docker network prune -f &&
+        docker volume prune -f &&
+        docker container prune -f
+}
 
-
-alias cacheclear="rm -rfv ~/Library/Caches/"
+cacheclear() {
+    _confirm_destructive "Delete the contents of $HOME/Library/Caches?" || return 1
+    rm -rfv -- "$HOME/Library/Caches/"*(DN)
+}
 
 alias b='bundle exec'
-
-alias ll='ls -l'
 
 alias wiki="vim -c \'execute \"normal \\ww\"\'"
 
@@ -168,7 +226,11 @@ alias test-passed='if [ "$?" -eq "0" ]; then lolcat ~/.config/zsh/tp -a -s 40 -d
 alias tf='terraform'
 alias tfa='terraform apply'
 alias tfc='terraform console'
-alias tfd='terraform destroy'
+unalias tfd tfwde tfsrm tfay tfdy 2>/dev/null
+tfd() {
+    _confirm_destructive "Run terraform destroy?" || return 1
+    terraform destroy "$@"
+}
 alias tff='terraform fmt'
 alias tfg='terraform graph'
 alias tfim='terraform import'
@@ -187,16 +249,30 @@ alias tffu='terraform force-unlock'
 alias tfwst='terraform workspace select'
 alias tfwsw='terraform workspace show'
 alias tfssw='terraform state show'
-alias tfwde='terraform workspace delete'
+tfwde() {
+    _confirm_destructive "Delete a Terraform workspace?" || return 1
+    terraform workspace delete "$@"
+}
 alias tfwls='terraform workspace list'
 alias tfsls='terraform state list'
 alias tfwnw='terraform workspace new'
 alias tfsmv='terraform state mv'
 alias tfspl='terraform state pull'
 alias tfsph='terraform state push'
-alias tfsrm='terraform state rm'
-alias tfay='terraform apply -auto-approve'
-alias tfdy='terraform destroy -auto-approve'
+tfsrm() {
+    _confirm_destructive "Remove objects from Terraform state?" || return 1
+    terraform state rm "$@"
+}
+
+tfay() {
+    _confirm_destructive "Apply Terraform changes with auto-approval?" || return 1
+    terraform apply -auto-approve "$@"
+}
+
+tfdy() {
+    _confirm_destructive "Destroy Terraform resources with auto-approval?" || return 1
+    terraform destroy -auto-approve "$@"
+}
 alias tfinu='terraform init -upgrade'
 alias tfpde='terraform plan --destroy'
 
@@ -207,4 +283,3 @@ alias decode='echo "$1" | base64 -d'
 alias encode='echo "$1" | base64'
 alias decode_and_paste='pbpaste | base64 -d'
 alias encode_and_paste='pbpaste | base64'
-

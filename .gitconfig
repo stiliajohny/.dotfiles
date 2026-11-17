@@ -29,7 +29,7 @@
     defaultBranch = master
 
 [commit]
-	gpgsign = true
+	gpgsign = false
 	status = true
 
 ; ----------------
@@ -148,7 +148,7 @@
 
 [push]
     default = simple
-    gpgSign = if-asked
+    # gpgSign = if-asked
     followTags = true
 
 [submodule]

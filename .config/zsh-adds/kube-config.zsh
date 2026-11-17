@@ -7,11 +7,11 @@ fi
 # Additional contexts should be in ~/.kube/custom-contexts/
 CUSTOM_KUBE_CONTEXTS="$HOME/.kube/custom-contexts"
 mkdir -p "${CUSTOM_KUBE_CONTEXTS}"
-OIFS="$IFS"
-IFS=$'\n'
-for contextFile in `find "${CUSTOM_KUBE_CONTEXTS}" -type f -name "*.yml"`
-do
-    export KUBECONFIG="$contextFile:$KUBECONFIG"
+
+# Prepend additional contexts without changing global IFS. Include both common
+# Kubernetes YAML extensions and safely handle spaces in filenames.
+for contextFile in "${CUSTOM_KUBE_CONTEXTS}"/**/*.(yml|yaml)(N.); do
+    export KUBECONFIG="$contextFile${KUBECONFIG:+:$KUBECONFIG}"
 done
-IFS="$OIFS"
-[[ $commands[kubectl] ]] && source <(kubectl completion zsh) ]]
+
+unset contextFile

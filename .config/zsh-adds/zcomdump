@@ -1,7 +1,6 @@
-#files: 986	version: 5.9
+#files: 976	version: 5.9
 
 _comps=(
-'_arguments' '__arguments'
 '-' '_precommand'
 '-array-value-' '_value'
 '-assign-parameter-' '_assign'
@@ -47,8 +46,8 @@ _comps=(
 '-value-,GZIP,-default-' '_gzip'
 '-value-,LANG,-default-' '_locales'
 '-value-,LANGUAGE,-default-' '_locales'
-'-value-,LD_DEBUG,-default-' '_ld_debug'
 '-value-,LDFLAGS,-default-' '_gcc'
+'-value-,LD_DEBUG,-default-' '_ld_debug'
 '-value-,LESS,-default-' '_less'
 '-value-,LESSCHARSET,-default-' '_less'
 '-value-,LOOPDEV_DEBUG,-default-' '_losetup'
@@ -90,6 +89,10 @@ _comps=(
 '6l' '_go'
 '8g' '_go'
 '8l' '_go'
+'Mail' '_mail'
+'Mosaic' '_webbrowser'
+'SuSEconfig' '_SUSEconfig'
+'_arguments' '__arguments'
 'a2dismod' '_a2utils'
 'a2dissite' '_a2utils'
 'a2enmod' '_a2utils'
@@ -386,8 +389,6 @@ _comps=(
 'dnf-2' '_dnf'
 'dnf-3' '_dnf'
 'doas' '_doas'
-'docker' '_docker'
-'dockerd' '_docker'
 'domainname' '_yp'
 'dos2unix' '_dos2unix'
 'dosdel' '_floppy'
@@ -607,12 +608,12 @@ _comps=(
 'gnocchi' '_openstack'
 'gnome-gv' '_gnome-gv'
 'gnumfmt' '_numfmt'
+'gnupod_INIT' '_gnupod'
+'gnupod_INIT.pl' '_gnupod'
 'gnupod_addsong' '_gnupod'
 'gnupod_addsong.pl' '_gnupod'
 'gnupod_check' '_gnupod'
 'gnupod_check.pl' '_gnupod'
-'gnupod_INIT' '_gnupod'
-'gnupod_INIT.pl' '_gnupod'
 'gnupod_search' '_gnupod'
 'gnupod_search.pl' '_gnupod'
 'gnutls-cli' '_gnutls'
@@ -736,8 +737,6 @@ _comps=(
 'hostname' '_hostname'
 'hotjava' '_webbrowser'
 'htop' '_htop'
-'http' '_httpie'
-'https' '_httpie'
 'hub' '_hub'
 'hwinfo' '_hwinfo'
 'iceweasel' '_mozilla'
@@ -897,7 +896,6 @@ _comps=(
 'madison' '_madison'
 'magnum' '_openstack'
 'mail' '_mail'
-'Mail' '_mail'
 'mailx' '_mail'
 'make' '_make'
 'make-kpkg' '_make-kpkg'
@@ -942,7 +940,6 @@ _comps=(
 'mhshow' '_mh'
 'mhstore' '_mh'
 'mii-tool' '_mii-tool'
-'minikube' '_bash_complete -o default -F __start_minikube'
 'mistral' '_openstack'
 'mixerctl' '_mixerctl'
 'mkdir' '_mkdir'
@@ -972,7 +969,6 @@ _comps=(
 'mondoarchive' '_mondo'
 'montage' '_imagemagick'
 'moosic' '_moosic'
-'Mosaic' '_webbrowser'
 'mosh' '_mosh'
 'mount' '_mount'
 'mozilla' '_mozilla'
@@ -1064,8 +1060,6 @@ _comps=(
 'opusdec' '_opustools'
 'opusenc' '_opustools'
 'opusinfo' '_opustools'
-'orb' '_orb'
-'orbctl' '_orbctl'
 'osascript' '_osascript'
 'osc' '_osc'
 'otool' '_otool'
@@ -1101,7 +1095,6 @@ _comps=(
 'pdftops' '_pdf'
 'pdftotext' '_pdf'
 'pdksh' '_sh'
-'pep8' '_pep8'
 'perf' '_perf'
 'perl' '_perl'
 'perldoc' '_perldoc'
@@ -1137,11 +1130,11 @@ _comps=(
 'pip3' '_pip'
 'piuparts' '_piuparts'
 'pkg' '_pkg5'
+'pkg-config' '_pkg-config'
 'pkg_add' '_bsd_pkg'
 'pkg_create' '_bsd_pkg'
 'pkg_delete' '_bsd_pkg'
 'pkg_info' '_bsd_pkg'
-'pkg-config' '_pkg-config'
 'pkgadd' '_pkgadd'
 'pkgin' '_pkgin'
 'pkginfo' '_pkginfo'
@@ -1229,7 +1222,6 @@ _comps=(
 'pwdx' '_pids'
 'pwgen' '_pwgen'
 'pyhtmlizer' '_twisted'
-'pylint' '_pylint'
 'qdbus' '_qdbus'
 'qiv' '_qiv'
 'qtplay' '_qtplay'
@@ -1425,7 +1417,6 @@ _comps=(
 'sudoedit' '_sudo'
 'sum' '_cksum'
 'surfraw' '_surfraw'
-'SuSEconfig' '_SUSEconfig'
 'sv' '_runit'
 'svcadm' '_svcadm'
 'svccfg' '_svccfg'
@@ -1457,7 +1448,6 @@ _comps=(
 'talk' '_other_accounts'
 'tar' '_tar'
 'tardy' '_tardy'
-'task' '_task'
 'tcp_open' '_tcpsys'
 'tcpdump' '_tcpdump'
 'tcptraceroute' '_tcptraceroute'
@@ -1762,20 +1752,20 @@ _services=(
 '-redirect-,>,compress' 'uncompress'
 '-redirect-,>,gzip' 'gunzip'
 '-redirect-,>,xz' 'unxz'
+'Mail' 'mail'
 'bzcat' 'bunzip2'
 'dch' 'debchange'
 'gchgrp' 'chgrp'
 'gchown' 'chown'
+'gnupod_INIT.pl' 'gnupod_INIT'
 'gnupod_addsong.pl' 'gnupod_addsong'
 'gnupod_check.pl' 'gnupod_check'
-'gnupod_INIT.pl' 'gnupod_INIT'
 'gnupod_search.pl' 'gnupod_search'
 'gpg2' 'gpg'
 'gzcat' 'gunzip'
 'iceweasel' 'firefox'
 'lzcat' 'unxz'
 'lzma' 'xz'
-'Mail' 'mail'
 'mailx' 'mail'
 'mktunes.pl' 'mktunes'
 'nail' 'mail'
@@ -1801,24 +1791,23 @@ _patcomps=(
 )
 
 _postpatcomps=(
-'_*' '_compadd'
-'-value-,(ftp|http(|s))_proxy,-default-' '_urls'
-'-value-,*path,-default-' '_directories'
-'-value-,*PATH,-default-' '_dir_list'
-'-value-,LC_*,-default-' '_locales'
-'-value-,RUBY(LIB|OPT|PATH),-default-' '_ruby'
 '(p[bgpn]m*|*top[bgpn]m)' '_pbm'
 '(ruby|[ei]rb)[0-9.]#' '_ruby'
 '(texi(2*|ndex))' '_texi'
 '(tiff*|*2tiff|pal2rgb)' '_tiff'
 '*/X11(|R<4->)/*' '_x_arguments'
+'-value-,(ftp|http(|s))_proxy,-default-' '_urls'
+'-value-,*PATH,-default-' '_dir_list'
+'-value-,*path,-default-' '_directories'
+'-value-,LC_*,-default-' '_locales'
+'-value-,RUBY(LIB|OPT|PATH),-default-' '_ruby'
+'_*' '_compadd'
 'c++-*' '_gcc'
 'g++-*' '_gcc'
 'gcc-*' '_gcc'
 'gem[0-9.]#' '_gem'
 'lua[0-9.-]##' '_lua'
 'php[0-9.-]' '_php'
-'pip[0-9.]#' '_pip'
 'pydoc[0-9.]#' '_pydoc'
 'python[0-9.]#' '_python'
 'qemu(|-system-*)' '_qemu'
@@ -1864,10 +1853,9 @@ bindkey '^[,' _history-complete-newer
 bindkey '^[/' _history-complete-older
 bindkey '^[~' _bash_complete-word
 
-autoload -Uz _terraform _task _pylint _pip _pep8 \
-            _security _httpie _hub _git _gem \
-            _helm _kubectl _poetry _autocmd _mdfind \
-            _owcli __arguments _a2ps _a2utils _aap \
+autoload -Uz _terraform _pip _security _hub _helm \
+            _kubectl _poetry _autocmd _mdfind _owcli \
+            _SUSEconfig __arguments _a2ps _a2utils _aap \
             _abcde _absolute_command_paths _ack _acpi _acpitool \
             _acroread _adb _add-zle-hook-widget _add-zsh-hook _alias \
             _aliases _all_labels _all_matches _alsa-utils _alternative \
@@ -1905,13 +1893,13 @@ autoload -Uz _terraform _task _pylint _pip _pep8 \
             _debcheckout _debdiff _debfoster _deborphan _debsign \
             _debsnap _debuild _default _defaults _delimiters \
             _describe _description _devtodo _df _dhclient \
-            _dhcpinfo _dict _dict_words _diff _diff_options \
-            _diff3 _diffstat _dig _dir_list _directories \
+            _dhcpinfo _dict _dict_words _diff _diff3 \
+            _diff_options _diffstat _dig _dir_list _directories \
             _directory_stack _dirs _disable _dispatch _django \
             _dkms _dladm _dlocate _dmesg _dmidecode \
             _dnf _dns_types _doas _domains _dos2unix \
-            _dpatch-edit-patch _dpkg _dpkg_source _dpkg-buildpackage _dpkg-cross \
-            _dpkg-repack _dput _drill _dropbox _dscverify \
+            _dpatch-edit-patch _dpkg _dpkg-buildpackage _dpkg-cross _dpkg-repack \
+            _dpkg_source _dput _drill _dropbox _dscverify \
             _dsh _dtrace _dtruss _du _dumpadm \
             _dumper _dupload _dvi _dynamic_directory_name _e2label \
             _ecasound _echotc _echoti _ed _elfdump \
@@ -1964,7 +1952,7 @@ autoload -Uz _terraform _task _pylint _pip _pep8 \
             _mencal _menu _mere _mergechanges _message \
             _mh _mii-tool _mime_types _mixerctl _mkdir \
             _mkfifo _mknod _mkshortcut _mktemp _mkzsh \
-            _module _module_math_func _module-assistant _modutils _mondo \
+            _module _module-assistant _module_math_func _modutils _mondo \
             _monotone _moosic _mosh _most_recent_file _mount \
             _mozilla _mpc _mplayer _mt _mtools \
             _mtr _multi_parts _mupdf _mutt _mv \
@@ -1985,7 +1973,7 @@ autoload -Uz _terraform _task _pylint _pip _pep8 \
             _perldoc _pfctl _pfexec _pgids _pgrep \
             _php _physical_volumes _pick_variant _picocom _pidof \
             _pids _pine _ping _pip _piuparts \
-            _pkg_instance _pkg-config _pkg5 _pkgadd _pkgin \
+            _pkg-config _pkg5 _pkg_instance _pkgadd _pkgin \
             _pkginfo _pkgrm _pkgtool _plutil _pmap \
             _pon _portaudit _portlint _portmaster _ports \
             _portsnap _postfix _postgresql _postscript _powerd \
@@ -2018,53 +2006,52 @@ autoload -Uz _terraform _task _pylint _pip _pep8 \
             _store_cache _stow _strace _strftime _strings \
             _strip _stty _su _sub_commands _sublimetext \
             _subscript _subversion _sudo _suffix_alias_files _surfraw \
-            _SUSEconfig _svcadm _svccfg _svcprop _svcs \
-            _svcs_fmri _svn-buildpackage _sw_vers _swaks _swanctl \
-            _swift _sys_calls _sysclean _sysctl _sysmerge \
-            _syspatch _sysrc _sysstat _systat _system_profiler \
-            _sysupgrade _tac _tags _tail _tar \
-            _tar_archive _tardy _tcpdump _tcpsys _tcptraceroute \
-            _tee _telnet _terminals _tex _texi \
-            _texinfo _tidy _tiff _tilde _tilde_files \
-            _time_zone _timeout _tin _tla _tload \
-            _tmux _todo.sh _toilet _toolchain-source _top \
-            _topgit _totd _touch _tpb _tput \
-            _tr _tracepath _transmission _trap _trash \
-            _tree _truncate _truss _tty _ttyctl \
-            _ttys _tune2fs _twidge _twisted _typeset \
-            _ulimit _uml _umountable _unace _uname \
-            _unexpand _unhash _uniq _unison _units \
-            _unshare _update-alternatives _update-rc.d _uptime _urls \
-            _urpmi _urxvt _usbconfig _uscan _user_admin \
-            _user_at_host _user_expand _user_math_func _users _users_on \
-            _valgrind _value _values _vared _vars \
-            _vcs_info _vcs_info_hooks _vi _vim _vim-addons \
-            _visudo _vmctl _vmstat _vnc _volume_groups \
-            _vorbis _vpnc _vserver _w _w3m \
-            _wait _wajig _wakeup_capable_devices _wanna-build _wanted \
-            _watch _watch-snoop _wc _webbrowser _wget \
-            _whereis _which _who _whois _widgets \
-            _wiggle _wipefs _wpa_cli _x_arguments _x_borderwidth \
-            _x_color _x_colormapid _x_cursor _x_display _x_extension \
-            _x_font _x_geometry _x_keysym _x_locale _x_modifier \
-            _x_name _x_resource _x_selection_timeout _x_title _x_utils \
-            _x_visual _x_window _xargs _xauth _xautolock \
-            _xclip _xcode-select _xdvi _xfig _xft_fonts \
-            _xinput _xloadimage _xmlsoft _xmlstarlet _xmms2 \
-            _xmodmap _xournal _xpdf _xrandr _xscreensaver \
-            _xset _xt_arguments _xt_session_id _xterm _xv \
-            _xwit _xxd _xz _yafc _yast \
-            _yodl _yp _yum _zargs _zattr \
-            _zcalc _zcalc_line _zcat _zcompile _zdump \
-            _zeal _zed _zfs _zfs_dataset _zfs_pool \
-            _zftp _zip _zle _zlogin _zmodload \
-            _zmv _zoneadm _zones _zparseopts _zpty \
-            _zsh _zsh-mime-handler _zsocket _zstyle _ztodo \
-            _zypper _docker _kubectl _orb _orbctl
+            _svcadm _svccfg _svcprop _svcs _svcs_fmri \
+            _svn-buildpackage _sw_vers _swaks _swanctl _swift \
+            _sys_calls _sysclean _sysctl _sysmerge _syspatch \
+            _sysrc _sysstat _systat _system_profiler _sysupgrade \
+            _tac _tags _tail _tar _tar_archive \
+            _tardy _tcpdump _tcpsys _tcptraceroute _tee \
+            _telnet _terminals _tex _texi _texinfo \
+            _tidy _tiff _tilde _tilde_files _time_zone \
+            _timeout _tin _tla _tload _tmux \
+            _todo.sh _toilet _toolchain-source _top _topgit \
+            _totd _touch _tpb _tput _tr \
+            _tracepath _transmission _trap _trash _tree \
+            _truncate _truss _tty _ttyctl _ttys \
+            _tune2fs _twidge _twisted _typeset _ulimit \
+            _uml _umountable _unace _uname _unexpand \
+            _unhash _uniq _unison _units _unshare \
+            _update-alternatives _update-rc.d _uptime _urls _urpmi \
+            _urxvt _usbconfig _uscan _user_admin _user_at_host \
+            _user_expand _user_math_func _users _users_on _valgrind \
+            _value _values _vared _vars _vcs_info \
+            _vcs_info_hooks _vi _vim _vim-addons _visudo \
+            _vmctl _vmstat _vnc _volume_groups _vorbis \
+            _vpnc _vserver _w _w3m _wait \
+            _wajig _wakeup_capable_devices _wanna-build _wanted _watch \
+            _watch-snoop _wc _webbrowser _wget _whereis \
+            _which _who _whois _widgets _wiggle \
+            _wipefs _wpa_cli _x_arguments _x_borderwidth _x_color \
+            _x_colormapid _x_cursor _x_display _x_extension _x_font \
+            _x_geometry _x_keysym _x_locale _x_modifier _x_name \
+            _x_resource _x_selection_timeout _x_title _x_utils _x_visual \
+            _x_window _xargs _xauth _xautolock _xclip \
+            _xcode-select _xdvi _xfig _xft_fonts _xinput \
+            _xloadimage _xmlsoft _xmlstarlet _xmms2 _xmodmap \
+            _xournal _xpdf _xrandr _xscreensaver _xset \
+            _xt_arguments _xt_session_id _xterm _xv _xwit \
+            _xxd _xz _yafc _yast _yodl \
+            _yp _yum _zargs _zattr _zcalc \
+            _zcalc_line _zcat _zcompile _zdump _zeal \
+            _zed _zfs _zfs_dataset _zfs_pool _zftp \
+            _zip _zle _zlogin _zmodload _zmv \
+            _zoneadm _zones _zparseopts _zpty _zsh \
+            _zsh-mime-handler _zsocket _zstyle _ztodo _zypper
 autoload -Uz +X _call_program
 
 typeset -gUa _comp_assocs
 _comp_assocs=( '' )
 
 #omz revision: 
-#omz fpath: /Users/johnstilia/.config/oh-my-zsh/custom/plugins/zsh-wakatime /Users/johnstilia/.config/oh-my-zsh/custom/plugins/zsh-syntax-highlighting /Users/johnstilia/.config/oh-my-zsh/custom/plugins/zsh-interactive-cd /Users/johnstilia/.config/oh-my-zsh/custom/plugins/zsh-history-substring-search /Users/johnstilia/.config/oh-my-zsh/custom/plugins/zsh-completions /Users/johnstilia/.config/oh-my-zsh/custom/plugins/zsh-autosuggestions /Users/johnstilia/.config/oh-my-zsh/custom/plugins/zsh-256color /Users/johnstilia/.config/oh-my-zsh/plugins/web-search /Users/johnstilia/.config/oh-my-zsh/plugins/vscode /Users/johnstilia/.config/oh-my-zsh/plugins/virtualenv /Users/johnstilia/.config/oh-my-zsh/plugins/tmux /Users/johnstilia/.config/oh-my-zsh/plugins/timer /Users/johnstilia/.config/oh-my-zsh/plugins/tig /Users/johnstilia/.config/oh-my-zsh/plugins/themes /Users/johnstilia/.config/oh-my-zsh/plugins/thefuck /Users/johnstilia/.config/oh-my-zsh/plugins/terraform /Users/johnstilia/.config/oh-my-zsh/plugins/taskwarrior /Users/johnstilia/.config/oh-my-zsh/plugins/systemd /Users/johnstilia/.config/oh-my-zsh/plugins/sudo /Users/johnstilia/.config/oh-my-zsh/plugins/ssh-agent /Users/johnstilia/.config/oh-my-zsh/plugins/screen /Users/johnstilia/.config/oh-my-zsh/plugins/safe-paste /Users/johnstilia/.config/oh-my-zsh/plugins/python /Users/johnstilia/.config/oh-my-zsh/plugins/pylint /Users/johnstilia/.config/oh-my-zsh/plugins/pyenv /Users/johnstilia/.config/oh-my-zsh/plugins/pyenv /Users/johnstilia/.config/oh-my-zsh/plugins/poetry /Users/johnstilia/.config/oh-my-zsh/plugins/pip /Users/johnstilia/.config/oh-my-zsh/plugins/pep8 /Users/johnstilia/.config/oh-my-zsh/custom/plugins/ohmyzsh-full-autoupdate /Users/johnstilia/.config/oh-my-zsh/plugins/nvm /Users/johnstilia/.config/oh-my-zsh/plugins/npm /Users/johnstilia/.config/oh-my-zsh/plugins/node /Users/johnstilia/.config/oh-my-zsh/plugins/nmap /Users/johnstilia/.config/oh-my-zsh/plugins/mongocli /Users/johnstilia/.config/oh-my-zsh/plugins/magic-enter /Users/johnstilia/.config/oh-my-zsh/plugins/macos /Users/johnstilia/.config/oh-my-zsh/plugins/lol /Users/johnstilia/.config/oh-my-zsh/plugins/kubectl /Users/johnstilia/.config/oh-my-zsh/plugins/httpie /Users/johnstilia/.config/oh-my-zsh/plugins/history /Users/johnstilia/.config/oh-my-zsh/plugins/helm /Users/johnstilia/.config/oh-my-zsh/plugins/gitignore /Users/johnstilia/.config/oh-my-zsh/plugins/github /Users/johnstilia/.config/oh-my-zsh/plugins/gitfast /Users/johnstilia/.config/oh-my-zsh/plugins/git-prompt /Users/johnstilia/.config/oh-my-zsh/plugins/git-extras /Users/johnstilia/.config/oh-my-zsh/plugins/git-auto-fetch /Users/johnstilia/.config/oh-my-zsh/plugins/git /Users/johnstilia/.config/oh-my-zsh/plugins/gem /Users/johnstilia/.config/oh-my-zsh/plugins/fzf /Users/johnstilia/.config/oh-my-zsh/plugins/command-not-found /Users/johnstilia/.config/oh-my-zsh/plugins/colorize /Users/johnstilia/.config/oh-my-zsh/plugins/colored-man-pages /Users/johnstilia/.config/oh-my-zsh/plugins/aws /Users/johnstilia/.config/oh-my-zsh/custom/plugins/autoupdate /Users/johnstilia/.config/oh-my-zsh/plugins/asdf /Users/johnstilia/.config/oh-my-zsh/plugins/ansible /Users/johnstilia/.config/oh-my-zsh/plugins/aliases /Users/johnstilia/.config/oh-my-zsh/functions /Users/johnstilia/.config/oh-my-zsh/completions /Users/johnstilia/.config/oh-my-zsh/cache/completions /Users/johnstilia/.config/zsh-adds/functions.d /usr/local/share/zsh/site-functions /usr/share/zsh/site-functions /usr/share/zsh/5.9/functions /Applications/OrbStack.app/Contents/MacOS/../Resources/completions/zsh
+#omz fpath: /Users/johnstilia/.config/oh-my-zsh/custom/plugins/zsh-syntax-highlighting /Users/johnstilia/.config/oh-my-zsh/custom/plugins/zsh-history-substring-search /Users/johnstilia/.config/oh-my-zsh/custom/plugins/zsh-completions /Users/johnstilia/.config/oh-my-zsh/custom/plugins/zsh-autosuggestions /Users/johnstilia/.config/oh-my-zsh/plugins/web-search /Users/johnstilia/.config/oh-my-zsh/plugins/vscode /Users/johnstilia/.config/oh-my-zsh/plugins/tmux /Users/johnstilia/.config/oh-my-zsh/plugins/timer /Users/johnstilia/.config/oh-my-zsh/plugins/thefuck /Users/johnstilia/.config/oh-my-zsh/plugins/terraform /Users/johnstilia/.config/oh-my-zsh/plugins/sudo /Users/johnstilia/.config/oh-my-zsh/plugins/ssh-agent /Users/johnstilia/.config/oh-my-zsh/plugins/safe-paste /Users/johnstilia/.config/oh-my-zsh/plugins/python /Users/johnstilia/.config/oh-my-zsh/plugins/pyenv /Users/johnstilia/.config/oh-my-zsh/plugins/poetry /Users/johnstilia/.config/oh-my-zsh/plugins/pip /Users/johnstilia/.config/oh-my-zsh/plugins/nvm /Users/johnstilia/.config/oh-my-zsh/plugins/npm /Users/johnstilia/.config/oh-my-zsh/plugins/node /Users/johnstilia/.config/oh-my-zsh/plugins/magic-enter /Users/johnstilia/.config/oh-my-zsh/plugins/macos /Users/johnstilia/.config/oh-my-zsh/plugins/kubectl /Users/johnstilia/.config/oh-my-zsh/plugins/history /Users/johnstilia/.config/oh-my-zsh/plugins/helm /Users/johnstilia/.config/oh-my-zsh/plugins/gitignore /Users/johnstilia/.config/oh-my-zsh/plugins/github /Users/johnstilia/.config/oh-my-zsh/plugins/git /Users/johnstilia/.config/oh-my-zsh/plugins/fzf /Users/johnstilia/.config/oh-my-zsh/plugins/command-not-found /Users/johnstilia/.config/oh-my-zsh/plugins/colorize /Users/johnstilia/.config/oh-my-zsh/plugins/colored-man-pages /Users/johnstilia/.config/oh-my-zsh/plugins/aws /Users/johnstilia/.config/oh-my-zsh/custom/plugins/autoupdate /Users/johnstilia/.config/oh-my-zsh/plugins/aliases /Users/johnstilia/.config/oh-my-zsh/plugins/kube-ps1 /Users/johnstilia/.config/oh-my-zsh/functions /Users/johnstilia/.config/oh-my-zsh/completions /Users/johnstilia/.config/oh-my-zsh/cache/completions /Users/johnstilia/.config/zsh-adds/functions.d /usr/local/share/zsh/site-functions /usr/share/zsh/site-functions /usr/share/zsh/5.9/functions
