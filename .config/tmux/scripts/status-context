@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+width=${1:-120}
+pane_path=${2:-$HOME}
+pane_pid=${3:-}
+pane_command=${4:-}
+
+pill() {
+    local accent=$1 icon=$2 text=$3
+    printf '#[fg=#24283b,bg=#16161e]#[fg=%s,bg=#24283b]%s #[fg=#c0caf5,bg=#24283b]%s #[fg=#24283b,bg=#16161e] ' "$accent" "$icon" "$text"
+}
+
+if [[ $pane_command == ssh || $pane_command == mosh-client ]] && [[ -n $pane_pid ]]; then
+    child=$(pgrep -P "$pane_pid" | tail -n 1)
+    if [[ -n $child ]]; then
+        read -r -a words <<<"$(ps -o command= -p "$child")"
+        remote='remote'
+        for ((i = 1; i < ${#words[@]}; i++)); do
+            case ${words[$i]} in
+                -[BbcDEeFIiJLlmOopQRSWw]) ((i++)) ;;
+                -*) ;;
+                *) remote=${words[$i]}; break ;;
+            esac
+        done
+        pill '#f7768e' '󰢹' "$remote"
+    fi
+fi
+
+if ((width >= 135)); then
+    branch=$(git -C "$pane_path" symbolic-ref --quiet --short HEAD 2>/dev/null || git -C "$pane_path" rev-parse --short HEAD 2>/dev/null)
+    [[ -n $branch ]] && pill '#bb9af7' '󰊢' "$branch"
+fi
+
+if ((width >= 105)); then
+    cpu=$("$HOME"/.config/tmux/plugins/tmux-cpu/scripts/cpu_percentage.sh 2>/dev/null)
+    [[ -n $cpu ]] && pill '#7dcfff' '' "$cpu"
+fi
+
+if ((width >= 85)) && command -v pmset >/dev/null 2>&1; then
+    battery_output=$(pmset -g batt)
+    battery_line=$(tail -n 1 <<<"$battery_output")
+    percentage=$(sed -E 's/.*[[:space:]]([0-9]+)%.*/\1/' <<<"$battery_line")
+    if [[ $percentage =~ ^[0-9]+$ ]]; then
+        if grep -q 'AC Power' <<<"$(head -n 1 <<<"$battery_output")"; then
+            battery_icon=''
+        elif ((percentage <= 15)); then
+            battery_icon=''
+        elif ((percentage <= 35)); then
+            battery_icon=''
+        elif ((percentage <= 60)); then
+            battery_icon=''
+        elif ((percentage <= 85)); then
+            battery_icon=''
+        else
+            battery_icon=''
+        fi
+
+        if ((percentage <= 15)); then
+            battery_colour='#f7768e'
+        elif ((percentage <= 30)); then
+            battery_colour='#e0af68'
+        else
+            battery_colour='#9ece6a'
+        fi
+        pill "$battery_colour" "$battery_icon" "${percentage}%"
+    fi
+fi
+
+if ((width >= 175)) && command -v docker >/dev/null 2>&1; then
+    containers=$(docker ps -q 2>/dev/null | wc -l | tr -d ' ')
+    [[ $containers =~ ^[0-9]+$ ]] && pill '#7dcfff' '' "$containers"
+fi
+
+if ((width >= 210)) && command -v kubectl >/dev/null 2>&1; then
+    context=$(kubectl config current-context 2>/dev/null)
+    [[ -n $context ]] && pill '#bb9af7' '󱃾' "$context"
+fi

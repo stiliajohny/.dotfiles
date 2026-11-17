@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+choice=$(printf '%s\n' \
+    'Tiled grid|tiled' \
+    'Even columns|even-horizontal' \
+    'Even rows|even-vertical' \
+    'Main pane left|main-vertical' \
+    'Main pane right|main-vertical-mirrored' \
+    'Main pane top|main-horizontal' \
+    'Main pane bottom|main-horizontal-mirrored' |
+    fzf --delimiter='|' --with-nth=1 --reverse --no-sort --prompt='Layout > ') || exit 0
+
+layout=${choice##*|}
+[[ -n $layout ]] && tmux select-layout "$layout"
+

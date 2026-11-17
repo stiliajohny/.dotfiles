@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    printf 'Not inside a Git repository.\n\nPress Enter to close.'
+    read -r _
+    exit 0
+fi
+
+repo_root=$(git rev-parse --show-toplevel)
+
+{
+    printf '\033[1;36mRepository\033[0m\n%s\n\n' "$repo_root"
+    printf '\033[1;36mStatus\033[0m\n'
+    git status --short --branch
+    printf '\n\033[1;36mWorktrees\033[0m\n'
+    git worktree list
+    printf '\n\033[1;36mRemotes\033[0m\n'
+    git remote -v | sed -E 's#(https?://)[^/@]+@#\1***@#' | sort -u
+    printf '\n\033[1;36mRecent commits\033[0m\n'
+    git log -10 --graph --decorate --date=relative \
+        --pretty=format:'%C(auto)%h%d %s %C(black)%C(bold)%cr%Creset'
+    printf '\n'
+    if command -v gh >/dev/null 2>&1; then
+        printf '\n\033[1;36mGitHub pull-request status\033[0m\n'
+        env GH_PAGER=cat gh pr status 2>&1 || true
+    fi
+} | less -R

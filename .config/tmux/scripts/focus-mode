@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+mode=$(tmux show-option -gqv @focus-mode)
+
+if [[ $mode == on ]]; then
+    was_zoomed=$(tmux show-option -gqv @focus-was-zoomed)
+    tmux set-option -g status on
+    if [[ $was_zoomed == 0 ]] && [[ $(tmux display-message -p '#{window_zoomed_flag}') == 1 ]]; then
+        tmux resize-pane -Z
+    fi
+    tmux set-option -g @focus-mode off
+    tmux display-message 'Focus mode: off'
+else
+    zoomed=$(tmux display-message -p '#{window_zoomed_flag}')
+    tmux set-option -g @focus-was-zoomed "$zoomed"
+    tmux set-option -g @focus-mode on
+    tmux set-option -g status off
+    [[ $zoomed == 1 ]] || tmux resize-pane -Z
+    tmux display-message 'Focus mode: on'
+fi
+

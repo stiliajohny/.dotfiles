@@ -1,0 +1,171 @@
+#!/usr/bin/env bash
+
+set -u
+
+service=${1:-}
+action=${2:-menu}
+config_root=${XDG_CONFIG_HOME:-"$HOME/.config"}
+secrets_dir="$config_root/tmux/secrets"
+token_file="$secrets_dir/code-hosting.env"
+
+case $service in
+    github)
+        display_name='GitHub'
+        token_key='GH_TOKEN'
+        ;;
+    gitlab)
+        display_name='GitLab'
+        token_key='GITLAB_TOKEN'
+        ;;
+    *)
+        printf 'Usage: %s github|gitlab [--setup|--remove]\n' "$0" >&2
+        exit 2
+        ;;
+esac
+
+read_local_token() {
+    [[ -r $token_file ]] || return 1
+    sed -n "s/^${token_key}=//p" "$token_file" | tail -n 1
+}
+
+store_local_token() {
+    local new_token=$1 temp_file
+    umask 077
+    mkdir -p "$secrets_dir" || return 1
+    chmod 700 "$secrets_dir" || return 1
+    temp_file=$(mktemp "$secrets_dir/.code-hosting.env.XXXXXX") || return 1
+
+    if [[ -r $token_file ]]; then
+        awk -v key="$token_key" 'index($0, key "=") != 1 { print }' \
+            "$token_file" >"$temp_file"
+    fi
+    printf '%s=%s\n' "$token_key" "$new_token" >>"$temp_file"
+    chmod 600 "$temp_file"
+    mv -f "$temp_file" "$token_file"
+}
+
+remove_local_token() {
+    local temp_file
+    [[ -r $token_file ]] || return 0
+    umask 077
+    temp_file=$(mktemp "$secrets_dir/.code-hosting.env.XXXXXX") || return 1
+    awk -v key="$token_key" 'index($0, key "=") != 1 { print }' \
+        "$token_file" >"$temp_file"
+    chmod 600 "$temp_file"
+    mv -f "$temp_file" "$token_file"
+}
+
+validate_token() {
+    local candidate=$1 identity
+    case $service in
+        github)
+            command -v gh >/dev/null 2>&1 || return 2
+            identity=$(env GH_TOKEN="$candidate" gh api user --jq .login 2>/dev/null) || return 1
+            ;;
+        gitlab)
+            command -v glab >/dev/null 2>&1 || return 2
+            identity=$(env GITLAB_TOKEN="$candidate" glab api user 2>/dev/null |
+                jq -r '.username // .name // empty' 2>/dev/null) || return 1
+            [[ -n $identity ]] || return 1
+            ;;
+    esac
+    printf '%s' "$identity"
+}
+
+setup_token() {
+    local token identity validation_status
+    printf '%s personal access token\n' "$display_name"
+    printf 'Input is hidden and will be stored in:\n%s\n\nToken: ' "$token_file"
+    IFS= read -r -s token
+    printf '\n'
+    [[ -n $token ]] || {
+        printf 'No token entered; nothing changed.\n'
+        return 1
+    }
+
+    identity=$(validate_token "$token")
+    validation_status=$?
+    if ((validation_status == 1)); then
+        printf 'Token validation failed; nothing was stored.\n' >&2
+        return 1
+    fi
+    if ((validation_status == 2)); then
+        printf '%s CLI is not installed, so the token cannot be validated.\n' "$display_name"
+        printf 'Store it locally anyway? [y/N] '
+        read -r answer
+        [[ $answer == y || $answer == Y ]] || return 1
+    else
+        printf 'Authenticated as %s.\n' "$identity"
+    fi
+
+    store_local_token "$token" || return 1
+    unset token
+    printf 'Token stored with owner-only permissions.\n'
+}
+
+show_status() {
+    local local_token
+    local_token=$(read_local_token 2>/dev/null || true)
+    printf '%s authentication\n\n' "$display_name"
+    if [[ -n $local_token ]]; then
+        printf 'Local token file: configured\n'
+    else
+        printf 'Local token file: not configured\n'
+    fi
+
+    case $service in
+        github)
+            if command -v gh >/dev/null 2>&1; then
+                if [[ -n $local_token ]]; then
+                    env GH_TOKEN="$local_token" gh auth status --hostname github.com
+                else
+                    gh auth status --hostname github.com
+                fi
+            else
+                printf 'GitHub CLI: not installed\n'
+            fi
+            ;;
+        gitlab)
+            if command -v glab >/dev/null 2>&1; then
+                if [[ -n $local_token ]]; then
+                    env GITLAB_TOKEN="$local_token" glab auth status
+                else
+                    glab auth status
+                fi
+            else
+                printf 'GitLab CLI: not installed (Homebrew package: glab)\n'
+            fi
+            ;;
+    esac
+    printf '\nPress Enter to return.'
+    read -r _
+}
+
+case $action in
+    --setup) setup_token ; exit $? ;;
+    --remove)
+        remove_local_token
+        printf '%s local token removed.\n' "$display_name"
+        exit 0
+        ;;
+esac
+
+choice=$(printf '%s\n' \
+    'Authentication status' \
+    'Set or update local token' \
+    'Remove local token' |
+    fzf --reverse --no-sort --prompt="$display_name authentication > ") || exit 0
+
+case $choice in
+    'Authentication status') show_status ;;
+    'Set or update local token') setup_token ;;
+    'Remove local token')
+        printf 'Remove the locally stored %s token? [y/N] ' "$display_name"
+        read -r answer
+        if [[ $answer == y || $answer == Y ]]; then
+            remove_local_token
+            printf 'Local token removed. Press Enter to close.'
+            read -r _
+        fi
+        ;;
+esac

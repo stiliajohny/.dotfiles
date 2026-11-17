@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+set -u
+
+pick_container() {
+    docker ps --format '{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}' |
+        fzf --reverse --no-sort --delimiter=$'\t' --with-nth=2.. \
+            --prompt='Container > '
+}
+
+container_logs() {
+    local selection container_id
+    selection=$(pick_container) || return
+    container_id=${selection%%$'\t'*}
+    [[ $container_id =~ ^[a-f0-9]+$ ]] || return
+    exec docker logs --tail 200 --follow "$container_id"
+}
+
+container_shell() {
+    local selection container_id
+    selection=$(pick_container) || return
+    container_id=${selection%%$'\t'*}
+    [[ $container_id =~ ^[a-f0-9]+$ ]] || return
+    exec docker exec -it "$container_id" sh -lc \
+        'if command -v bash >/dev/null 2>&1; then exec bash; else exec sh; fi'
+}
+
+if [[ ${1:-} == '--logs' ]]; then
+    container_logs
+    exit 0
+fi
+
+choices=$(printf '%s\n' \
+    'Running containers' \
+    'Follow container logs' \
+    'Open container shell' \
+    'Container stats' \
+    'Images')
+
+if [[ -f compose.yml || -f compose.yaml || -f docker-compose.yml || -f docker-compose.yaml ]]; then
+    choices+=$'\nDocker Compose status\nDocker Compose logs'
+fi
+
+choice=$(printf '%s\n' "$choices" |
+    fzf --reverse --no-sort --prompt='Docker > ') || exit 0
+
+case $choice in
+    'Running containers') docker ps | less -R ;;
+    'Follow container logs') container_logs ;;
+    'Open container shell') container_shell ;;
+    'Container stats')
+        selection=$(pick_container) || exit 0
+        container_id=${selection%%$'\t'*}
+        [[ $container_id =~ ^[a-f0-9]+$ ]] && exec docker stats "$container_id"
+        ;;
+    'Images') docker image ls | less -R ;;
+    'Docker Compose status') docker compose ps | less -R ;;
+    'Docker Compose logs') exec docker compose logs --tail 200 --follow ;;
+esac

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+selection=$(tmux list-buffers -F '#{buffer_name}|#{buffer_size} bytes  #{buffer_sample}' |
+    fzf --delimiter='|' --with-nth=2 --reverse --prompt='Paste buffer > ') || exit 0
+
+buffer=${selection%%|*}
+[[ -n $buffer ]] && tmux paste-buffer -b "$buffer"
+

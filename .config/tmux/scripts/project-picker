@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+roots=()
+for root in "$HOME/Documents/Codex" "$HOME/Projects" "$HOME/src" "$HOME/work"; do
+    [[ -d $root ]] && roots+=("$root")
+done
+
+((${#roots[@]})) || {
+    tmux display-message 'No project roots found'
+    exit 0
+}
+
+projects=$(for root in "${roots[@]}"; do
+    fd --hidden --type d --max-depth 6 '^\.git$' "$root" 2>/dev/null | sed -E 's|/\.git/?$||'
+done | sort -u)
+
+result=$(printf '%s\n' "$projects" |
+    fzf --reverse --expect=ctrl-t \
+        --prompt='Project > ' \
+        --header='Enter open  •  Ctrl-T open workspace template' \
+        --preview='git -C {} status --short --branch 2>/dev/null | head -40') || exit 0
+
+key=$(sed -n '1p' <<<"$result")
+project=$(sed -n '2p' <<<"$result")
+[[ -n $project ]] || exit 0
+
+session=$(basename "$project" | tr -cs '[:alnum:]_-' '_' | sed -E 's/^_+|_+$//g')
+[[ -n $session ]] || session=project
+
+if tmux has-session -t "=$session" 2>/dev/null; then
+    tmux switch-client -t "=$session"
+    exit 0
+fi
+
+tmux new-session -d -s "$session" -n code -c "$project"
+
+if [[ $key == ctrl-t ]]; then
+    tmux new-window -d -t "=$session" -n shell -c "$project"
+    tmux new-window -d -t "=$session" -n git -c "$project" lazygit
+    tmux select-window -t "=$session:code"
+fi
+
+tmux switch-client -t "=$session"
+

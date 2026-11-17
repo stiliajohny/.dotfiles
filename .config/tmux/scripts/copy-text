@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+if (($#)); then
+    text=$*
+else
+    text=$(cat)
+fi
+
+copied=false
+
+case $(uname -s) in
+    Darwin)
+        if command -v pbcopy >/dev/null 2>&1 && printf '%s' "$text" | pbcopy; then
+            copied=true
+        fi
+        ;;
+    Linux)
+        if [[ -n ${WAYLAND_DISPLAY-} ]] && command -v wl-copy >/dev/null 2>&1 && printf '%s' "$text" | wl-copy; then
+            copied=true
+        elif [[ -n ${DISPLAY-} ]] && command -v xclip >/dev/null 2>&1 && printf '%s' "$text" | xclip -selection clipboard; then
+            copied=true
+        elif [[ -n ${DISPLAY-} ]] && command -v xsel >/dev/null 2>&1 && printf '%s' "$text" | xsel --clipboard --input; then
+            copied=true
+        fi
+        ;;
+esac
+
+if [[ $copied == false ]] && [[ -n ${TMUX-} ]] && tmux set-buffer -w -- "$text" 2>/dev/null; then
+    copied=true
+fi
+
+if [[ $copied == false ]] && [[ -n ${SSH_CONNECTION-} || -n ${SSH_TTY-} ]]; then
+    encoded=$(printf '%s' "$text" | base64 | tr -d '\r\n')
+    printf '\033]52;c;%s\a' "$encoded" >"${SSH_TTY:-/dev/tty}"
+    copied=true
+fi
+
+[[ $copied == true ]] || exit 1
+
+tmux display-message 'Copied to system clipboard' 2>/dev/null || true

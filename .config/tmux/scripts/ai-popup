@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+set -u
+
+# The popup's working directory is supplied by tmux with:
+#   -d "#{pane_current_path}"
+# Resolve it once so the selected agent receives the exact project context.
+project_dir=$(pwd -P) || exit 1
+
+# Keep labels and executable names separate. The menu is rebuilt every time the
+# popup opens, so newly installed or removed agents are reflected immediately.
+agents='Codex|codex
+Claude Code|claude
+Cursor Agent|cursor-agent
+Gemini CLI|gemini
+Aider|aider
+OpenCode|opencode
+Goose|goose
+Amp|amp
+Crush|crush
+Qwen Code|qwen
+GitHub Copilot CLI|copilot
+Docker cagent|cagent
+Factory Droid|droid
+OpenHands|openhands'
+
+available_labels=''
+while IFS='|' read -r label command_name; do
+    agent_path=$(command -v "$command_name" 2>/dev/null) || continue
+    [[ $agent_path == /* && -x $agent_path ]] || continue
+    available_labels+="${label}"$'\n'
+done <<<"$agents"
+
+if [[ -z $available_labels ]]; then
+    printf 'No supported AI CLI agents were found in tmux\047s PATH.\n'
+    printf 'Project: %s\n\n' "$project_dir"
+    printf 'Checked: codex, claude, cursor-agent, gemini, aider, opencode,\n'
+    printf '         goose, amp, crush, qwen, copilot, cagent, droid, openhands.\n'
+    printf '\nPress Enter to close.'
+    read -r _
+    exit 0
+fi
+
+selection=$(printf '%s' "$available_labels" |
+    fzf --reverse --no-sort \
+        --prompt='AI agent > ' \
+        --header="Project: $project_dir") || exit 0
+
+command_name=''
+while IFS='|' read -r label candidate; do
+    if [[ $label == "$selection" ]]; then
+        command_name=$candidate
+        break
+    fi
+done <<<"$agents"
+
+[[ -n $command_name ]] || exit 1
+agent_path=$(command -v "$command_name" 2>/dev/null) || exit 1
+
+# Revalidate after selection, then replace the launcher with the chosen agent.
+[[ $agent_path == /* && -x $agent_path ]] || {
+    printf 'The selected agent is no longer executable: %s\n' "$command_name" >&2
+    exit 1
+}
+
+cd -- "$project_dir" || exit 1
+exec "$agent_path"

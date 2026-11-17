@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+pane_id=$1
+pane_pid=$2
+
+if pgrep -P "$pane_pid" >/dev/null 2>&1; then
+    tmux confirm-before -p "Pane $pane_id has a running process. Kill it? (y/n)" "kill-pane -t '$pane_id'"
+else
+    tmux kill-pane -t "$pane_id"
+fi
+

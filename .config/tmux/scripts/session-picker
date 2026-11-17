@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+result=$(tmux list-windows -a -F '#{session_name}:#{window_index}|#{session_name}:#{window_index}  #{window_name}  (#{window_panes} panes)' |
+    fzf --delimiter='|' --with-nth=2 --reverse \
+        --expect=ctrl-n,ctrl-r,ctrl-x \
+        --prompt='Sessions > ' \
+        --header='Enter switch  •  Ctrl-N new  •  Ctrl-R rename  •  Ctrl-X delete') || exit 0
+
+key=$(sed -n '1p' <<<"$result")
+selection=$(sed -n '2p' <<<"$result")
+target=${selection%%|*}
+session=${target%%:*}
+
+case $key in
+    ctrl-n)
+        tmux command-prompt -p 'New session:' "new-session -d -s '%%' \; switch-client -t '%%'"
+        ;;
+    ctrl-r)
+        [[ -n $session ]] && tmux command-prompt -I "$session" -p 'Rename session:' "rename-session -t '$session' '%%'"
+        ;;
+    ctrl-x)
+        [[ -n $session ]] && tmux confirm-before -p "Delete session $session? (y/n)" "kill-session -t '$session'"
+        ;;
+    '')
+        [[ -n $target ]] && tmux switch-client -t "$target"
+        ;;
+esac
+

@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/jesseduffield/lazygit/master/schema/config.json
+
+# Personal overrides only. Lazygit's defaults remain in charge of everything
+# not listed here, which keeps this config compatible with future updates.
+gui:
+  # Hack Nerd Font v3 is installed on this Mac.
+  nerdFontsVersion: "3"
+  showFileIcons: true
+
+  # Make large repositories easier to scan and navigate.
+  expandFocusedSidePanel: true
+  expandedSidePanelWeight: 2
+  shrinkSidePanelsToContent: true
+  sidePanelWidth: 0.30
+  filterMode: fuzzy
+
+  # Add useful context without making the interface noisy.
+  showBranchCommitHash: true
+  showDivergenceFromBaseBranch: arrowAndNumber
+  timeFormat: "02 Jan 2006"
+  shortTimeFormat: "15:04"
+
+git:
+  # A little more surrounding context makes most diffs easier to understand.
+  diffContextSize: 5
+  localBranchSortOrder: recency
+  parseEmoji: true
+
+# Check weekly, but leave installation decisions to Homebrew/the user.
+update:
+  method: prompt
+  days: 7

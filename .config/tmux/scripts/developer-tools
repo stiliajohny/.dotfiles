@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+set -u
+
+script_dir=$(cd -- "$(dirname -- "$0")" && pwd -P) || exit 1
+project_dir=$(pwd -P) || exit 1
+
+has_command() {
+    local executable
+    executable=$(command -v "$1" 2>/dev/null) || return 1
+    [[ $executable == /* && -x $executable ]]
+}
+
+in_git_repo=false
+git rev-parse --is-inside-work-tree >/dev/null 2>&1 && in_git_repo=true
+
+choices='AI assistants'
+choices+=$'\nProject commands'
+choices+=$'\nLogs'
+choices+=$'\nCheatsheets'
+
+if $in_git_repo; then
+    choices+=$'\nRepository overview'
+    has_command tig && choices+=$'\nGit history · tig'
+fi
+
+has_command gh && choices+=$'\nGitHub · PRs, issues and Actions'
+choices+=$'\nGitLab · MRs, issues and pipelines'
+has_command docker && choices+=$'\nDocker · containers and Compose'
+has_command k9s && choices+=$'\nKubernetes · k9s'
+
+# Optional TUIs appear automatically after they are installed.
+has_command lazydocker && choices+=$'\nDocker TUI · lazydocker'
+has_command yazi && choices+=$'\nFile manager · yazi'
+has_command glow && choices+=$'\nMarkdown viewer · glow'
+has_command gdu && choices+=$'\nDisk usage · gdu'
+if ! has_command gdu && has_command ncdu; then
+    choices+=$'\nDisk usage · ncdu'
+fi
+has_command posting && choices+=$'\nAPI client · posting'
+if ! has_command posting && has_command atac; then
+    choices+=$'\nAPI client · atac'
+fi
+
+selection=$(printf '%s\n' "$choices" |
+    fzf --reverse --no-sort --prompt='Developer tool > ' \
+        --header="Project: $project_dir") || exit 0
+
+case $selection in
+    'AI assistants') exec "$script_dir/ai-popup" ;;
+    'Project commands') exec "$script_dir/project-commands-popup" ;;
+    'Logs') exec "$script_dir/logs-popup" ;;
+    'Cheatsheets') exec "$script_dir/cheatsheet-popup" ;;
+    'Repository overview') exec "$script_dir/repo-info-popup" ;;
+    'Git history · tig') exec tig ;;
+    'GitHub · PRs, issues and Actions') exec "$script_dir/github-popup" ;;
+    'GitLab · MRs, issues and pipelines') exec "$script_dir/gitlab-popup" ;;
+    'Docker · containers and Compose') exec "$script_dir/docker-popup" ;;
+    'Kubernetes · k9s') exec k9s ;;
+    'Docker TUI · lazydocker') exec lazydocker ;;
+    'File manager · yazi') exec yazi ;;
+    'Markdown viewer · glow')
+        readme=$(find . -maxdepth 1 -iname 'readme*' -type f -print -quit 2>/dev/null)
+        exec glow -p "${readme:-.}"
+        ;;
+    'Disk usage · gdu') exec gdu "$project_dir" ;;
+    'Disk usage · ncdu') exec ncdu "$project_dir" ;;
+    'API client · posting') exec posting ;;
+    'API client · atac') exec atac ;;
+esac

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+status=${1:-0}
+location=${2:-pane}
+command=${3:-process}
+
+if [[ $status == 0 ]]; then
+    title='tmux command finished'
+    message="$command completed in $location"
+else
+    title='tmux command failed'
+    message="$command exited with status $status in $location"
+fi
+
+tmux display-message "$message" 2>/dev/null || true
+
+if command -v osascript >/dev/null 2>&1; then
+    safe_title=${title//\\/\\\\}
+    safe_title=${safe_title//\"/\\\"}
+    safe_message=${message//\\/\\\\}
+    safe_message=${safe_message//\"/\\\"}
+    osascript -e "display notification \"$safe_message\" with title \"$safe_title\"" >/dev/null 2>&1
+fi

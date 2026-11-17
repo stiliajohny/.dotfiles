@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+set -u
+
+script_dir=$(cd -- "$(dirname -- "$0")" && pwd -P) || exit 1
+token_file="${XDG_CONFIG_HOME:-$HOME/.config}/tmux/secrets/code-hosting.env"
+
+load_local_token() {
+    local token
+    [[ -r $token_file ]] || return 1
+    token=$(sed -n 's/^GITLAB_TOKEN=//p' "$token_file" | tail -n 1)
+    [[ -n $token ]] || return 1
+    export GITLAB_TOKEN=$token
+}
+
+load_local_token || true
+
+if ! command -v glab >/dev/null 2>&1; then
+    choice=$(printf '%s\n' \
+        'Set or update local GitLab token' \
+        'Show installation instructions' |
+        fzf --reverse --no-sort --prompt='GitLab > ' \
+            --header='GitLab CLI is not installed') || exit 0
+    case $choice in
+        'Set or update local GitLab token') exec "$script_dir/code-hosting-auth" gitlab --setup ;;
+        'Show installation instructions')
+            printf 'Install GitLab CLI with:\n\n  brew install glab\n\n'
+            printf 'Your local token file will be used automatically afterward.\n\n'
+            printf 'Press Enter to close.'
+            read -r _
+            ;;
+    esac
+    exit 0
+fi
+
+if ! glab auth status >/dev/null 2>&1; then
+    choice=$(printf '%s\n' 'Set local GitLab token' 'Cancel' |
+        fzf --reverse --no-sort --prompt='GitLab authentication required > ') || exit 0
+    [[ $choice == 'Set local GitLab token' ]] || exit 0
+    "$script_dir/code-hosting-auth" gitlab --setup || exit 1
+    load_local_token || exit 1
+fi
+
+view_merge_requests() {
+    local selection number
+    selection=$(glab mr list --per-page 50 |
+        fzf --reverse --no-sort --prompt='Merge request > ') || return
+    number=$(printf '%s\n' "$selection" | sed -E 's/^[^0-9]*([0-9]+).*/\1/')
+    [[ $number =~ ^[0-9]+$ ]] || return
+    glab mr view "$number" --comments | less -R
+}
+
+view_issues() {
+    local selection number
+    selection=$(glab issue list --per-page 50 |
+        fzf --reverse --no-sort --prompt='Issue > ') || return
+    number=$(printf '%s\n' "$selection" | sed -E 's/^[^0-9]*([0-9]+).*/\1/')
+    [[ $number =~ ^[0-9]+$ ]] || return
+    glab issue view "$number" --comments | less -R
+}
+
+choice=$(printf '%s\n' \
+    'Repository overview' \
+    'Merge requests' \
+    'Issues' \
+    'Pipeline dashboard' \
+    'Authentication' |
+    fzf --reverse --no-sort --prompt='GitLab > ') || exit 0
+
+case $choice in
+    'Repository overview') glab repo view | less -R ;;
+    'Merge requests') view_merge_requests ;;
+    'Issues') view_issues ;;
+    'Pipeline dashboard') exec glab pipeline ci view ;;
+    'Authentication') exec "$script_dir/code-hosting-auth" gitlab ;;
+esac

@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+
+set -u
+
+category=$(printf '%s\n' \
+    'Tmux bindings' \
+    'Git' \
+    'Lazygit' \
+    'Docker' \
+    'Kubernetes' \
+    'Code-hosting tokens' \
+    'AI popup' |
+    fzf --reverse --no-sort --prompt='Cheatsheet > ') || exit 0
+
+case $category in
+    'Tmux bindings') tmux list-keys -T prefix | less -R ;;
+    'Git')
+        printf '%s\n' \
+            'GIT QUICK REFERENCE' '' \
+            'git status                 Working-tree status' \
+            'git switch -c NAME         Create and switch branch' \
+            'git add -p                 Stage interactively' \
+            'git commit                 Commit staged changes' \
+            'git log --graph --oneline  Compact history' \
+            'git restore --staged FILE  Unstage a file' \
+            'git reflog                 Find previous HEAD states' \
+            'git worktree list          List worktrees' | less -R
+        ;;
+    'Lazygit')
+        printf '%s\n' \
+            'LAZYGIT QUICK REFERENCE' '' \
+            '?       Keybindings' \
+            '1–5     Jump between panels' \
+            'space   Stage/select' \
+            'c       Commit' \
+            'P / p   Push / pull' \
+            '/       Filter' \
+            'e       Edit selected file' \
+            '@       Extras menu' \
+            'q       Back/quit' | less -R
+        ;;
+    'Docker')
+        printf '%s\n' \
+            'DOCKER QUICK REFERENCE' '' \
+            'docker ps                  Running containers' \
+            'docker logs -f NAME        Follow logs' \
+            'docker exec -it NAME sh    Open a shell' \
+            'docker compose ps          Compose status' \
+            'docker compose up          Start services' \
+            'docker compose down        Stop services' \
+            'docker system df           Storage usage' | less -R
+        ;;
+    'Kubernetes')
+        printf '%s\n' \
+            'KUBERNETES QUICK REFERENCE' '' \
+            'kubectl config current-context       Current context' \
+            'kubectl get pods -A                  All pods' \
+            'kubectl describe pod NAME -n NS      Pod details' \
+            'kubectl logs -f NAME -n NS           Follow logs' \
+            'kubectl get events -A --sort-by=.metadata.creationTimestamp' \
+            'k9s                                  Interactive dashboard' | less -R
+        ;;
+    'Code-hosting tokens')
+        printf '%s\n' \
+            'CODE-HOSTING TOKENS' '' \
+            'Developer Tools → GitHub/GitLab → Authentication' \
+            'Tokens are entered with hidden input.' \
+            'Local file: ~/.config/tmux/secrets/code-hosting.env' \
+            'Directory mode: 700' \
+            'File mode: 600' \
+            'GitHub variable: GH_TOKEN' \
+            'GitLab variable: GITLAB_TOKEN' | less -R
+        ;;
+    'AI popup')
+        printf '%s\n' \
+            'AI POPUP' '' \
+            'Ctrl-a A   Open Developer Tools' \
+            'AI assistants → choose an installed agent' \
+            'The agent starts in the initiating pane directory.' \
+            'Escape     Cancel a selector' | less -R
+        ;;
+esac

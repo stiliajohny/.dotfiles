@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+
+set -u
+
+script_dir=$(cd -- "$(dirname -- "$0")" && pwd -P) || exit 1
+token_file="${XDG_CONFIG_HOME:-$HOME/.config}/tmux/secrets/code-hosting.env"
+
+load_local_token() {
+    local token
+    [[ -r $token_file ]] || return 1
+    token=$(sed -n 's/^GH_TOKEN=//p' "$token_file" | tail -n 1)
+    [[ -n $token ]] || return 1
+    export GH_TOKEN=$token
+}
+
+load_local_token || true
+
+pause() {
+    printf '\nPress Enter to return.'
+    read -r _
+}
+
+if ! gh auth status --hostname github.com >/dev/null 2>&1; then
+    choice=$(printf '%s\n' 'Set local GitHub token' 'Cancel' |
+        fzf --reverse --no-sort --prompt='GitHub authentication required > ') || exit 0
+    [[ $choice == 'Set local GitHub token' ]] || exit 0
+    "$script_dir/code-hosting-auth" github --setup || exit 1
+    load_local_token || exit 1
+fi
+
+require_repo() {
+    if ! gh repo view >/dev/null 2>&1; then
+        printf 'The current directory is not connected to an accessible GitHub repository.\n' >&2
+        pause
+        exit 1
+    fi
+}
+
+view_prs() {
+    local selection number
+    selection=$(gh pr list --limit 50 |
+        fzf --reverse --no-sort --prompt='Pull request > ') || return
+    number=${selection%%[[:space:]]*}
+    [[ $number =~ ^[0-9]+$ ]] || return
+    env GH_PAGER=cat gh pr view "$number" --comments | less -R
+}
+
+view_issues() {
+    local selection number
+    selection=$(gh issue list --limit 50 |
+        fzf --reverse --no-sort --prompt='Issue > ') || return
+    number=${selection%%[[:space:]]*}
+    [[ $number =~ ^[0-9]+$ ]] || return
+    env GH_PAGER=cat gh issue view "$number" --comments | less -R
+}
+
+pick_run() {
+    gh run list --limit 40 \
+        --json databaseId,status,conclusion,workflowName,displayTitle,headBranch \
+        --jq '.[] | [.databaseId, .status, (.conclusion // "-"), .workflowName, .displayTitle, .headBranch] | @tsv' |
+        fzf --reverse --no-sort --delimiter=$'\t' --with-nth=2.. \
+            --prompt='Workflow run > '
+}
+
+view_runs() {
+    local selection run_id
+    selection=$(pick_run) || return
+    run_id=${selection%%$'\t'*}
+    [[ $run_id =~ ^[0-9]+$ ]] || return
+    env GH_PAGER=cat gh run view "$run_id" | less -R
+}
+
+view_run_logs() {
+    local selection run_id
+    selection=$(pick_run) || return
+    run_id=${selection%%$'\t'*}
+    [[ $run_id =~ ^[0-9]+$ ]] || return
+    gh run view "$run_id" --log | less -R
+}
+
+if [[ ${1:-} == '--run-logs' ]]; then
+    require_repo
+    view_run_logs
+    exit 0
+fi
+
+choice=$(printf '%s\n' \
+    'Repository overview' \
+    'Pull requests' \
+    'Issues' \
+    'Actions runs' \
+    'Actions logs' \
+    'Authentication' |
+    fzf --reverse --no-sort --prompt='GitHub > ') || exit 0
+
+case $choice in
+    'Repository overview') require_repo; env GH_PAGER=cat gh repo view | less -R ;;
+    'Pull requests') require_repo; view_prs ;;
+    'Issues') require_repo; view_issues ;;
+    'Actions runs') require_repo; view_runs ;;
+    'Actions logs') require_repo; view_run_logs ;;
+    'Authentication') exec "$script_dir/code-hosting-auth" github ;;
+esac

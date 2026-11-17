@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+choice=$(printf '%s\n' \
+    'Sessions and windows' \
+    'New window' \
+    'Horizontal split' \
+    'Vertical split' \
+    'Toggle zoom' \
+    'Toggle synchronize panes' \
+    'Toggle mouse' \
+    'Enter copy mode' \
+    'LazyGit' \
+    'System monitor' \
+    'Edit tmux config' \
+    'Reload tmux config' |
+    fzf --reverse --no-sort --prompt='Tmux action > ') || exit 0
+
+case $choice in
+    'Sessions and windows') exec "$HOME/.config/tmux/scripts/session-picker" ;;
+    'New window') tmux new-window -c "$PWD" ;;
+    'Horizontal split') tmux split-window -h -c "$PWD" ;;
+    'Vertical split') tmux split-window -v -c "$PWD" ;;
+    'Toggle zoom') tmux resize-pane -Z ;;
+    'Toggle synchronize panes')
+        current=$(tmux display-message -p '#{pane_synchronized}')
+        if [[ $current == 1 ]]; then tmux set-window-option synchronize-panes off; else tmux set-window-option synchronize-panes on; fi
+        ;;
+    'Toggle mouse')
+        current=$(tmux show-option -gv mouse)
+        if [[ $current == on ]]; then tmux set-option -g mouse off; else tmux set-option -g mouse on; fi
+        ;;
+    'Enter copy mode') tmux copy-mode ;;
+    'LazyGit') exec lazygit ;;
+    'System monitor') exec btop ;;
+    'Edit tmux config')
+        "${EDITOR:-vim}" "$HOME/.config/tmux/tmux.conf"
+        tmux source-file "$HOME/.config/tmux/tmux.conf"
+        ;;
+    'Reload tmux config')
+        tmux source-file "$HOME/.config/tmux/tmux.conf"
+        tmux display-message 'tmux.conf reloaded'
+        ;;
+esac

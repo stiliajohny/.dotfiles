@@ -1,0 +1,106 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+project_dir=$(pwd -P) || exit 1
+labels=()
+commands=()
+
+add_command() {
+    labels[${#labels[@]}]=$1
+    commands[${#commands[@]}]=$2
+}
+
+has_command() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+if [[ -f package.json ]] && has_command jq; then
+    if [[ -f bun.lock || -f bun.lockb ]] && has_command bun; then
+        js_runner='bun run'
+    elif [[ -f pnpm-lock.yaml ]] && has_command pnpm; then
+        js_runner='pnpm run'
+    elif [[ -f yarn.lock ]] && has_command yarn; then
+        js_runner='yarn'
+    elif has_command npm; then
+        js_runner='npm run'
+    else
+        js_runner=''
+    fi
+
+    if [[ -n $js_runner ]]; then
+        while IFS= read -r script_name; do
+            [[ -n $script_name ]] || continue
+            printf -v quoted_script '%q' "$script_name"
+            add_command "JavaScript · $script_name" "$js_runner $quoted_script"
+        done < <(jq -r '.scripts // {} | keys[]' package.json 2>/dev/null)
+    fi
+fi
+
+makefile=''
+[[ -f Makefile ]] && makefile='Makefile'
+[[ -z $makefile && -f makefile ]] && makefile='makefile'
+if [[ -n $makefile ]] && has_command make; then
+    while IFS= read -r target; do
+        [[ -n $target ]] || continue
+        printf -v quoted_target '%q' "$target"
+        add_command "Make · $target" "make $quoted_target"
+    done < <(awk -F: '/^[A-Za-z0-9][A-Za-z0-9_.-]*:[^=]/ { print $1 }' "$makefile" | sort -u)
+fi
+
+if [[ -f go.mod ]] && has_command go; then
+    add_command 'Go · test all packages' 'go test ./...'
+    add_command 'Go · build all packages' 'go build ./...'
+    add_command 'Go · vet all packages' 'go vet ./...'
+fi
+
+if [[ -f Cargo.toml ]] && has_command cargo; then
+    add_command 'Rust · check' 'cargo check'
+    add_command 'Rust · test' 'cargo test'
+    add_command 'Rust · clippy' 'cargo clippy'
+    add_command 'Rust · build' 'cargo build'
+fi
+
+if [[ -f pyproject.toml || -f pytest.ini || -d tests ]]; then
+    has_command python3 && add_command 'Python · pytest' 'python3 -m pytest'
+    has_command ruff && add_command 'Python · ruff check' 'ruff check .'
+    has_command mypy && add_command 'Python · mypy' 'mypy .'
+fi
+
+if [[ -f compose.yml || -f compose.yaml || -f docker-compose.yml || -f docker-compose.yaml ]] && has_command docker; then
+    add_command 'Compose · status' 'docker compose ps'
+    add_command 'Compose · build' 'docker compose build'
+    add_command 'Compose · start services' 'docker compose up'
+fi
+
+if ((${#labels[@]} == 0)); then
+    printf 'No supported project commands were detected in:\n%s\n\n' "$project_dir"
+    printf 'Supported sources: package.json, Makefile, go.mod, Cargo.toml,\n'
+    printf 'Python projects, and Docker Compose files.\n\nPress Enter to close.'
+    read -r _
+    exit 0
+fi
+
+selection=$(printf '%s\n' "${labels[@]}" |
+    fzf --reverse --no-sort --prompt='Project command > ' \
+        --header="Project: $project_dir") || exit 0
+
+selected_command=''
+for ((index = 0; index < ${#labels[@]}; index++)); do
+    if [[ ${labels[index]} == "$selection" ]]; then
+        selected_command=${commands[index]}
+        break
+    fi
+done
+
+[[ -n $selected_command ]] || exit 1
+printf 'Project: %s\nCommand: %s\n\nRun this command? [y/N] ' "$project_dir" "$selected_command"
+read -r answer
+[[ $answer == y || $answer == Y ]] || exit 0
+
+printf '\n'
+bash -lc "$selected_command"
+status=$?
+printf '\nCommand exited with status %d. Press Enter to close.' "$status"
+read -r _
+exit "$status"

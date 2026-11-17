@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+set -u
+
+script_dir=$(cd -- "$(dirname -- "$0")" && pwd -P) || exit 1
+choices=''
+
+append_choice() {
+    if [[ -n $choices ]]; then choices+=$'\n'; fi
+    choices+=$1
+}
+
+if command -v fd >/dev/null 2>&1 && fd --type f --extension log . 2>/dev/null | head -n 1 | grep -q .; then
+    append_choice 'Local log file'
+fi
+
+if command -v docker >/dev/null 2>&1; then
+    append_choice 'Docker container logs'
+    if [[ -f compose.yml || -f compose.yaml || -f docker-compose.yml || -f docker-compose.yaml ]]; then
+        append_choice 'Docker Compose logs'
+    fi
+fi
+
+command -v kubectl >/dev/null 2>&1 && append_choice 'Kubernetes pod logs'
+command -v gh >/dev/null 2>&1 && git rev-parse --is-inside-work-tree >/dev/null 2>&1 && append_choice 'GitHub Actions logs'
+[[ $(uname -s) == Darwin ]] && append_choice 'macOS logs · last 10 minutes'
+
+if [[ -z $choices ]]; then
+    printf 'No supported log sources were detected.\n\nPress Enter to close.'
+    read -r _
+    exit 0
+fi
+
+choice=$(printf '%s\n' "$choices" |
+    fzf --reverse --no-sort --prompt='Log source > ') || exit 0
+
+case $choice in
+    'Local log file')
+        file=$(fd --type f --extension log . |
+            fzf --reverse --prompt='Log file > ' \
+                --preview='tail -n 80 -- {}') || exit 0
+        exec tail -n 200 -f -- "$file"
+        ;;
+    'Docker container logs') exec "$script_dir/docker-popup" --logs ;;
+    'Docker Compose logs') exec docker compose logs --tail 200 --follow ;;
+    'Kubernetes pod logs')
+        pod=$(kubectl get pods --all-namespaces --no-headers 2>/dev/null |
+            fzf --reverse --no-sort --prompt='Pod > ') || exit 0
+        namespace=${pod%%[[:space:]]*}
+        remainder=${pod#*[[:space:]]}
+        remainder=${remainder#"${remainder%%[![:space:]]*}"}
+        pod_name=${remainder%%[[:space:]]*}
+        [[ -n $namespace && -n $pod_name ]] || exit 1
+        exec kubectl logs --namespace "$namespace" "$pod_name" \
+            --all-containers=true --tail=200 --follow
+        ;;
+    'GitHub Actions logs') exec "$script_dir/github-popup" --run-logs ;;
+    'macOS logs · last 10 minutes') /usr/bin/log show --last 10m --style compact | less -R ;;
+esac
