@@ -1,0 +1,22 @@
+aliases:
+  po: v1/pods
+  dp: deployments
+  sts: statefulsets
+  ds: daemonsets
+  svc: v1/services
+  ing: networking.k8s.io/v1/ingresses
+  cm: v1/configmaps
+  sec: v1/secrets
+  ns: v1/namespaces
+  no: v1/nodes
+  ev: v1/events
+  jo: jobs
+  cj: cronjobs
+  hpa: horizontalpodautoscalers
+  pvc: v1/persistentvolumeclaims
+  pv: v1/persistentvolumes
+  cr: clusterroles
+  crb: clusterrolebindings
+  ro: roles
+  rb: rolebindings
+  np: networkpolicies

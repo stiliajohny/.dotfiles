@@ -1,0 +1,314 @@
+plugins:
+  custom-shortcuts-help:
+    shortCut: Shift-H
+    override: false
+    confirm: false
+    dangerous: false
+    description: Custom shortcut guide
+    scopes:
+      - all
+    command: sh
+    background: false
+    args:
+      - -c
+      - 'exec "${XDG_CONFIG_HOME:-$HOME/.config}/k9s/scripts/shortcuts-help.sh"'
+      - shortcuts-help
+
+  cluster-skin-picker:
+    shortCut: Shift-C
+    override: false
+    confirm: false
+    dangerous: false
+    description: Choose cluster colour
+    scopes:
+      - all
+    command: sh
+    background: false
+    args:
+      - -c
+      - 'exec "${XDG_CONFIG_HOME:-$HOME/.config}/k9s/scripts/skin-picker.sh" "$1" "$2"'
+      - skin-picker
+      - $CLUSTER
+      - $CONTEXT
+
+  logs-all-containers:
+    shortCut: Ctrl-L
+    override: false
+    confirm: false
+    dangerous: false
+    description: Logs from all containers
+    scopes:
+      - pods
+    command: kubectl
+    background: false
+    args:
+      - logs
+      - --all-containers=true
+      - --follow
+      - --tail=200
+      - $NAME
+      - --namespace
+      - $NAMESPACE
+      - --context
+      - $CONTEXT
+
+  logs-json:
+    shortCut: Ctrl-O
+    override: false
+    confirm: false
+    dangerous: false
+    description: JSON-aware pod logs
+    scopes:
+      - pods
+    command: sh
+    background: false
+    args:
+      - -c
+      - >-
+        kubectl logs "$1" --namespace "$2" --context "$3"
+        --all-containers=true --tail=1000 |
+        jq -Rr 'fromjson? // .' |
+        less -R
+      - logs-json
+      - $NAME
+      - $NAMESPACE
+      - $CONTEXT
+
+  trivy-pod-image:
+    shortCut: Shift-V
+    override: false
+    confirm: false
+    dangerous: false
+    description: Scan pod image with Trivy
+    scopes:
+      - pods
+    command: sh
+    background: false
+    args:
+      - -c
+      - 'exec "${XDG_CONFIG_HOME:-$HOME/.config}/k9s/scripts/trivy-pod.sh" "$1" "$2" "$3"'
+      - trivy-pod
+      - $NAME
+      - $NAMESPACE
+      - $CONTEXT
+
+  debug-container:
+    shortCut: Shift-D
+    override: false
+    confirm: true
+    dangerous: true
+    description: Add netshoot debug container
+    scopes:
+      - pods
+    command: kubectl
+    background: false
+    args:
+      - debug
+      - $NAME
+      - --interactive
+      - --tty
+      - --image=nicolaka/netshoot:latest
+      - --profile=general
+      - --namespace
+      - $NAMESPACE
+      - --context
+      - $CONTEXT
+
+  service-account-permissions:
+    shortCut: Ctrl-X
+    override: false
+    confirm: false
+    dangerous: false
+    description: Effective RBAC permissions
+    scopes:
+      - serviceaccounts
+    command: sh
+    background: false
+    args:
+      - -c
+      - >-
+        kubectl auth can-i --list
+        --as "system:serviceaccount:$2:$1"
+        --namespace "$2" --context "$3" |
+        less -R
+      - service-account-permissions
+      - $NAME
+      - $NAMESPACE
+      - $CONTEXT
+
+  rollout-status:
+    shortCut: Shift-G
+    override: false
+    confirm: false
+    dangerous: false
+    description: Watch rollout status
+    scopes:
+      - deployments
+      - statefulsets
+      - daemonsets
+    command: kubectl
+    background: false
+    args:
+      - rollout
+      - status
+      - $RESOURCE_NAME/$NAME
+      - --namespace
+      - $NAMESPACE
+      - --context
+      - $CONTEXT
+      - --timeout=5m
+
+  rollout-restart:
+    shortCut: Shift-R
+    override: false
+    confirm: true
+    dangerous: true
+    description: Restart workload rollout
+    scopes:
+      - deployments
+      - statefulsets
+      - daemonsets
+    command: kubectl
+    background: false
+    args:
+      - rollout
+      - restart
+      - $RESOURCE_NAME/$NAME
+      - --namespace
+      - $NAMESPACE
+      - --context
+      - $CONTEXT
+
+  rollout-undo:
+    shortCut: Shift-U
+    override: false
+    confirm: true
+    dangerous: true
+    description: Undo deployment rollout
+    scopes:
+      - deployments
+    command: kubectl
+    background: false
+    args:
+      - rollout
+      - undo
+      - deployment/$NAME
+      - --namespace
+      - $NAMESPACE
+      - --context
+      - $CONTEXT
+
+  helm-values:
+    shortCut: Shift-Y
+    override: false
+    confirm: false
+    dangerous: false
+    description: Show computed Helm values
+    scopes:
+      - helm
+    command: sh
+    background: false
+    args:
+      - -c
+      - >-
+        helm get values "$1" --all
+        --namespace "$2" --kube-context "$3" |
+        less -R
+      - helm-values
+      - $NAME
+      - $NAMESPACE
+      - $CONTEXT
+
+  current-and-previous-logs:
+    shortCut: Shift-L
+    override: false
+    confirm: false
+    dangerous: false
+    description: Current and previous logs
+    scopes:
+      - pods
+    command: sh
+    background: false
+    args:
+      - -c
+      - 'exec "${XDG_CONFIG_HOME:-$HOME/.config}/k9s/scripts/pod-logs-history.sh" "$1" "$2" "$3"'
+      - pod-logs-history
+      - $NAME
+      - $NAMESPACE
+      - $CONTEXT
+
+  netshoot-pod:
+    shortCut: Shift-X
+    override: false
+    confirm: true
+    dangerous: true
+    description: Start temporary netshoot pod
+    scopes:
+      - pods
+    command: sh
+    background: false
+    args:
+      - -c
+      - >-
+        exec kubectl run "k9s-netshoot-$(date +%s)"
+        --interactive --tty --rm --restart=Never
+        --image=nicolaka/netshoot:latest
+        --namespace "$1" --context "$2" -- /bin/bash
+      - netshoot-pod
+      - $NAMESPACE
+      - $CONTEXT
+
+  pod-resources:
+    shortCut: Shift-Q
+    override: false
+    confirm: false
+    dangerous: false
+    description: Requests limits and QoS
+    scopes:
+      - pods
+    command: sh
+    background: false
+    args:
+      - -c
+      - 'exec "${XDG_CONFIG_HOME:-$HOME/.config}/k9s/scripts/pod-resources.sh" "$1" "$2" "$3"'
+      - pod-resources
+      - $NAME
+      - $NAMESPACE
+      - $CONTEXT
+
+  resource-events:
+    shortCut: Shift-E
+    override: false
+    confirm: false
+    dangerous: false
+    description: Events for selected resource
+    scopes:
+      - all
+    command: sh
+    background: false
+    args:
+      - -c
+      - 'exec "${XDG_CONFIG_HOME:-$HOME/.config}/k9s/scripts/resource-events.sh" "$1" "$2" "$3"'
+      - resource-events
+      - $NAME
+      - $NAMESPACE
+      - $CONTEXT
+
+  copy-yaml:
+    shortCut: Ctrl-Y
+    override: false
+    confirm: false
+    dangerous: false
+    description: Copy resource YAML
+    scopes:
+      - all
+    command: sh
+    background: false
+    args:
+      - -c
+      - >-
+        kubectl get "$RESOURCE_NAME" "$NAME" --namespace "$NAMESPACE" --context "$CONTEXT" -o yaml |
+        if command -v pbcopy >/dev/null 2>&1; then pbcopy;
+        elif command -v wl-copy >/dev/null 2>&1; then wl-copy;
+        elif command -v xclip >/dev/null 2>&1; then xclip -selection clipboard;
+        else echo 'No clipboard command found (pbcopy, wl-copy, or xclip)' >&2; exit 1; fi

@@ -1,0 +1,30 @@
+views:
+  v1/pods:
+    columns:
+      - AGE
+      - NAMESPACE|WR
+      - NAME
+      - READY
+      - STATUS
+      - RESTARTS
+      - IP|W
+      - NODE|W
+  apps/v1/deployments:
+    columns:
+      - AGE
+      - NAMESPACE|WR
+      - NAME
+      - READY
+      - UP-TO-DATE
+      - AVAILABLE
+      - CONTAINERS
+      - IMAGES|W
+  v1/services:
+    columns:
+      - AGE
+      - NAMESPACE|WR
+      - NAME
+      - TYPE
+      - CLUSTER-IP
+      - EXTERNAL-IP
+      - PORTS

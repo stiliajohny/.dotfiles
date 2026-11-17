@@ -1,0 +1,51 @@
+k9s:
+  liveViewAutoRefresh: true
+  gpuVendors: {}
+  screenDumpDir: /Users/johnstilia/Pictures/k9s/screen-dumps
+  refreshRate: 2
+  apiServerTimeout: ""
+  maxConnRetry: 10
+  readOnly: false
+  noExitOnCtrlC: false
+  portForwardAddress: localhost
+  ui:
+    enableMouse: true
+    headless: false
+    logoless: true
+    crumbsless: false
+    splashless: false
+    reactive: true
+    noIcons: false
+    invert: false
+    defaultsToFullScreen: true
+    useFullGVRTitle: false
+    skin: nightfox
+  skipLatestRevCheck: true
+  disablePodCounting: false
+  shellPod:
+    image: alpine:3.20
+    namespace: default
+    limits:
+      cpu: 100m
+      memory: 100Mi
+  imageScans:
+    enable: false
+    exclusions:
+      namespaces: []
+      labels: {}
+  logger:
+    tail: 2000
+    buffer: 3000
+    sinceSeconds: 3600
+    textWrap: false
+    disableAutoscroll: false
+    columnLock: false
+    showTime: true
+  thresholds:
+    cpu:
+      critical: 90
+      warn: 70
+    memory:
+      critical: 90
+      warn: 70
+  defaultView: pods
